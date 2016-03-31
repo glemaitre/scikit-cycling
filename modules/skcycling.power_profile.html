@@ -1,0 +1,495 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>skcycling.power_profile package &mdash; scikit-cycling 0.1.dev0 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="scikit-cycling 0.1.dev0 documentation" href="../index.html"/>
+        <link rel="up" title="skcycling package" href="skcycling.html"/>
+        <link rel="next" title="skcycling.restoration package" href="skcycling.restoration.html"/>
+        <link rel="prev" title="skcycling.metrics package" href="skcycling.metrics.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../index.html" class="fa fa-home"> scikit-cycling</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">skcycling</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="skcycling.html">skcycling package</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">scikit-cycling</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="modules.html">skcycling</a> &raquo;</li>
+      
+          <li><a href="skcycling.html">skcycling package</a> &raquo;</li>
+      
+    <li>skcycling.power_profile package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          <a href="../_sources/modules/skcycling.power_profile.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="skcycling-power-profile-package">
+<h1>skcycling.power_profile package<a class="headerlink" href="#skcycling-power-profile-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul class="simple">
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-skcycling.power_profile.rpp">
+<span id="skcycling-power-profile-rpp-module"></span><h2>skcycling.power_profile.rpp module<a class="headerlink" href="#module-skcycling.power_profile.rpp" title="Permalink to this headline">¶</a></h2>
+<p>Record power-profile</p>
+<p>This module contains class and methods related to the record power-profile.</p>
+<dl class="class">
+<dt id="skcycling.power_profile.rpp.Rpp">
+<em class="property">class </em><code class="descclassname">skcycling.power_profile.rpp.</code><code class="descname">Rpp</code><span class="sig-paren">(</span><em>max_duration_rpp</em>, <em>cyclist_weight=None</em><span class="sig-paren">)</span><a class="headerlink" href="#skcycling.power_profile.rpp.Rpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Record power-profile</p>
+<p>Can perform online updates via <cite>partial_fit</cite> method.</p>
+<dl class="docutils">
+<dt>max_duration_rpp <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>Integer representing the maximum duration in minutes to
+build the record power-profile model.</dd>
+<dt>cyclist_weight <span class="classifier-delimiter">:</span> <span class="classifier">float, default None</span></dt>
+<dd>Float in order to normalise the record power-profile depending
+of its weight. By default this is None in order to avoid
+using the data from normalized rpp without this data.</dd>
+</dl>
+<dl class="docutils">
+<dt><a href="#id1"><span class="problematic" id="id2">rpp_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (60 * max_duration_rpp, )</span></dt>
+<dd>Array in which the record power-profile is stored.
+The units used is the second.</dd>
+<dt><a href="#id3"><span class="problematic" id="id4">rpp_norm_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (60 * max_duration_rpp, )</span></dt>
+<dd>Array in which the weight-normalized record power-profile
+is stored. The units used is the seconds.</dd>
+<dt><a href="#id5"><span class="problematic" id="id6">max_duration_rpp_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>The maximum duration of the record power-profile.</dd>
+<dt><a href="#id7"><span class="problematic" id="id8">cyclist_weight_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>Cyclist weight.</dd>
+</dl>
+<dl class="method">
+<dt id="skcycling.power_profile.rpp.Rpp.aerobic_meta_model">
+<code class="descname">aerobic_meta_model</code><span class="sig-paren">(</span><em>ts=None</em>, <em>starting_time=4</em>, <em>normalized=False</em>, <em>method='lsq'</em><span class="sig-paren">)</span><a class="headerlink" href="#skcycling.power_profile.rpp.Rpp.aerobic_meta_model" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Compute the aerobic metabolism model from the</dt>
+<dd>record power-profile</dd>
+</dl>
+<dl class="docutils">
+<dt>ts <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_samples, )</span></dt>
+<dd>Array containing the sample to take into account.
+None if we want to pick up all the data.</dd>
+<dt>start_time <span class="classifier-delimiter">:</span> <span class="classifier">int, default 4</span></dt>
+<dd>Starting time to consider when fitting the linear model.</dd>
+<dt>normalized <span class="classifier-delimiter">:</span> <span class="classifier">bool, default False</span></dt>
+<dd>Return a weight-normalized rpp if True.</dd>
+<dt>method <span class="classifier-delimiter">:</span> <span class="classifier">string, default &#8216;lsq&#8217;</span></dt>
+<dd>Which type of tehcnic to use to make the fitting (&#8216;lsq&#8217;, &#8216;lm&#8217;).</dd>
+</dl>
+<dl class="docutils">
+<dt>slope <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>slope of the regression line.</dd>
+<dt>intercept <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>intercept of the regression line.</dd>
+<dt>stderr <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>Standard error of the estimate.</dd>
+<dt>coeff_det <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>Coefficient of determination.</dd>
+</dl>
+<p>[1] Pinot et al., &#8220;Determination of Maximal Aerobic Power
+on the Field in Cylcing&#8221; (2014)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skcycling.power_profile.rpp.Rpp.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>in_parallel=True</em><span class="sig-paren">)</span><a class="headerlink" href="#skcycling.power_profile.rpp.Rpp.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit the data to the RPP</p>
+<p>X : array-like, shape (n_samples, )</p>
+<dl class="docutils">
+<dt>in_parallel <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
+<dd>If True, the rpp will be computed on all the available cores.</dd>
+</dl>
+<dl class="docutils">
+<dt>self <span class="classifier-delimiter">:</span> <span class="classifier">object</span></dt>
+<dd>Returns self.</dd>
+</dl>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="skcycling.power_profile.rpp.Rpp.load_from_npy">
+<em class="property">classmethod </em><code class="descname">load_from_npy</code><span class="sig-paren">(</span><em>filename</em>, <em>cyclist_weight=None</em><span class="sig-paren">)</span><a class="headerlink" href="#skcycling.power_profile.rpp.Rpp.load_from_npy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load the record power-profile from an npy file</p>
+<dl class="docutils">
+<dt>filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>String containing the path to the NPY file containing the array
+representing the record power-profile.</dd>
+<dt>cyclist_weight <span class="classifier-delimiter">:</span> <span class="classifier">float or None, default None</span></dt>
+<dd>Float in order to normalise the record power-profile depending
+of its weight. By default this is None in order to avoid
+using the data from normalized rpp without this data.</dd>
+</dl>
+<dl class="docutils">
+<dt>self <span class="classifier-delimiter">:</span> <span class="classifier">object</span></dt>
+<dd>Returns self</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="skcycling.power_profile.rpp.Rpp.partial_fit">
+<code class="descname">partial_fit</code><span class="sig-paren">(</span><em>X</em>, <em>refit=False</em>, <em>in_parallel=True</em><span class="sig-paren">)</span><a class="headerlink" href="#skcycling.power_profile.rpp.Rpp.partial_fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Incremental fit of the RPPB</p>
+<p>X : array-like, shape (n_samples, )</p>
+<dl class="docutils">
+<dt>in_parallel <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
+<dd>If True, the rpp will be computed on all the available cores.</dd>
+</dl>
+<dl class="docutils">
+<dt>self <span class="classifier-delimiter">:</span> <span class="classifier">object</span></dt>
+<dd>Returns self.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="skcycling.power_profile.rpp.Rpp.resampling_rpp">
+<code class="descname">resampling_rpp</code><span class="sig-paren">(</span><em>ts</em>, <em>method_interp='linear'</em>, <em>normalized=False</em><span class="sig-paren">)</span><a class="headerlink" href="#skcycling.power_profile.rpp.Rpp.resampling_rpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resampling the record power-profile</p>
+<dl class="docutils">
+<dt>ts <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_sample, )</span></dt>
+<dd>An array containaining the time landmark to sample.</dd>
+<dt>method_interp <span class="classifier-delimiter">:</span> <span class="classifier">string, default &#8216;linear&#8217;</span></dt>
+<dd>Name of the method to interpolate the data.
+Specifies the kind of interpolation as a string (&#8216;linear&#8217;,
+&#8216;nearest&#8217;, &#8216;zero&#8217;, &#8216;slinear&#8217;, &#8216;quadratic, &#8216;cubic&#8217;
+where &#8216;slinear&#8217;, &#8216;quadratic&#8217; and &#8216;cubic&#8217; refer to a spline
+interpolation of first, second or third order) or as an integer
+specifying the order of the spline interpolator to use.</dd>
+<dt>normalized <span class="classifier-delimiter">:</span> <span class="classifier">bool, default False</span></dt>
+<dd>Return a weight-normalized rpp if True.</dd>
+</dl>
+<dl class="docutils">
+<dt>rpp <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_samples, )</span></dt>
+<dd>Return a resampled record power-profile.</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="skcycling.power_profile.rpp.compute_ride_rpp">
+<code class="descclassname">skcycling.power_profile.rpp.</code><code class="descname">compute_ride_rpp</code><span class="sig-paren">(</span><em>X</em>, <em>max_duration_rpp</em>, <em>in_parallel=True</em><span class="sig-paren">)</span><a class="headerlink" href="#skcycling.power_profile.rpp.compute_ride_rpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the record power-profile</p>
+<p>X : array-like, shape (n_samples, )</p>
+<dl class="docutils">
+<dt>in_parallel <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
+<dd>If True, the rpp will be computed on all the available cores.</dd>
+</dl>
+<dl class="docutils">
+<dt>rpp <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_samples, )</span></dt>
+<dd>Array containing the record power-profile of the current ride.</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-skcycling.power_profile">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-skcycling.power_profile" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="skcycling.power_profile.Rpp">
+<em class="property">class </em><code class="descclassname">skcycling.power_profile.</code><code class="descname">Rpp</code><span class="sig-paren">(</span><em>max_duration_rpp</em>, <em>cyclist_weight=None</em><span class="sig-paren">)</span><a class="headerlink" href="#skcycling.power_profile.Rpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Record power-profile</p>
+<p>Can perform online updates via <cite>partial_fit</cite> method.</p>
+<dl class="docutils">
+<dt>max_duration_rpp <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>Integer representing the maximum duration in minutes to
+build the record power-profile model.</dd>
+<dt>cyclist_weight <span class="classifier-delimiter">:</span> <span class="classifier">float, default None</span></dt>
+<dd>Float in order to normalise the record power-profile depending
+of its weight. By default this is None in order to avoid
+using the data from normalized rpp without this data.</dd>
+</dl>
+<dl class="docutils">
+<dt><a href="#id9"><span class="problematic" id="id10">rpp_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (60 * max_duration_rpp, )</span></dt>
+<dd>Array in which the record power-profile is stored.
+The units used is the second.</dd>
+<dt><a href="#id11"><span class="problematic" id="id12">rpp_norm_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (60 * max_duration_rpp, )</span></dt>
+<dd>Array in which the weight-normalized record power-profile
+is stored. The units used is the seconds.</dd>
+<dt><a href="#id13"><span class="problematic" id="id14">max_duration_rpp_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>The maximum duration of the record power-profile.</dd>
+<dt><a href="#id15"><span class="problematic" id="id16">cyclist_weight_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>Cyclist weight.</dd>
+</dl>
+<dl class="method">
+<dt id="skcycling.power_profile.Rpp.aerobic_meta_model">
+<code class="descname">aerobic_meta_model</code><span class="sig-paren">(</span><em>ts=None</em>, <em>starting_time=4</em>, <em>normalized=False</em>, <em>method='lsq'</em><span class="sig-paren">)</span><a class="headerlink" href="#skcycling.power_profile.Rpp.aerobic_meta_model" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Compute the aerobic metabolism model from the</dt>
+<dd>record power-profile</dd>
+</dl>
+<dl class="docutils">
+<dt>ts <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_samples, )</span></dt>
+<dd>Array containing the sample to take into account.
+None if we want to pick up all the data.</dd>
+<dt>start_time <span class="classifier-delimiter">:</span> <span class="classifier">int, default 4</span></dt>
+<dd>Starting time to consider when fitting the linear model.</dd>
+<dt>normalized <span class="classifier-delimiter">:</span> <span class="classifier">bool, default False</span></dt>
+<dd>Return a weight-normalized rpp if True.</dd>
+<dt>method <span class="classifier-delimiter">:</span> <span class="classifier">string, default &#8216;lsq&#8217;</span></dt>
+<dd>Which type of tehcnic to use to make the fitting (&#8216;lsq&#8217;, &#8216;lm&#8217;).</dd>
+</dl>
+<dl class="docutils">
+<dt>slope <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>slope of the regression line.</dd>
+<dt>intercept <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>intercept of the regression line.</dd>
+<dt>stderr <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>Standard error of the estimate.</dd>
+<dt>coeff_det <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>Coefficient of determination.</dd>
+</dl>
+<p>[1] Pinot et al., &#8220;Determination of Maximal Aerobic Power
+on the Field in Cylcing&#8221; (2014)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="skcycling.power_profile.Rpp.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>in_parallel=True</em><span class="sig-paren">)</span><a class="headerlink" href="#skcycling.power_profile.Rpp.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit the data to the RPP</p>
+<p>X : array-like, shape (n_samples, )</p>
+<dl class="docutils">
+<dt>in_parallel <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
+<dd>If True, the rpp will be computed on all the available cores.</dd>
+</dl>
+<dl class="docutils">
+<dt>self <span class="classifier-delimiter">:</span> <span class="classifier">object</span></dt>
+<dd>Returns self.</dd>
+</dl>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="skcycling.power_profile.Rpp.load_from_npy">
+<em class="property">classmethod </em><code class="descname">load_from_npy</code><span class="sig-paren">(</span><em>filename</em>, <em>cyclist_weight=None</em><span class="sig-paren">)</span><a class="headerlink" href="#skcycling.power_profile.Rpp.load_from_npy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load the record power-profile from an npy file</p>
+<dl class="docutils">
+<dt>filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>String containing the path to the NPY file containing the array
+representing the record power-profile.</dd>
+<dt>cyclist_weight <span class="classifier-delimiter">:</span> <span class="classifier">float or None, default None</span></dt>
+<dd>Float in order to normalise the record power-profile depending
+of its weight. By default this is None in order to avoid
+using the data from normalized rpp without this data.</dd>
+</dl>
+<dl class="docutils">
+<dt>self <span class="classifier-delimiter">:</span> <span class="classifier">object</span></dt>
+<dd>Returns self</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="skcycling.power_profile.Rpp.partial_fit">
+<code class="descname">partial_fit</code><span class="sig-paren">(</span><em>X</em>, <em>refit=False</em>, <em>in_parallel=True</em><span class="sig-paren">)</span><a class="headerlink" href="#skcycling.power_profile.Rpp.partial_fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Incremental fit of the RPPB</p>
+<p>X : array-like, shape (n_samples, )</p>
+<dl class="docutils">
+<dt>in_parallel <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
+<dd>If True, the rpp will be computed on all the available cores.</dd>
+</dl>
+<dl class="docutils">
+<dt>self <span class="classifier-delimiter">:</span> <span class="classifier">object</span></dt>
+<dd>Returns self.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="skcycling.power_profile.Rpp.resampling_rpp">
+<code class="descname">resampling_rpp</code><span class="sig-paren">(</span><em>ts</em>, <em>method_interp='linear'</em>, <em>normalized=False</em><span class="sig-paren">)</span><a class="headerlink" href="#skcycling.power_profile.Rpp.resampling_rpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resampling the record power-profile</p>
+<dl class="docutils">
+<dt>ts <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_sample, )</span></dt>
+<dd>An array containaining the time landmark to sample.</dd>
+<dt>method_interp <span class="classifier-delimiter">:</span> <span class="classifier">string, default &#8216;linear&#8217;</span></dt>
+<dd>Name of the method to interpolate the data.
+Specifies the kind of interpolation as a string (&#8216;linear&#8217;,
+&#8216;nearest&#8217;, &#8216;zero&#8217;, &#8216;slinear&#8217;, &#8216;quadratic, &#8216;cubic&#8217;
+where &#8216;slinear&#8217;, &#8216;quadratic&#8217; and &#8216;cubic&#8217; refer to a spline
+interpolation of first, second or third order) or as an integer
+specifying the order of the spline interpolator to use.</dd>
+<dt>normalized <span class="classifier-delimiter">:</span> <span class="classifier">bool, default False</span></dt>
+<dd>Return a weight-normalized rpp if True.</dd>
+</dl>
+<dl class="docutils">
+<dt>rpp <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_samples, )</span></dt>
+<dd>Return a resampled record power-profile.</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="skcycling.power_profile.compute_ride_rpp">
+<code class="descclassname">skcycling.power_profile.</code><code class="descname">compute_ride_rpp</code><span class="sig-paren">(</span><em>X</em>, <em>max_duration_rpp</em>, <em>in_parallel=True</em><span class="sig-paren">)</span><a class="headerlink" href="#skcycling.power_profile.compute_ride_rpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the record power-profile</p>
+<p>X : array-like, shape (n_samples, )</p>
+<dl class="docutils">
+<dt>in_parallel <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
+<dd>If True, the rpp will be computed on all the available cores.</dd>
+</dl>
+<dl class="docutils">
+<dt>rpp <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_samples, )</span></dt>
+<dd>Array containing the record power-profile of the current ride.</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="skcycling.restoration.html" class="btn btn-neutral float-right" title="skcycling.restoration package">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="skcycling.metrics.html" class="btn btn-neutral" title="skcycling.metrics package"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Guillaume Lemaitre.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
