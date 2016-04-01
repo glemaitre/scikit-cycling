@@ -1,5 +1,5 @@
 .. scikit-cycling documentation master file, created by
-   sphinx-quickstart on Thu Mar 31 23:56:32 2016.
+   sphinx-quickstart on Sat Apr  2 00:03:28 2016.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 

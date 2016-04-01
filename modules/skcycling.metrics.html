@@ -5,6 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>skcycling.metrics package &mdash; scikit-cycling 0.1.dev0 documentation</title>
@@ -14,7 +15,6 @@
   
 
   
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
 
   
   
@@ -36,7 +36,7 @@
         <link rel="prev" title="skcycling package" href="skcycling.html"/> 
 
   
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+  <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
@@ -46,11 +46,27 @@
 
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-nav-search">
-        
-          <a href="../index.html" class="fa fa-home"> scikit-cycling</a>
-        
-        
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> scikit-cycling
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -58,23 +74,37 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-      </div>
 
-      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-        
           
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
-              <ul class="current">
+            
+            
+                <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">skcycling</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="skcycling.html">skcycling package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="skcycling.html">skcycling package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="skcycling.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="">skcycling.metrics package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="skcycling.power_profile.html">skcycling.power_profile package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="skcycling.restoration.html">skcycling.restoration package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="skcycling.utils.html">skcycling.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="skcycling.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="skcycling.html#module-skcycling.setup">skcycling.setup module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="skcycling.html#module-contents">Module contents</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 
+            
           
-        
+        </div>
       </div>
-      &nbsp;
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
@@ -89,7 +119,13 @@
       
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="breadcrumbs navigation">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="../index.html">Docs</a> &raquo;</li>
       
@@ -100,13 +136,16 @@
     <li>skcycling.metrics package</li>
       <li class="wy-breadcrumbs-aside">
         
-          <a href="../_sources/modules/skcycling.metrics.txt" rel="nofollow"> View page source</a>
+          
+            <a href="../_sources/modules/skcycling.metrics.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
   </ul>
   <hr/>
 </div>
-          <div role="main" class="document">
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <div class="section" id="skcycling-metrics-package">
 <h1>skcycling.metrics package<a class="headerlink" href="#skcycling-metrics-package" title="Permalink to this headline">¶</a></h1>
@@ -129,7 +168,7 @@ the better</p>
 the lower the better</p>
 <dl class="function">
 <dt id="skcycling.metrics.ride.ftp2pma">
-<code class="descclassname">skcycling.metrics.ride.</code><code class="descname">ftp2pma</code><span class="sig-paren">(</span><em>ftp</em><span class="sig-paren">)</span><a class="headerlink" href="#skcycling.metrics.ride.ftp2pma" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skcycling.metrics.ride.</code><code class="descname">ftp2pma</code><span class="sig-paren">(</span><em>ftp</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/metrics/ride.html#ftp2pma"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.metrics.ride.ftp2pma" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert the PMA to FTP</p>
 <dl class="docutils">
 <dt>ftp <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
@@ -143,7 +182,7 @@ the lower the better</p>
 
 <dl class="function">
 <dt id="skcycling.metrics.ride.intensity_factor_ftp_score">
-<code class="descclassname">skcycling.metrics.ride.</code><code class="descname">intensity_factor_ftp_score</code><span class="sig-paren">(</span><em>X</em>, <em>ftp</em><span class="sig-paren">)</span><a class="headerlink" href="#skcycling.metrics.ride.intensity_factor_ftp_score" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skcycling.metrics.ride.</code><code class="descname">intensity_factor_ftp_score</code><span class="sig-paren">(</span><em>X</em>, <em>ftp</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/metrics/ride.html#intensity_factor_ftp_score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.metrics.ride.intensity_factor_ftp_score" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the intensity factor using the FTP</p>
 <dl class="docutils">
 <dt>X <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_samples, )</span></dt>
@@ -159,7 +198,7 @@ the lower the better</p>
 
 <dl class="function">
 <dt id="skcycling.metrics.ride.intensity_factor_pma_score">
-<code class="descclassname">skcycling.metrics.ride.</code><code class="descname">intensity_factor_pma_score</code><span class="sig-paren">(</span><em>X</em>, <em>pma</em><span class="sig-paren">)</span><a class="headerlink" href="#skcycling.metrics.ride.intensity_factor_pma_score" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skcycling.metrics.ride.</code><code class="descname">intensity_factor_pma_score</code><span class="sig-paren">(</span><em>X</em>, <em>pma</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/metrics/ride.html#intensity_factor_pma_score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.metrics.ride.intensity_factor_pma_score" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the intensity factor using the PMAB</p>
 <dl class="docutils">
 <dt>X <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_samples, )</span></dt>
@@ -175,7 +214,7 @@ the lower the better</p>
 
 <dl class="function">
 <dt id="skcycling.metrics.ride.normalized_power_score">
-<code class="descclassname">skcycling.metrics.ride.</code><code class="descname">normalized_power_score</code><span class="sig-paren">(</span><em>X</em>, <em>pma</em><span class="sig-paren">)</span><a class="headerlink" href="#skcycling.metrics.ride.normalized_power_score" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skcycling.metrics.ride.</code><code class="descname">normalized_power_score</code><span class="sig-paren">(</span><em>X</em>, <em>pma</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/metrics/ride.html#normalized_power_score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.metrics.ride.normalized_power_score" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the normalized power for a given ride</p>
 <dl class="docutils">
 <dt>X <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_samples, )</span></dt>
@@ -191,7 +230,7 @@ the lower the better</p>
 
 <dl class="function">
 <dt id="skcycling.metrics.ride.pma2ftp">
-<code class="descclassname">skcycling.metrics.ride.</code><code class="descname">pma2ftp</code><span class="sig-paren">(</span><em>pma</em><span class="sig-paren">)</span><a class="headerlink" href="#skcycling.metrics.ride.pma2ftp" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skcycling.metrics.ride.</code><code class="descname">pma2ftp</code><span class="sig-paren">(</span><em>pma</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/metrics/ride.html#pma2ftp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.metrics.ride.pma2ftp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert the PMA to FTP</p>
 <dl class="docutils">
 <dt>pma <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
@@ -205,7 +244,7 @@ the lower the better</p>
 
 <dl class="function">
 <dt id="skcycling.metrics.ride.training_stress_ftp_grappe_score">
-<code class="descclassname">skcycling.metrics.ride.</code><code class="descname">training_stress_ftp_grappe_score</code><span class="sig-paren">(</span><em>X</em>, <em>ftp</em><span class="sig-paren">)</span><a class="headerlink" href="#skcycling.metrics.ride.training_stress_ftp_grappe_score" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skcycling.metrics.ride.</code><code class="descname">training_stress_ftp_grappe_score</code><span class="sig-paren">(</span><em>X</em>, <em>ftp</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/metrics/ride.html#training_stress_ftp_grappe_score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.metrics.ride.training_stress_ftp_grappe_score" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Compute the training stress score using the FTP,</dt>
 <dd>considering Grappe et al. approach</dd>
@@ -224,7 +263,7 @@ the lower the better</p>
 
 <dl class="function">
 <dt id="skcycling.metrics.ride.training_stress_ftp_score">
-<code class="descclassname">skcycling.metrics.ride.</code><code class="descname">training_stress_ftp_score</code><span class="sig-paren">(</span><em>X</em>, <em>ftp</em><span class="sig-paren">)</span><a class="headerlink" href="#skcycling.metrics.ride.training_stress_ftp_score" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skcycling.metrics.ride.</code><code class="descname">training_stress_ftp_score</code><span class="sig-paren">(</span><em>X</em>, <em>ftp</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/metrics/ride.html#training_stress_ftp_score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.metrics.ride.training_stress_ftp_score" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the training stress score using the FTP</p>
 <dl class="docutils">
 <dt>X <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_samples, )</span></dt>
@@ -240,7 +279,7 @@ the lower the better</p>
 
 <dl class="function">
 <dt id="skcycling.metrics.ride.training_stress_pma_grappe_score">
-<code class="descclassname">skcycling.metrics.ride.</code><code class="descname">training_stress_pma_grappe_score</code><span class="sig-paren">(</span><em>X</em>, <em>pma</em><span class="sig-paren">)</span><a class="headerlink" href="#skcycling.metrics.ride.training_stress_pma_grappe_score" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skcycling.metrics.ride.</code><code class="descname">training_stress_pma_grappe_score</code><span class="sig-paren">(</span><em>X</em>, <em>pma</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/metrics/ride.html#training_stress_pma_grappe_score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.metrics.ride.training_stress_pma_grappe_score" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Compute the training stress score using the PMA,</dt>
 <dd>considering Grappe et al. approach</dd>
@@ -259,7 +298,7 @@ the lower the better</p>
 
 <dl class="function">
 <dt id="skcycling.metrics.ride.training_stress_pma_score">
-<code class="descclassname">skcycling.metrics.ride.</code><code class="descname">training_stress_pma_score</code><span class="sig-paren">(</span><em>X</em>, <em>pma</em><span class="sig-paren">)</span><a class="headerlink" href="#skcycling.metrics.ride.training_stress_pma_score" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skcycling.metrics.ride.</code><code class="descname">training_stress_pma_score</code><span class="sig-paren">(</span><em>X</em>, <em>pma</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/metrics/ride.html#training_stress_pma_score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.metrics.ride.training_stress_pma_score" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the training stress score</p>
 <dl class="docutils">
 <dt>X <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_samples, )</span></dt>
@@ -279,7 +318,7 @@ the lower the better</p>
 <p>The <a class="reference internal" href="#module-skcycling.metrics" title="skcycling.metrics"><code class="xref py py-mod docutils literal"><span class="pre">skcycling.metrics</span></code></a> module include score functions.</p>
 <dl class="function">
 <dt id="skcycling.metrics.normalized_power_score">
-<code class="descclassname">skcycling.metrics.</code><code class="descname">normalized_power_score</code><span class="sig-paren">(</span><em>X</em>, <em>pma</em><span class="sig-paren">)</span><a class="headerlink" href="#skcycling.metrics.normalized_power_score" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skcycling.metrics.</code><code class="descname">normalized_power_score</code><span class="sig-paren">(</span><em>X</em>, <em>pma</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/metrics/ride.html#normalized_power_score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.metrics.normalized_power_score" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the normalized power for a given ride</p>
 <dl class="docutils">
 <dt>X <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_samples, )</span></dt>
@@ -295,7 +334,7 @@ the lower the better</p>
 
 <dl class="function">
 <dt id="skcycling.metrics.intensity_factor_ftp_score">
-<code class="descclassname">skcycling.metrics.</code><code class="descname">intensity_factor_ftp_score</code><span class="sig-paren">(</span><em>X</em>, <em>ftp</em><span class="sig-paren">)</span><a class="headerlink" href="#skcycling.metrics.intensity_factor_ftp_score" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skcycling.metrics.</code><code class="descname">intensity_factor_ftp_score</code><span class="sig-paren">(</span><em>X</em>, <em>ftp</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/metrics/ride.html#intensity_factor_ftp_score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.metrics.intensity_factor_ftp_score" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the intensity factor using the FTP</p>
 <dl class="docutils">
 <dt>X <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_samples, )</span></dt>
@@ -311,7 +350,7 @@ the lower the better</p>
 
 <dl class="function">
 <dt id="skcycling.metrics.intensity_factor_pma_score">
-<code class="descclassname">skcycling.metrics.</code><code class="descname">intensity_factor_pma_score</code><span class="sig-paren">(</span><em>X</em>, <em>pma</em><span class="sig-paren">)</span><a class="headerlink" href="#skcycling.metrics.intensity_factor_pma_score" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skcycling.metrics.</code><code class="descname">intensity_factor_pma_score</code><span class="sig-paren">(</span><em>X</em>, <em>pma</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/metrics/ride.html#intensity_factor_pma_score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.metrics.intensity_factor_pma_score" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the intensity factor using the PMAB</p>
 <dl class="docutils">
 <dt>X <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_samples, )</span></dt>
@@ -327,7 +366,7 @@ the lower the better</p>
 
 <dl class="function">
 <dt id="skcycling.metrics.training_stress_ftp_score">
-<code class="descclassname">skcycling.metrics.</code><code class="descname">training_stress_ftp_score</code><span class="sig-paren">(</span><em>X</em>, <em>ftp</em><span class="sig-paren">)</span><a class="headerlink" href="#skcycling.metrics.training_stress_ftp_score" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skcycling.metrics.</code><code class="descname">training_stress_ftp_score</code><span class="sig-paren">(</span><em>X</em>, <em>ftp</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/metrics/ride.html#training_stress_ftp_score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.metrics.training_stress_ftp_score" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the training stress score using the FTP</p>
 <dl class="docutils">
 <dt>X <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_samples, )</span></dt>
@@ -343,7 +382,7 @@ the lower the better</p>
 
 <dl class="function">
 <dt id="skcycling.metrics.training_stress_pma_score">
-<code class="descclassname">skcycling.metrics.</code><code class="descname">training_stress_pma_score</code><span class="sig-paren">(</span><em>X</em>, <em>pma</em><span class="sig-paren">)</span><a class="headerlink" href="#skcycling.metrics.training_stress_pma_score" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skcycling.metrics.</code><code class="descname">training_stress_pma_score</code><span class="sig-paren">(</span><em>X</em>, <em>pma</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/metrics/ride.html#training_stress_pma_score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.metrics.training_stress_pma_score" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the training stress score</p>
 <dl class="docutils">
 <dt>X <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_samples, )</span></dt>
@@ -359,7 +398,7 @@ the lower the better</p>
 
 <dl class="function">
 <dt id="skcycling.metrics.pma2ftp">
-<code class="descclassname">skcycling.metrics.</code><code class="descname">pma2ftp</code><span class="sig-paren">(</span><em>pma</em><span class="sig-paren">)</span><a class="headerlink" href="#skcycling.metrics.pma2ftp" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skcycling.metrics.</code><code class="descname">pma2ftp</code><span class="sig-paren">(</span><em>pma</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/metrics/ride.html#pma2ftp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.metrics.pma2ftp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert the PMA to FTP</p>
 <dl class="docutils">
 <dt>pma <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
@@ -373,7 +412,7 @@ the lower the better</p>
 
 <dl class="function">
 <dt id="skcycling.metrics.ftp2pma">
-<code class="descclassname">skcycling.metrics.</code><code class="descname">ftp2pma</code><span class="sig-paren">(</span><em>ftp</em><span class="sig-paren">)</span><a class="headerlink" href="#skcycling.metrics.ftp2pma" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skcycling.metrics.</code><code class="descname">ftp2pma</code><span class="sig-paren">(</span><em>ftp</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/metrics/ride.html#ftp2pma"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.metrics.ftp2pma" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert the PMA to FTP</p>
 <dl class="docutils">
 <dt>ftp <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
@@ -387,7 +426,7 @@ the lower the better</p>
 
 <dl class="function">
 <dt id="skcycling.metrics.training_stress_pma_grappe_score">
-<code class="descclassname">skcycling.metrics.</code><code class="descname">training_stress_pma_grappe_score</code><span class="sig-paren">(</span><em>X</em>, <em>pma</em><span class="sig-paren">)</span><a class="headerlink" href="#skcycling.metrics.training_stress_pma_grappe_score" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skcycling.metrics.</code><code class="descname">training_stress_pma_grappe_score</code><span class="sig-paren">(</span><em>X</em>, <em>pma</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/metrics/ride.html#training_stress_pma_grappe_score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.metrics.training_stress_pma_grappe_score" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Compute the training stress score using the PMA,</dt>
 <dd>considering Grappe et al. approach</dd>
@@ -406,7 +445,7 @@ the lower the better</p>
 
 <dl class="function">
 <dt id="skcycling.metrics.training_stress_ftp_grappe_score">
-<code class="descclassname">skcycling.metrics.</code><code class="descname">training_stress_ftp_grappe_score</code><span class="sig-paren">(</span><em>X</em>, <em>ftp</em><span class="sig-paren">)</span><a class="headerlink" href="#skcycling.metrics.training_stress_ftp_grappe_score" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">skcycling.metrics.</code><code class="descname">training_stress_ftp_grappe_score</code><span class="sig-paren">(</span><em>X</em>, <em>ftp</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/metrics/ride.html#training_stress_ftp_grappe_score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.metrics.training_stress_ftp_grappe_score" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Compute the training stress score using the FTP,</dt>
 <dd>considering Grappe et al. approach</dd>
@@ -427,15 +466,16 @@ the lower the better</p>
 </div>
 
 
+           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="skcycling.power_profile.html" class="btn btn-neutral float-right" title="skcycling.power_profile package">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="skcycling.power_profile.html" class="btn btn-neutral float-right" title="skcycling.power_profile package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="skcycling.html" class="btn btn-neutral" title="skcycling package"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="skcycling.html" class="btn btn-neutral" title="skcycling package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -445,12 +485,13 @@ the lower the better</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2016, Guillaume Lemaitre.
+
     </p>
   </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
-  
 </footer>
+
         </div>
       </div>
 

@@ -1,0 +1,718 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>skcycling.power_profile.rpp &mdash; scikit-cycling 0.1.dev0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="scikit-cycling 0.1.dev0 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> scikit-cycling
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/modules.html">skcycling</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">scikit-cycling</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>skcycling.power_profile.rpp</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for skcycling.power_profile.rpp</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;Record power-profile</span>
+
+<span class="sd">This module contains class and methods related to the record power-profile.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">UnivariateSpline</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">linregress</span>
+<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">interp1d</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">curve_fit</span>
+
+<span class="kn">from</span> <span class="nn">joblib</span> <span class="kn">import</span> <span class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span>
+
+<span class="kn">from</span> <span class="nn">..utils.checker</span> <span class="kn">import</span> <span class="n">_check_X</span>
+
+
+<span class="k">def</span> <span class="nf">_rpp_parallel</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">idx_t_rpp</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Function to compute the rpp in parallel</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X : ndarray, shape (n_samples)</span>
+<span class="sd">        The power records.</span>
+
+<span class="sd">    idx_t_rpp : int</span>
+<span class="sd">        Index of the time to compute the rpp.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ------</span>
+<span class="sd">    power : float</span>
+<span class="sd">        Returns the best power for the given duration of the rpp.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c"># Slice the data such that we can compute efficiently the mean later</span>
+    <span class="n">t_crop</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="o">-</span><span class="n">idx_t_rpp</span> <span class="o">+</span> <span class="n">i</span><span class="p">:]</span>
+                       <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">idx_t_rpp</span><span class="p">)])</span>
+    <span class="c"># Check that there is some value cropped. In the case that</span>
+    <span class="c"># the duration is longer than the file, the table crop is</span>
+    <span class="c"># empty</span>
+    <span class="k">if</span> <span class="n">t_crop</span><span class="o">.</span><span class="n">size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c"># Compute the mean for each of these samples</span>
+        <span class="n">t_crop_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">t_crop</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="c"># Keep the best to store as rpp</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">t_crop_mean</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+
+<div class="viewcode-block" id="compute_ride_rpp"><a class="viewcode-back" href="../../../modules/skcycling.power_profile.html#skcycling.power_profile.rpp.compute_ride_rpp">[docs]</a><span class="k">def</span> <span class="nf">compute_ride_rpp</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">max_duration_rpp</span><span class="p">,</span> <span class="n">in_parallel</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Compute the record power-profile</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X : array-like, shape (n_samples, )</span>
+
+<span class="sd">    in_parallel : boolean</span>
+<span class="sd">        If True, the rpp will be computed on all the available cores.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ------</span>
+<span class="sd">    rpp : array-like, shape (n_samples, )</span>
+<span class="sd">        Array containing the record power-profile of the current ride.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c"># Check that X is proper</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">_check_X</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">in_parallel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="c"># Initialize the ride rpp</span>
+        <span class="n">rpp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">60</span> <span class="o">*</span> <span class="n">max_duration_rpp</span><span class="p">)</span>
+
+        <span class="c"># For each duration in the rpp</span>
+        <span class="k">for</span> <span class="n">idx_t_rpp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rpp</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+            <span class="c"># Slice the data such that we can compute efficiently</span>
+            <span class="c"># the mean later</span>
+            <span class="n">t_crop</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="o">-</span><span class="n">idx_t_rpp</span> <span class="o">+</span> <span class="n">i</span><span class="p">:]</span>
+                               <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">idx_t_rpp</span><span class="p">)])</span>
+            <span class="c"># Check that there is some value cropped. In the case that</span>
+            <span class="c"># the duration is longer than the file, the table crop is</span>
+            <span class="c"># empty</span>
+            <span class="k">if</span> <span class="n">t_crop</span><span class="o">.</span><span class="n">size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c"># Compute the mean for each of these samples</span>
+                <span class="n">t_crop_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">t_crop</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+                <span class="c"># Keep the best to store as rpp</span>
+                <span class="n">rpp</span><span class="p">[</span><span class="n">idx_t_rpp</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">t_crop_mean</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">rpp</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">rpp</span> <span class="o">=</span> <span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)(</span><span class="n">delayed</span><span class="p">(</span><span class="n">_rpp_parallel</span><span class="p">)(</span><span class="n">X</span><span class="p">,</span> <span class="n">idx_t_rpp</span><span class="p">)</span>
+                                  <span class="k">for</span> <span class="n">idx_t_rpp</span>
+                                  <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">60</span> <span class="o">*</span> <span class="n">max_duration_rpp</span><span class="p">))</span>
+        <span class="c"># We need to make a conversion from list to numpy array</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rpp</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Rpp"><a class="viewcode-back" href="../../../modules/skcycling.power_profile.html#skcycling.power_profile.rpp.Rpp">[docs]</a><span class="k">class</span> <span class="nc">Rpp</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Record power-profile</span>
+
+<span class="sd">    Can perform online updates via `partial_fit` method.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    max_duration_rpp : int</span>
+<span class="sd">        Integer representing the maximum duration in minutes to</span>
+<span class="sd">        build the record power-profile model.</span>
+
+<span class="sd">    cyclist_weight : float, default None</span>
+<span class="sd">        Float in order to normalise the record power-profile depending</span>
+<span class="sd">        of its weight. By default this is None in order to avoid</span>
+<span class="sd">        using the data from normalized rpp without this data.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    rpp_ : array-like, shape (60 * max_duration_rpp, )</span>
+<span class="sd">        Array in which the record power-profile is stored.</span>
+<span class="sd">        The units used is the second.</span>
+
+<span class="sd">    rpp_norm_ : array-like, shape (60 * max_duration_rpp, )</span>
+<span class="sd">        Array in which the weight-normalized record power-profile</span>
+<span class="sd">        is stored. The units used is the seconds.</span>
+
+<span class="sd">    max_duration_rpp_ : int</span>
+<span class="sd">        The maximum duration of the record power-profile.</span>
+
+<span class="sd">    cyclist_weight_ : float</span>
+<span class="sd">        Cyclist weight.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_duration_rpp</span><span class="p">,</span> <span class="n">cyclist_weight</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_duration_rpp</span> <span class="o">=</span> <span class="n">max_duration_rpp</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cyclist_weight</span> <span class="o">=</span> <span class="n">cyclist_weight</span>
+
+    <span class="k">def</span> <span class="nf">_check_partial_fit_first_call</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Private function helper to know if the record power-profile</span>
+<span class="sd">            already has been computed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c"># Check if the record power-profile was previously created</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;rpp_&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="c"># Not the first time that the fitting is called</span>
+            <span class="k">print</span> <span class="bp">self</span><span class="o">.</span><span class="n">rpp_</span>
+            <span class="k">return</span> <span class="bp">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c"># First time that the fitting is called</span>
+            <span class="c"># Initalise the rpp_ variable</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">max_duration_rpp_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_duration_rpp</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cyclist_weight_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cyclist_weight</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rpp_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">60</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_duration_rpp</span><span class="p">)</span>
+            <span class="c"># If the weight is not None we can also initialize the</span>
+            <span class="c"># normalized rpp</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cyclist_weight_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">rpp_norm_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rpp_</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">rpp_norm_</span> <span class="o">=</span> <span class="bp">None</span>
+
+            <span class="k">return</span> <span class="bp">True</span>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Rpp.load_from_npy"><a class="viewcode-back" href="../../../modules/skcycling.power_profile.html#skcycling.power_profile.rpp.Rpp.load_from_npy">[docs]</a>    <span class="k">def</span> <span class="nf">load_from_npy</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">cyclist_weight</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Load the record power-profile from an npy file</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : str</span>
+<span class="sd">            String containing the path to the NPY file containing the array</span>
+<span class="sd">            representing the record power-profile.</span>
+
+<span class="sd">        cyclist_weight : float or None, default None</span>
+<span class="sd">            Float in order to normalise the record power-profile depending</span>
+<span class="sd">            of its weight. By default this is None in order to avoid</span>
+<span class="sd">            using the data from normalized rpp without this data.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ------</span>
+<span class="sd">        self : object</span>
+<span class="sd">            Returns self</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c"># Check that the file exist first</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;The file does not exist.&#39;</span><span class="p">)</span>
+
+        <span class="c"># Check that the file is an npy file</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">filename</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&#39;.npy&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;The file should be an npy file.&#39;</span><span class="p">)</span>
+
+        <span class="c"># Check that the cyclist weight is a float</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">cyclist_weight</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cyclist_weight</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;The cyclist weight need to be a float.&#39;</span><span class="p">)</span>
+
+        <span class="c"># Load the record power-profile</span>
+        <span class="n">cls</span><span class="o">.</span><span class="n">rpp_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+        <span class="c"># We have to infer the duration of the rpp</span>
+        <span class="n">max_duration_rpp</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">rpp_</span><span class="o">.</span><span class="n">size</span> <span class="o">/</span> <span class="mi">60</span>
+        <span class="n">cls</span><span class="o">.</span><span class="n">max_duration_rpp_</span> <span class="o">=</span> <span class="n">max_duration_rpp</span>
+
+        <span class="c"># Apply the cyclist weight</span>
+        <span class="n">cls</span><span class="o">.</span><span class="n">cyclist_weight_</span> <span class="o">=</span> <span class="n">cyclist_weight</span>
+
+        <span class="c"># Compute the normalized rpp if possible</span>
+        <span class="k">if</span> <span class="n">cls</span><span class="o">.</span><span class="n">cyclist_weight_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">cls</span><span class="o">.</span><span class="n">rpp_norm_</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">rpp_</span> <span class="o">/</span> <span class="n">cls</span><span class="o">.</span><span class="n">cyclist_weight_</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cls</span><span class="o">.</span><span class="n">rpp_norm_</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="k">return</span> <span class="n">cls</span><span class="p">(</span><span class="n">max_duration_rpp</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Rpp.fit"><a class="viewcode-back" href="../../../modules/skcycling.power_profile.html#skcycling.power_profile.rpp.Rpp.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">in_parallel</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Fit the data to the RPP</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : array-like, shape (n_samples, )</span>
+
+<span class="sd">        in_parallel : boolean</span>
+<span class="sd">            If True, the rpp will be computed on all the available cores.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ------</span>
+<span class="sd">        self : object</span>
+<span class="sd">            Returns self.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c"># We should check if X is proper</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">_check_X</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+        <span class="c"># Make a partial fitting of the current data</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">partial_fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">refit</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">in_parallel</span><span class="o">=</span><span class="n">in_parallel</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Rpp.partial_fit"><a class="viewcode-back" href="../../../modules/skcycling.power_profile.html#skcycling.power_profile.rpp.Rpp.partial_fit">[docs]</a>    <span class="k">def</span> <span class="nf">partial_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">refit</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">in_parallel</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Incremental fit of the RPPB</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : array-like, shape (n_samples, )</span>
+
+<span class="sd">        in_parallel : boolean</span>
+<span class="sd">            If True, the rpp will be computed on all the available cores.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ------</span>
+<span class="sd">        self : object</span>
+<span class="sd">            Returns self.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c"># Check that X is proper</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">_check_X</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+        <span class="c"># Call the partial fitting</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_partial_fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">refit</span><span class="o">=</span><span class="n">refit</span><span class="p">,</span> <span class="n">in_parallel</span><span class="o">=</span><span class="n">in_parallel</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_partial_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">refit</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">in_parallel</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Actual implementation of RPP calculation</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : array-like, shape (n_samples, )</span>
+
+<span class="sd">        _refit : bool</span>
+<span class="sd">            If True, the RPP will be overidden.</span>
+
+<span class="sd">        in_parallel : boolean</span>
+<span class="sd">            If True, the rpp will be computed on all the available cores.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ------</span>
+<span class="sd">        self : object</span>
+<span class="sd">            Returns self.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c"># We should check X</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">_check_X</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+        <span class="c"># If we want to recompute the record power-profile</span>
+        <span class="k">if</span> <span class="n">refit</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rpp_</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rpp_norm_</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="c"># Check if this the first called or if we have to initialize</span>
+        <span class="c"># the record power-profile</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_partial_fit_first_call</span><span class="p">():</span>
+            <span class="c"># What to do if it was the first call</span>
+            <span class="c"># Compute the record power-profile for the given X</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rpp_</span> <span class="o">=</span> <span class="n">compute_ride_rpp</span><span class="p">(</span><span class="n">X</span><span class="p">,</span>
+                                         <span class="bp">self</span><span class="o">.</span><span class="n">max_duration_rpp_</span><span class="p">,</span>
+                                         <span class="n">in_parallel</span><span class="p">)</span>
+            <span class="c"># Compute the normalized rpp if we should</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cyclist_weight_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">rpp_norm_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rpp_</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">cyclist_weight_</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c"># What to do if it was yet another call</span>
+            <span class="c"># Compute the record power-profile for the given X</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rpp</span> <span class="o">=</span> <span class="n">compute_ride_rpp</span><span class="p">(</span><span class="n">X</span><span class="p">,</span>
+                                        <span class="bp">self</span><span class="o">.</span><span class="n">max_duration_rpp_</span><span class="p">,</span>
+                                        <span class="n">in_parallel</span><span class="p">)</span>
+            <span class="c"># Update the best record power-profile</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rpp_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">rpp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rpp_</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="c"># Compute the normalized rpp if we should</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cyclist_weight_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">rpp_norm_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rpp_</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">cyclist_weight_</span>
+
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="c"># def denoise_rpp(self, method=&#39;b-spline&#39;, normalized=False):</span>
+    <span class="c">#     &quot;&quot;&quot; Denoise the record power-profile</span>
+
+    <span class="c">#     Parameters</span>
+    <span class="c">#     ----------</span>
+    <span class="c">#     method : str, default &#39;b-spline&#39;</span>
+    <span class="c">#         Method to select to denoise the record power-profile.</span>
+
+    <span class="c">#     normalized : bool, default False</span>
+    <span class="c">#         Return a weight-normalized rpp if True.</span>
+
+    <span class="c">#     Return</span>
+    <span class="c">#     ------</span>
+    <span class="c">#     rpp : array-like, shape (n_samples, )</span>
+    <span class="c">#         Return a denoise record power-profile.</span>
+    <span class="c">#     &quot;&quot;&quot;</span>
+
+    <span class="c">#     if method == &#39;b-spline&#39;:</span>
+    <span class="c">#         # Shall used the rpp or weight-normalized rpp</span>
+    <span class="c">#         if normalized is True:</span>
+    <span class="c">#             # Check that the cyclist weight was provided</span>
+    <span class="c">#             if self.cyclist_weight_ is not None:</span>
+    <span class="c">#                 rpp = self.rpp_norm_</span>
+    <span class="c">#             else:</span>
+    <span class="c">#                 raise ValueError(&#39;You cannot get a normalized rpp if the&#39;</span>
+    <span class="c">#                                  &#39; cyclist weight never has been given.&#39;)</span>
+    <span class="c">#         else:</span>
+    <span class="c">#             rpp = self.rpp_</span>
+
+    <span class="c">#         # Apply denoising based on b-spline</span>
+    <span class="c">#         # Create the timeline</span>
+    <span class="c">#         t = np.linspace(0, self.max_duration_rpp_, rpp.size)</span>
+    <span class="c">#         spl = UnivariateSpline(t, rpp)</span>
+
+    <span class="c">#         return spl(t)</span>
+    <span class="c">#     else:</span>
+    <span class="c">#         raise ValueError(&#39;This denoising method is not implemented.&#39;)</span>
+
+<div class="viewcode-block" id="Rpp.resampling_rpp"><a class="viewcode-back" href="../../../modules/skcycling.power_profile.html#skcycling.power_profile.rpp.Rpp.resampling_rpp">[docs]</a>    <span class="k">def</span> <span class="nf">resampling_rpp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ts</span><span class="p">,</span> <span class="n">method_interp</span><span class="o">=</span><span class="s">&#39;linear&#39;</span><span class="p">,</span> <span class="n">normalized</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Resampling the record power-profile</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        ts : array-like, shape (n_sample, )</span>
+<span class="sd">            An array containaining the time landmark to sample.</span>
+
+<span class="sd">        method_interp : string, default &#39;linear&#39;</span>
+<span class="sd">            Name of the method to interpolate the data.</span>
+<span class="sd">            Specifies the kind of interpolation as a string (&#39;linear&#39;,</span>
+<span class="sd">            &#39;nearest&#39;, &#39;zero&#39;, &#39;slinear&#39;, &#39;quadratic, &#39;cubic&#39;</span>
+<span class="sd">            where &#39;slinear&#39;, &#39;quadratic&#39; and &#39;cubic&#39; refer to a spline</span>
+<span class="sd">            interpolation of first, second or third order) or as an integer</span>
+<span class="sd">            specifying the order of the spline interpolator to use.</span>
+
+<span class="sd">        normalized : bool, default False</span>
+<span class="sd">            Return a weight-normalized rpp if True.</span>
+
+
+<span class="sd">        Return</span>
+<span class="sd">        ------</span>
+<span class="sd">        rpp : array-like, shape (n_samples, )</span>
+<span class="sd">            Return a resampled record power-profile.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c"># Shall used the rpp or weight-normalized rpp</span>
+        <span class="k">if</span> <span class="n">normalized</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="c"># Check that the cyclist weight was provided</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cyclist_weight_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">rpp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rpp_norm_</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;You cannot get a normalized rpp if the&#39;</span>
+                                 <span class="s">&#39; cyclist weight never has been given.&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">rpp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rpp_</span>
+
+        <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_duration_rpp_</span><span class="p">,</span> <span class="n">rpp</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">interp1d</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">rpp</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">method_interp</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="n">ts</span><span class="p">)</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_res_std_dev</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">estimate</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Private function to compute the residual standard deviation</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        model : array-like, shape (n_sample, )</span>
+<span class="sd">             Value used to made the fitting.</span>
+
+<span class="sd">        estimate : array-like, shape (n_sample, )</span>
+<span class="sd">             Value obtained by fitting.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ------</span>
+<span class="sd">        residual : float</span>
+<span class="sd">            Residual standard deviation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">model</span> <span class="o">-</span> <span class="n">estimate</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span>
+                       <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">size</span><span class="p">)</span> <span class="o">-</span> <span class="mf">2.</span><span class="p">))</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_r_squared</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">estimate</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Private function to compute the coefficient of determination</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        model : array-like, shape (n_sample, )</span>
+<span class="sd">             Value used to made the fitting.</span>
+
+<span class="sd">        estimate : array-like, shape (n_sample, )</span>
+<span class="sd">             Value obtained by fitting.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ------</span>
+<span class="sd">        coeff_det : float</span>
+<span class="sd">            Coefficient of determination.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c"># Compute of the observed data</span>
+        <span class="n">model_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+        <span class="c"># Compute the total sum of squares</span>
+        <span class="n">ss_tot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">model</span> <span class="o">-</span> <span class="n">model_mean</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="c"># Compute the sum of squares residual</span>
+        <span class="n">ss_res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">model</span> <span class="o">-</span> <span class="n">estimate</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="mf">1.</span> <span class="o">-</span> <span class="p">(</span><span class="n">ss_res</span> <span class="o">/</span> <span class="n">ss_tot</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Rpp.aerobic_meta_model"><a class="viewcode-back" href="../../../modules/skcycling.power_profile.html#skcycling.power_profile.rpp.Rpp.aerobic_meta_model">[docs]</a>    <span class="k">def</span> <span class="nf">aerobic_meta_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ts</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">starting_time</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                           <span class="n">normalized</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s">&#39;lsq&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Compute the aerobic metabolism model from the</span>
+<span class="sd">            record power-profile</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        ts : array-like, shape (n_samples, )</span>
+<span class="sd">            Array containing the sample to take into account.</span>
+<span class="sd">            None if we want to pick up all the data.</span>
+
+<span class="sd">        start_time : int, default 4</span>
+<span class="sd">            Starting time to consider when fitting the linear model.</span>
+
+<span class="sd">        normalized : bool, default False</span>
+<span class="sd">            Return a weight-normalized rpp if True.</span>
+
+<span class="sd">        method : string, default &#39;lsq&#39;</span>
+<span class="sd">            Which type of tehcnic to use to make the fitting (&#39;lsq&#39;, &#39;lm&#39;).</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ------</span>
+<span class="sd">        slope : float</span>
+<span class="sd">            slope of the regression line.</span>
+
+<span class="sd">        intercept : float</span>
+<span class="sd">            intercept of the regression line.</span>
+
+<span class="sd">        stderr : float</span>
+<span class="sd">            Standard error of the estimate.</span>
+
+<span class="sd">        coeff_det : float</span>
+<span class="sd">            Coefficient of determination.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        [1] Pinot et al., &quot;Determination of Maximal Aerobic Power</span>
+<span class="sd">        on the Field in Cylcing&quot; (2014)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c"># Define the function to fit</span>
+        <span class="k">def</span> <span class="nf">linear_model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">b</span>
+
+        <span class="c"># If ts is not provided we have to create a timeline</span>
+        <span class="k">if</span> <span class="n">ts</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">starting_time</span><span class="p">,</span>
+                             <span class="bp">self</span><span class="o">.</span><span class="n">max_duration_rpp_</span><span class="p">,</span>
+                             <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_duration_rpp_</span> <span class="o">-</span> <span class="n">starting_time</span><span class="p">)</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+
+        <span class="c"># Compute the rpp</span>
+        <span class="n">rpp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resampling_rpp</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">normalized</span><span class="o">=</span><span class="n">normalized</span><span class="p">)</span>
+
+        <span class="c"># The zero values need to be avoided for the fitting</span>
+        <span class="c"># Keep the signal which is not zero</span>
+        <span class="n">ts</span> <span class="o">=</span> <span class="n">ts</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">rpp</span><span class="p">)]</span>
+        <span class="n">rpp</span> <span class="o">=</span> <span class="n">rpp</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">rpp</span><span class="p">)]</span>
+
+        <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s">&#39;lsq&#39;</span><span class="p">:</span>
+            <span class="c"># Perform the fitting using least-square</span>
+            <span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">linregress</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">ts</span><span class="p">),</span> <span class="n">rpp</span><span class="p">)</span>
+
+            <span class="n">std_err</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_res_std_dev</span><span class="p">(</span><span class="n">rpp</span><span class="p">,</span> <span class="n">linear_model</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">ts</span><span class="p">),</span>
+                                                          <span class="n">slope</span><span class="p">,</span>
+                                                          <span class="n">intercept</span><span class="p">))</span>
+
+            <span class="n">coeff_det</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_r_squared</span><span class="p">(</span><span class="n">rpp</span><span class="p">,</span> <span class="n">linear_model</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">ts</span><span class="p">),</span>
+                                                          <span class="n">slope</span><span class="p">,</span>
+                                                          <span class="n">intercept</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s">&#39;lm&#39;</span><span class="p">:</span>
+            <span class="c"># Perform the fitting using non-linear least-square</span>
+            <span class="c"># Levenberg-Marquardt</span>
+            <span class="n">popt</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">linear_model</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">ts</span><span class="p">),</span> <span class="n">rpp</span><span class="p">)</span>
+
+            <span class="n">slope</span> <span class="o">=</span> <span class="n">popt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">intercept</span> <span class="o">=</span> <span class="n">popt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+            <span class="n">std_err</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_res_std_dev</span><span class="p">(</span><span class="n">rpp</span><span class="p">,</span> <span class="n">linear_model</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">ts</span><span class="p">),</span>
+                                                          <span class="n">slope</span><span class="p">,</span>
+                                                          <span class="n">intercept</span><span class="p">))</span>
+
+            <span class="n">coeff_det</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_r_squared</span><span class="p">(</span><span class="n">rpp</span><span class="p">,</span> <span class="n">linear_model</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">ts</span><span class="p">),</span>
+                                                          <span class="n">slope</span><span class="p">,</span>
+                                                          <span class="n">intercept</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;The method is not implemented.&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">std_err</span><span class="p">,</span> <span class="n">coeff_det</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Guillaume Lemaitre.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,255 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>skcycling.restoration.denoise &mdash; scikit-cycling 0.1.dev0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="scikit-cycling 0.1.dev0 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> scikit-cycling
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/modules.html">skcycling</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">scikit-cycling</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>skcycling.restoration.denoise</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for skcycling.restoration.denoise</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot; Methods to denoise the power signal provided from a ride</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">..utils.checker</span> <span class="kn">import</span> <span class="n">_check_X</span>
+
+
+<div class="viewcode-block" id="outliers_rejection"><a class="viewcode-back" href="../../../modules/skcycling.restoration.html#skcycling.restoration.denoise.outliers_rejection">[docs]</a><span class="k">def</span> <span class="nf">outliers_rejection</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s">&#39;threshold&#39;</span><span class="p">,</span> <span class="n">thres</span><span class="o">=</span><span class="mf">2500.</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Remove the outliers from the given ride</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X : array-like, shape (n_samples, )</span>
+<span class="sd">        Array containing the power intensities for a ride.</span>
+
+<span class="sd">    method : string, default &#39;threshold&#39;</span>
+<span class="sd">        String to specified which outliers detection method to use.</span>
+
+<span class="sd">    thres : float, default 2500.</span>
+<span class="sd">        The maximum power to consider in case the method &#39;threshold&#39;</span>
+<span class="sd">        is considered.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    X : array-like, shape (n_samples, )</span>
+<span class="sd">        Array containing the power intensities, outliers free.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c"># Check if the variable X is valid</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">_check_X</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+    <span class="c"># Detect the outliers</span>
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s">&#39;threshold&#39;</span><span class="p">:</span>
+        <span class="c"># Compute the mean value that we will use to make the replacement</span>
+        <span class="n">mean_ride</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">X</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">X</span> <span class="o">&gt;</span> <span class="n">thres</span><span class="p">)]</span> <span class="o">=</span> <span class="n">mean_ride</span>
+        <span class="n">X</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">X</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)]</span> <span class="o">=</span> <span class="n">mean_ride</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;The outliers detection method is unknown.&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">X</span></div>
+
+
+<div class="viewcode-block" id="moving_average"><a class="viewcode-back" href="../../../modules/skcycling.restoration.html#skcycling.restoration.denoise.moving_average">[docs]</a><span class="k">def</span> <span class="nf">moving_average</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">win</span><span class="o">=</span><span class="mi">30</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Apply an average filter to the data</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X : array-like, shape (n_samples, )</span>
+<span class="sd">        Array containing the ride or a selection of a ride.</span>
+
+<span class="sd">    win : interger</span>
+<span class="sd">        Size of the sliding window.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    avg : array-like (float)</span>
+<span class="sd">        Return the denoised data mean-filter.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="n">ret</span><span class="p">[</span><span class="n">win</span><span class="p">:]</span> <span class="o">=</span> <span class="n">ret</span><span class="p">[</span><span class="n">win</span><span class="p">:]</span> <span class="o">-</span> <span class="n">ret</span><span class="p">[:</span><span class="o">-</span><span class="n">win</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">ret</span><span class="p">[</span><span class="n">win</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:]</span> <span class="o">/</span> <span class="n">win</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Guillaume Lemaitre.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
