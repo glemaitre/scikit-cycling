@@ -10,6 +10,14 @@ Contents:
 
 .. toctree::
    :maxdepth: 2
+   :caption: User Documentation
+
+   install
+   support
+
+.. toctree::
+   :maxdepth: 2
+   :caption: API Documentation
 
    modules/modules
 
