@@ -188,6 +188,7 @@
 </div>
 <div class="section" id="module-skcycling.utils">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-skcycling.utils" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="#module-skcycling.utils" title="skcycling.utils"><code class="xref py py-mod docutils literal"><span class="pre">skcycling.utils</span></code></a> module include utility functions.</p>
 <dl class="function">
 <dt id="skcycling.utils.load_power_from_fit">
 <code class="descclassname">skcycling.utils.</code><code class="descname">load_power_from_fit</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/utils/io_fit.html#load_power_from_fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.utils.load_power_from_fit" title="Permalink to this definition">¶</a></dt>
@@ -199,6 +200,103 @@
 <dl class="docutils">
 <dt>power_rec <span class="classifier-delimiter">:</span> <span class="classifier">ndarray, shape (n_samples)</span></dt>
 <dd>Power records of the ride.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="skcycling.utils.res_std_dev">
+<code class="descclassname">skcycling.utils.</code><code class="descname">res_std_dev</code><span class="sig-paren">(</span><em>model</em>, <em>estimate</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/utils/fit.html#res_std_dev"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.utils.res_std_dev" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to compute the residual standard deviation</p>
+<dl class="docutils">
+<dt>model <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_sample, )</span></dt>
+<dd>Value used to made the fitting.</dd>
+<dt>estimate <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_sample, )</span></dt>
+<dd>Value obtained by fitting.</dd>
+</dl>
+<dl class="docutils">
+<dt>residual <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>Residual standard deviation.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="skcycling.utils.r_squared">
+<code class="descclassname">skcycling.utils.</code><code class="descname">r_squared</code><span class="sig-paren">(</span><em>model</em>, <em>estimate</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/utils/fit.html#r_squared"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.utils.r_squared" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to compute the coefficient of determination</p>
+<dl class="docutils">
+<dt>model <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_sample, )</span></dt>
+<dd>Value used to made the fitting.</dd>
+<dt>estimate <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_sample, )</span></dt>
+<dd>Value obtained by fitting.</dd>
+</dl>
+<dl class="docutils">
+<dt>coeff_det <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>Coefficient of determination.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="skcycling.utils.log_linear_fitting">
+<code class="descclassname">skcycling.utils.</code><code class="descname">log_linear_fitting</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>method='lsq'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/utils/fit.html#log_linear_fitting"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.utils.log_linear_fitting" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to perform log linear regression.</p>
+<dl class="docutils">
+<dt>x <span class="classifier-delimiter">:</span> <span class="classifier">ndarray, shape (n_samples)</span></dt>
+<dd>Corresponds to the x. In our case, it should be the time.</dd>
+<dt>y <span class="classifier-delimiter">:</span> <span class="classifier">ndarray, shape (n_samples)</span></dt>
+<dd>Corresponds to the y. In our case, it should be the rpp.</dd>
+<dt>method <span class="classifier-delimiter">:</span> <span class="classifier">string, optional (default=&#8217;lsq&#8217;)</span></dt>
+<dd><p class="first">The method to use to perform the regression. The choices are:</p>
+<ul class="last simple">
+<li>If &#8216;lsq&#8217;, an ordinary least-square approach is used.</li>
+<li>If &#8216;lm&#8217;, the Levenberg-Marquardt is used.</li>
+</ul>
+</dd>
+</dl>
+<dl class="docutils">
+<dt>slope <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>slope of the regression line.</dd>
+<dt>intercept <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>intercept of the regression line.</dd>
+<dt>stderr <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>Standard error of the estimate.</dd>
+<dt>coeff_det <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>Coefficient of determination.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="skcycling.utils.linear_model">
+<code class="descclassname">skcycling.utils.</code><code class="descname">linear_model</code><span class="sig-paren">(</span><em>x</em>, <em>slope</em>, <em>intercept</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/utils/fit.html#linear_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.utils.linear_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function wich return value of a linear model.</p>
+<dl class="docutils">
+<dt>x <span class="classifier-delimiter">:</span> <span class="classifier">ndarray, shape (n_samples, )</span></dt>
+<dd>Values for which to compute the output of the linear model.</dd>
+<dt>slope <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>Slope of the linear equation.</dd>
+<dt>intercept <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>Intercept of the linear equation.</dd>
+</dl>
+<dl class="docutils">
+<dt>y <span class="classifier-delimiter">:</span> <span class="classifier">ndarray, shape (n_samples)</span></dt>
+<dd>Output of the linear model.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="skcycling.utils.log_linear_model">
+<code class="descclassname">skcycling.utils.</code><code class="descname">log_linear_model</code><span class="sig-paren">(</span><em>x</em>, <em>slope</em>, <em>intercept</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/utils/fit.html#log_linear_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.utils.log_linear_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function wich return value of a log linear model.</p>
+<dl class="docutils">
+<dt>x <span class="classifier-delimiter">:</span> <span class="classifier">ndarray, shape (n_samples, )</span></dt>
+<dd>Values for which to compute the output of the linear model.</dd>
+<dt>slope <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>Slope of the linear equation.</dd>
+<dt>intercept <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>Intercept of the linear equation.</dd>
+</dl>
+<dl class="docutils">
+<dt>y <span class="classifier-delimiter">:</span> <span class="classifier">ndarray, shape (n_samples)</span></dt>
+<dd>Output of the linear model.</dd>
 </dl>
 </dd></dl>
 

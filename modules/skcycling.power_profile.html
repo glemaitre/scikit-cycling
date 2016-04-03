@@ -171,7 +171,7 @@
 <p>This module contains class and methods related to the record power-profile.</p>
 <dl class="class">
 <dt id="skcycling.power_profile.rpp.Rpp">
-<em class="property">class </em><code class="descclassname">skcycling.power_profile.rpp.</code><code class="descname">Rpp</code><span class="sig-paren">(</span><em>max_duration_rpp</em>, <em>cyclist_weight=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/rpp.html#Rpp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.rpp.Rpp" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">skcycling.power_profile.rpp.</code><code class="descname">Rpp</code><span class="sig-paren">(</span><em>max_duration_rpp=None</em>, <em>cyclist_weight=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/rpp.html#Rpp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.rpp.Rpp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Record power-profile</p>
 <p>Can perform online updates via <cite>partial_fit</cite> method.</p>
@@ -198,34 +198,31 @@ is stored. The units used is the seconds.</dd>
 </dl>
 <dl class="method">
 <dt id="skcycling.power_profile.rpp.Rpp.aerobic_meta_model">
-<code class="descname">aerobic_meta_model</code><span class="sig-paren">(</span><em>ts=None</em>, <em>starting_time=4</em>, <em>normalized=False</em>, <em>method='lsq'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/rpp.html#Rpp.aerobic_meta_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.rpp.Rpp.aerobic_meta_model" title="Permalink to this definition">¶</a></dt>
+<code class="descname">aerobic_meta_model</code><span class="sig-paren">(</span><em>ts=None</em>, <em>normalized=False</em>, <em>method='lsq'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/rpp.html#Rpp.aerobic_meta_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.rpp.Rpp.aerobic_meta_model" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Compute the aerobic metabolism model from the</dt>
 <dd>record power-profile</dd>
 </dl>
 <dl class="docutils">
-<dt>ts <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_samples, )</span></dt>
+<dt>ts <span class="classifier-delimiter">:</span> <span class="classifier">ndarray, shape (n_samples, ) or None</span></dt>
 <dd>Array containing the sample to take into account.
-None if we want to pick up all the data.</dd>
-<dt>start_time <span class="classifier-delimiter">:</span> <span class="classifier">int, default 4</span></dt>
-<dd>Starting time to consider when fitting the linear model.</dd>
+If None, the sampling of the method of Pinot is applied, which is
+equivalent to the sampling from WKO+</dd>
 <dt>normalized <span class="classifier-delimiter">:</span> <span class="classifier">bool, default False</span></dt>
 <dd>Return a weight-normalized rpp if True.</dd>
 <dt>method <span class="classifier-delimiter">:</span> <span class="classifier">string, default &#8216;lsq&#8217;</span></dt>
 <dd>Which type of tehcnic to use to make the fitting (&#8216;lsq&#8217;, &#8216;lm&#8217;).</dd>
 </dl>
 <dl class="docutils">
-<dt>slope <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>slope of the regression line.</dd>
-<dt>intercept <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>intercept of the regression line.</dd>
-<dt>stderr <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>Standard error of the estimate.</dd>
-<dt>coeff_det <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>Coefficient of determination.</dd>
+<dt>pma <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>Maximum Aerobic Power.</dd>
+<dt>t_pma <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>Time of the Maximum Aerobic Power in seconds.</dd>
+<dt>aei <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>Aerobic Endurance Index.</dd>
 </dl>
 <p>[1] Pinot et al., &#8220;Determination of Maximal Aerobic Power
-on the Field in Cylcing&#8221; (2014)</p>
+on the Field in Cycling&#8221; (2014)</p>
 </dd></dl>
 
 <dl class="method">
@@ -243,9 +240,9 @@ on the Field in Cylcing&#8221; (2014)</p>
 </dl>
 </dd></dl>
 
-<dl class="classmethod">
+<dl class="method">
 <dt id="skcycling.power_profile.rpp.Rpp.load_from_npy">
-<em class="property">classmethod </em><code class="descname">load_from_npy</code><span class="sig-paren">(</span><em>filename</em>, <em>cyclist_weight=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/rpp.html#Rpp.load_from_npy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.rpp.Rpp.load_from_npy" title="Permalink to this definition">¶</a></dt>
+<code class="descname">load_from_npy</code><span class="sig-paren">(</span><em>filename</em>, <em>cyclist_weight=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/rpp.html#Rpp.load_from_npy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.rpp.Rpp.load_from_npy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load the record power-profile from an npy file</p>
 <dl class="docutils">
 <dt>filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
@@ -320,9 +317,11 @@ specifying the order of the spline interpolator to use.</dd>
 </div>
 <div class="section" id="module-skcycling.power_profile">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-skcycling.power_profile" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="#module-skcycling.power_profile" title="skcycling.power_profile"><code class="xref py py-mod docutils literal"><span class="pre">skcycling.power_profile</span></code></a> module include management function for
+record power profile.</p>
 <dl class="class">
 <dt id="skcycling.power_profile.Rpp">
-<em class="property">class </em><code class="descclassname">skcycling.power_profile.</code><code class="descname">Rpp</code><span class="sig-paren">(</span><em>max_duration_rpp</em>, <em>cyclist_weight=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/rpp.html#Rpp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.Rpp" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">skcycling.power_profile.</code><code class="descname">Rpp</code><span class="sig-paren">(</span><em>max_duration_rpp=None</em>, <em>cyclist_weight=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/rpp.html#Rpp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.Rpp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Record power-profile</p>
 <p>Can perform online updates via <cite>partial_fit</cite> method.</p>
@@ -349,34 +348,31 @@ is stored. The units used is the seconds.</dd>
 </dl>
 <dl class="method">
 <dt id="skcycling.power_profile.Rpp.aerobic_meta_model">
-<code class="descname">aerobic_meta_model</code><span class="sig-paren">(</span><em>ts=None</em>, <em>starting_time=4</em>, <em>normalized=False</em>, <em>method='lsq'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/rpp.html#Rpp.aerobic_meta_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.Rpp.aerobic_meta_model" title="Permalink to this definition">¶</a></dt>
+<code class="descname">aerobic_meta_model</code><span class="sig-paren">(</span><em>ts=None</em>, <em>normalized=False</em>, <em>method='lsq'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/rpp.html#Rpp.aerobic_meta_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.Rpp.aerobic_meta_model" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Compute the aerobic metabolism model from the</dt>
 <dd>record power-profile</dd>
 </dl>
 <dl class="docutils">
-<dt>ts <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_samples, )</span></dt>
+<dt>ts <span class="classifier-delimiter">:</span> <span class="classifier">ndarray, shape (n_samples, ) or None</span></dt>
 <dd>Array containing the sample to take into account.
-None if we want to pick up all the data.</dd>
-<dt>start_time <span class="classifier-delimiter">:</span> <span class="classifier">int, default 4</span></dt>
-<dd>Starting time to consider when fitting the linear model.</dd>
+If None, the sampling of the method of Pinot is applied, which is
+equivalent to the sampling from WKO+</dd>
 <dt>normalized <span class="classifier-delimiter">:</span> <span class="classifier">bool, default False</span></dt>
 <dd>Return a weight-normalized rpp if True.</dd>
 <dt>method <span class="classifier-delimiter">:</span> <span class="classifier">string, default &#8216;lsq&#8217;</span></dt>
 <dd>Which type of tehcnic to use to make the fitting (&#8216;lsq&#8217;, &#8216;lm&#8217;).</dd>
 </dl>
 <dl class="docutils">
-<dt>slope <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>slope of the regression line.</dd>
-<dt>intercept <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>intercept of the regression line.</dd>
-<dt>stderr <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>Standard error of the estimate.</dd>
-<dt>coeff_det <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>Coefficient of determination.</dd>
+<dt>pma <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>Maximum Aerobic Power.</dd>
+<dt>t_pma <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>Time of the Maximum Aerobic Power in seconds.</dd>
+<dt>aei <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>Aerobic Endurance Index.</dd>
 </dl>
 <p>[1] Pinot et al., &#8220;Determination of Maximal Aerobic Power
-on the Field in Cylcing&#8221; (2014)</p>
+on the Field in Cycling&#8221; (2014)</p>
 </dd></dl>
 
 <dl class="method">
@@ -394,9 +390,9 @@ on the Field in Cylcing&#8221; (2014)</p>
 </dl>
 </dd></dl>
 
-<dl class="classmethod">
+<dl class="method">
 <dt id="skcycling.power_profile.Rpp.load_from_npy">
-<em class="property">classmethod </em><code class="descname">load_from_npy</code><span class="sig-paren">(</span><em>filename</em>, <em>cyclist_weight=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/rpp.html#Rpp.load_from_npy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.Rpp.load_from_npy" title="Permalink to this definition">¶</a></dt>
+<code class="descname">load_from_npy</code><span class="sig-paren">(</span><em>filename</em>, <em>cyclist_weight=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/rpp.html#Rpp.load_from_npy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.Rpp.load_from_npy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load the record power-profile from an npy file</p>
 <dl class="docutils">
 <dt>filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>

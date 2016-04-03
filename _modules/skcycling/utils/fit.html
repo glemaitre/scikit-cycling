@@ -1,0 +1,377 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>skcycling.utils.fit &mdash; scikit-cycling 0.1.dev0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="scikit-cycling 0.1.dev0 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> scikit-cycling
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../support.html">Support</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/modules.html">skcycling</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">scikit-cycling</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>skcycling.utils.fit</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for skcycling.utils.fit</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Methods to help for mathematical fitting.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">linregress</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">curve_fit</span>
+
+
+<div class="viewcode-block" id="res_std_dev"><a class="viewcode-back" href="../../../modules/skcycling.utils.html#skcycling.utils.res_std_dev">[docs]</a><span class="k">def</span> <span class="nf">res_std_dev</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">estimate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Function to compute the residual standard deviation</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model : array-like, shape (n_sample, )</span>
+<span class="sd">         Value used to made the fitting.</span>
+
+<span class="sd">    estimate : array-like, shape (n_sample, )</span>
+<span class="sd">         Value obtained by fitting.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ------</span>
+<span class="sd">    residual : float</span>
+<span class="sd">        Residual standard deviation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">estimate</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The model and estimate arrays should have&#39;</span>
+                         <span class="s1">&#39; the same size.&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">model</span> <span class="o">-</span> <span class="n">estimate</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span>
+                   <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">size</span><span class="p">)</span> <span class="o">-</span> <span class="mf">2.</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="r_squared"><a class="viewcode-back" href="../../../modules/skcycling.utils.html#skcycling.utils.r_squared">[docs]</a><span class="k">def</span> <span class="nf">r_squared</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">estimate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Function to compute the coefficient of determination</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model : array-like, shape (n_sample, )</span>
+<span class="sd">         Value used to made the fitting.</span>
+
+<span class="sd">    estimate : array-like, shape (n_sample, )</span>
+<span class="sd">         Value obtained by fitting.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ------</span>
+<span class="sd">    coeff_det : float</span>
+<span class="sd">        Coefficient of determination.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">estimate</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The model and estimate arrays should have&#39;</span>
+                         <span class="s1">&#39; the same size.&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Compute of the observed data</span>
+    <span class="n">model_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+    <span class="c1"># Compute the total sum of squares</span>
+    <span class="n">ss_tot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">model</span> <span class="o">-</span> <span class="n">model_mean</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># Compute the sum of squares residual</span>
+    <span class="n">ss_res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">model</span> <span class="o">-</span> <span class="n">estimate</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="mf">1.</span> <span class="o">-</span> <span class="p">(</span><span class="n">ss_res</span> <span class="o">/</span> <span class="n">ss_tot</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="log_linear_fitting"><a class="viewcode-back" href="../../../modules/skcycling.utils.html#skcycling.utils.log_linear_fitting">[docs]</a><span class="k">def</span> <span class="nf">log_linear_fitting</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;lsq&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Function to perform log linear regression.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : ndarray, shape (n_samples)</span>
+<span class="sd">        Corresponds to the x. In our case, it should be the time.</span>
+
+<span class="sd">    y : ndarray, shape (n_samples)</span>
+<span class="sd">        Corresponds to the y. In our case, it should be the rpp.</span>
+
+<span class="sd">    method : string, optional (default=&#39;lsq&#39;)</span>
+<span class="sd">        The method to use to perform the regression. The choices are:</span>
+
+<span class="sd">        - If &#39;lsq&#39;, an ordinary least-square approach is used.</span>
+<span class="sd">        - If &#39;lm&#39;, the Levenberg-Marquardt is used.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ------</span>
+<span class="sd">    slope : float</span>
+<span class="sd">        slope of the regression line.</span>
+
+<span class="sd">    intercept : float</span>
+<span class="sd">        intercept of the regression line.</span>
+
+<span class="sd">    stderr : float</span>
+<span class="sd">        Standard error of the estimate.</span>
+
+<span class="sd">    coeff_det : float</span>
+<span class="sd">        Coefficient of determination.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Check that the array x and y have the same size</span>
+    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The size of x and y should be the same.&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;lsq&#39;</span><span class="p">:</span>
+        <span class="c1"># Perform the fitting using least-square</span>
+        <span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">linregress</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">y</span><span class="p">)</span>
+
+        <span class="n">std_err</span> <span class="o">=</span> <span class="n">res_std_dev</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">linear_model</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">),</span>
+                                                      <span class="n">slope</span><span class="p">,</span>
+                                                      <span class="n">intercept</span><span class="p">))</span>
+
+        <span class="n">coeff_det</span> <span class="o">=</span> <span class="n">r_squared</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">linear_model</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">),</span>
+                                                      <span class="n">slope</span><span class="p">,</span>
+                                                      <span class="n">intercept</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;lm&#39;</span><span class="p">:</span>
+        <span class="c1"># Perform the fitting using non-linear least-square</span>
+        <span class="c1"># Levenberg-Marquardt</span>
+        <span class="n">popt</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">linear_model</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">y</span><span class="p">)</span>
+
+        <span class="n">slope</span> <span class="o">=</span> <span class="n">popt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">intercept</span> <span class="o">=</span> <span class="n">popt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="n">std_err</span> <span class="o">=</span> <span class="n">res_std_dev</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">linear_model</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">),</span>
+                                                      <span class="n">slope</span><span class="p">,</span>
+                                                      <span class="n">intercept</span><span class="p">))</span>
+
+        <span class="n">coeff_det</span> <span class="o">=</span> <span class="n">r_squared</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">linear_model</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">),</span>
+                                                      <span class="n">slope</span><span class="p">,</span>
+                                                      <span class="n">intercept</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+    <span class="k">return</span> <span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">std_err</span><span class="p">,</span> <span class="n">coeff_det</span></div>
+
+
+<div class="viewcode-block" id="linear_model"><a class="viewcode-back" href="../../../modules/skcycling.utils.html#skcycling.utils.linear_model">[docs]</a><span class="k">def</span> <span class="nf">linear_model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Function wich return value of a linear model.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : ndarray, shape (n_samples, )</span>
+<span class="sd">        Values for which to compute the output of the linear model.</span>
+
+<span class="sd">    slope : float</span>
+<span class="sd">        Slope of the linear equation.</span>
+
+<span class="sd">    intercept : float</span>
+<span class="sd">        Intercept of the linear equation.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ------</span>
+<span class="sd">    y : ndarray, shape (n_samples)</span>
+<span class="sd">        Output of the linear model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">slope</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">intercept</span></div>
+
+
+<div class="viewcode-block" id="log_linear_model"><a class="viewcode-back" href="../../../modules/skcycling.utils.html#skcycling.utils.log_linear_model">[docs]</a><span class="k">def</span> <span class="nf">log_linear_model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Function wich return value of a log linear model.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : ndarray, shape (n_samples, )</span>
+<span class="sd">        Values for which to compute the output of the linear model.</span>
+
+<span class="sd">    slope : float</span>
+<span class="sd">        Slope of the linear equation.</span>
+
+<span class="sd">    intercept : float</span>
+<span class="sd">        Intercept of the linear equation.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ------</span>
+<span class="sd">    y : ndarray, shape (n_samples)</span>
+<span class="sd">        Output of the linear model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">slope</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">intercept</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Guillaume Lemaitre.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

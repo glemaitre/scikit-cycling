@@ -133,7 +133,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for skcycling.utils.io_fit</h1><div class="highlight"><pre>
-<span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Methods to handle input/output files.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
@@ -158,45 +158,45 @@
 <span class="sd">        Power records of the ride.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c"># Check that the filename has the good extension</span>
-    <span class="k">if</span> <span class="n">filename</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&#39;.fit&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">True</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;The file does not have the right extension.&#39;</span>
-                         <span class="s">&#39; Expected *.fit.&#39;</span><span class="p">)</span>
+    <span class="c1"># Check that the filename has the good extension</span>
+    <span class="k">if</span> <span class="n">filename</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.fit&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The file does not have the right extension.&#39;</span>
+                         <span class="s1">&#39; Expected *.fit.&#39;</span><span class="p">)</span>
 
-    <span class="c"># Check if the file exists</span>
+    <span class="c1"># Check if the file exists</span>
     <span class="k">if</span> <span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">True</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;The file does not exist. Please check the path.&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The file does not exist. Please check the path.&#39;</span><span class="p">)</span>
 
-    <span class="c"># Create an object to open the activity</span>
+    <span class="c1"># Create an object to open the activity</span>
     <span class="n">activity</span> <span class="o">=</span> <span class="n">FitFile</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
     <span class="n">activity</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
 
-    <span class="c"># Get only the power records</span>
-    <span class="n">records</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">activity</span><span class="o">.</span><span class="n">get_messages</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;record&#39;</span><span class="p">))</span>
+    <span class="c1"># Get only the power records</span>
+    <span class="n">records</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">activity</span><span class="o">.</span><span class="n">get_messages</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;record&#39;</span><span class="p">))</span>
 
-    <span class="c"># Append the different values inside a list which will be later</span>
-    <span class="c"># converted to numpy array</span>
+    <span class="c1"># Append the different values inside a list which will be later</span>
+    <span class="c1"># converted to numpy array</span>
     <span class="n">power_rec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">records</span><span class="p">),</span> <span class="p">))</span>
-    <span class="c"># Go through each record</span>
-    <span class="c"># In order to send multiple warnings</span>
-    <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s">&#39;always&#39;</span><span class="p">,</span> <span class="ne">UserWarning</span><span class="p">)</span>
+    <span class="c1"># Go through each record</span>
+    <span class="c1"># In order to send multiple warnings</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s1">&#39;always&#39;</span><span class="p">,</span> <span class="ne">UserWarning</span><span class="p">)</span>
     <span class="n">warn_sample</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">idx_rec</span><span class="p">,</span> <span class="n">rec</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">records</span><span class="p">):</span>
-        <span class="c"># Extract only the value regarding the power</span>
-        <span class="n">p</span> <span class="o">=</span> <span class="n">rec</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="s">&#39;power&#39;</span><span class="p">)</span>
+        <span class="c1"># Extract only the value regarding the power</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">rec</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="s1">&#39;power&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">p</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">power_rec</span><span class="p">[</span><span class="n">idx_rec</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="c"># We put the value to 0 since that it will not influence</span>
-            <span class="c"># the computation of the RPP</span>
+            <span class="c1"># We put the value to 0 since that it will not influence</span>
+            <span class="c1"># the computation of the RPP</span>
             <span class="n">power_rec</span><span class="p">[</span><span class="n">idx_rec</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.</span>
-            <span class="c"># We keep track of the number of inconsitent data</span>
+            <span class="c1"># We keep track of the number of inconsitent data</span>
             <span class="n">warn_sample</span> <span class="o">+=</span> <span class="mi">1</span>
 
-    <span class="c"># Through a warning if there is no power data found</span>
+    <span class="c1"># Through a warning if there is no power data found</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">records</span><span class="p">)</span> <span class="o">==</span> <span class="n">warn_sample</span><span class="p">:</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&#39;This file does not contain any power data.&#39;</span>
-                      <span class="s">&#39; Be aware.&#39;</span><span class="p">)</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;This file does not contain any power data.&#39;</span>
+                      <span class="s1">&#39; Be aware.&#39;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">power_rec</span></div>
 </pre></div>

@@ -133,7 +133,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for skcycling.metrics.ride</h1><div class="highlight"><pre>
-<span class="sd">&quot;&quot;&quot; Metrics to asses the performance of a cycling ride</span>
+<span></span><span class="sd">&quot;&quot;&quot; Metrics to asses the performance of a cycling ride</span>
 
 <span class="sd">Functions named as ``*_score`` return a scalar value to maximize: the higher</span>
 <span class="sd">the better</span>
@@ -149,14 +149,14 @@
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
-<span class="n">TS_SCALE_GRAPPE</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([(</span><span class="s">&#39;I1&#39;</span><span class="p">,</span> <span class="mf">2.</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;I2&#39;</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;I3&#39;</span><span class="p">,</span> <span class="mf">3.</span><span class="p">),</span>
-                        <span class="p">(</span><span class="s">&#39;I4&#39;</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;I5&#39;</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;I6&#39;</span><span class="p">,</span> <span class="mf">7.</span><span class="p">),</span>
-                        <span class="p">(</span><span class="s">&#39;I7&#39;</span><span class="p">,</span> <span class="mf">11.</span><span class="p">)])</span>
+<span class="n">TS_SCALE_GRAPPE</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([(</span><span class="s1">&#39;I1&#39;</span><span class="p">,</span> <span class="mf">2.</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;I2&#39;</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;I3&#39;</span><span class="p">,</span> <span class="mf">3.</span><span class="p">),</span>
+                        <span class="p">(</span><span class="s1">&#39;I4&#39;</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;I5&#39;</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;I6&#39;</span><span class="p">,</span> <span class="mf">7.</span><span class="p">),</span>
+                        <span class="p">(</span><span class="s1">&#39;I7&#39;</span><span class="p">,</span> <span class="mf">11.</span><span class="p">)])</span>
 
-<span class="n">ESIE_SCALE_GRAPPE</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([(</span><span class="s">&#39;I1&#39;</span><span class="p">,</span> <span class="p">(</span><span class="o">.</span><span class="mi">3</span><span class="p">,</span> <span class="o">.</span><span class="mi">5</span><span class="p">)),</span> <span class="p">(</span><span class="s">&#39;I2&#39;</span><span class="p">,</span> <span class="p">(</span><span class="o">.</span><span class="mi">5</span><span class="p">,</span> <span class="o">.</span><span class="mi">6</span><span class="p">)),</span>
-                          <span class="p">(</span><span class="s">&#39;I3&#39;</span><span class="p">,</span> <span class="p">(</span><span class="o">.</span><span class="mi">6</span><span class="p">,</span> <span class="o">.</span><span class="mi">75</span><span class="p">)),</span> <span class="p">(</span><span class="s">&#39;I4&#39;</span><span class="p">,</span> <span class="p">(</span><span class="o">.</span><span class="mi">75</span><span class="p">,</span> <span class="o">.</span><span class="mi">85</span><span class="p">)),</span>
-                          <span class="p">(</span><span class="s">&#39;I5&#39;</span><span class="p">,</span> <span class="p">(</span><span class="o">.</span><span class="mi">85</span><span class="p">,</span> <span class="mf">1.</span><span class="p">)),</span> <span class="p">(</span><span class="s">&#39;I6&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">1.80</span><span class="p">)),</span>
-                          <span class="p">(</span><span class="s">&#39;I7&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mf">1.8</span><span class="p">,</span> <span class="mf">3.</span><span class="p">))])</span>
+<span class="n">ESIE_SCALE_GRAPPE</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([(</span><span class="s1">&#39;I1&#39;</span><span class="p">,</span> <span class="p">(</span><span class="o">.</span><span class="mi">3</span><span class="p">,</span> <span class="o">.</span><span class="mi">5</span><span class="p">)),</span> <span class="p">(</span><span class="s1">&#39;I2&#39;</span><span class="p">,</span> <span class="p">(</span><span class="o">.</span><span class="mi">5</span><span class="p">,</span> <span class="o">.</span><span class="mi">6</span><span class="p">)),</span>
+                          <span class="p">(</span><span class="s1">&#39;I3&#39;</span><span class="p">,</span> <span class="p">(</span><span class="o">.</span><span class="mi">6</span><span class="p">,</span> <span class="o">.</span><span class="mi">75</span><span class="p">)),</span> <span class="p">(</span><span class="s1">&#39;I4&#39;</span><span class="p">,</span> <span class="p">(</span><span class="o">.</span><span class="mi">75</span><span class="p">,</span> <span class="o">.</span><span class="mi">85</span><span class="p">)),</span>
+                          <span class="p">(</span><span class="s1">&#39;I5&#39;</span><span class="p">,</span> <span class="p">(</span><span class="o">.</span><span class="mi">85</span><span class="p">,</span> <span class="mf">1.</span><span class="p">)),</span> <span class="p">(</span><span class="s1">&#39;I6&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">1.80</span><span class="p">)),</span>
+                          <span class="p">(</span><span class="s1">&#39;I7&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mf">1.8</span><span class="p">,</span> <span class="mf">3.</span><span class="p">))])</span>
 
 
 <div class="viewcode-block" id="normalized_power_score"><a class="viewcode-back" href="../../../modules/skcycling.metrics.html#skcycling.metrics.ride.normalized_power_score">[docs]</a><span class="k">def</span> <span class="nf">normalized_power_score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">pma</span><span class="p">):</span>
@@ -176,19 +176,19 @@
 <span class="sd">        Return the normalized power.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c"># Check the conformity of X and pma</span>
+    <span class="c1"># Check the conformity of X and pma</span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">_check_X</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
     <span class="n">pma</span> <span class="o">=</span> <span class="n">_check_float</span><span class="p">(</span><span class="n">pma</span><span class="p">)</span>
 
-    <span class="c"># Denoise the rpp through moving average using 30 sec filter</span>
+    <span class="c1"># Denoise the rpp through moving average using 30 sec filter</span>
     <span class="n">x_avg</span> <span class="o">=</span> <span class="n">moving_average</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">win</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
 
-    <span class="c"># Removing value &lt; I1-ESIE, i.e. 30 % PMA</span>
+    <span class="c1"># Removing value &lt; I1-ESIE, i.e. 30 % PMA</span>
     <span class="n">x_avg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">x_avg</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">x_avg</span> <span class="o">&lt;</span>
-                                        <span class="p">(</span><span class="n">ESIE_SCALE_GRAPPE</span><span class="p">[</span><span class="s">&#39;I1&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">pma</span><span class="p">)))</span>
+                                        <span class="p">(</span><span class="n">ESIE_SCALE_GRAPPE</span><span class="p">[</span><span class="s1">&#39;I1&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">pma</span><span class="p">)))</span>
 
-    <span class="c"># Compute the mean of the denoised ride elevated</span>
-    <span class="c"># at the power of 4</span>
+    <span class="c1"># Compute the mean of the denoised ride elevated</span>
+    <span class="c1"># at the power of 4</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x_avg</span> <span class="o">**</span> <span class="mf">4.</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">/</span> <span class="mf">4.</span><span class="p">)</span></div>
 
 
@@ -209,11 +209,11 @@
 <span class="sd">        Return the intensity factor.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c"># Check the conformity of X and ftp</span>
+    <span class="c1"># Check the conformity of X and ftp</span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">_check_X</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
     <span class="n">ftp</span> <span class="o">=</span> <span class="n">_check_float</span><span class="p">(</span><span class="n">ftp</span><span class="p">)</span>
 
-    <span class="c"># Compute the normalized power</span>
+    <span class="c1"># Compute the normalized power</span>
     <span class="n">np_score</span> <span class="o">=</span> <span class="n">normalized_power_score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">ftp2pma</span><span class="p">(</span><span class="n">ftp</span><span class="p">))</span>
 
     <span class="k">return</span> <span class="n">np_score</span> <span class="o">/</span> <span class="n">ftp</span></div>
@@ -236,11 +236,11 @@
 <span class="sd">        Return the intensity factor.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c"># Check the conformity of X and pma</span>
+    <span class="c1"># Check the conformity of X and pma</span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">_check_X</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
     <span class="n">pma</span> <span class="o">=</span> <span class="n">_check_float</span><span class="p">(</span><span class="n">pma</span><span class="p">)</span>
 
-    <span class="c"># Compute the resulting IF</span>
+    <span class="c1"># Compute the resulting IF</span>
     <span class="k">return</span> <span class="n">intensity_factor_ftp_score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">pma2ftp</span><span class="p">(</span><span class="n">pma</span><span class="p">))</span></div>
 
 
@@ -262,14 +262,14 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c"># Check the conformity of X and ftp</span>
+    <span class="c1"># Check the conformity of X and ftp</span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">_check_X</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
     <span class="n">ftp</span> <span class="o">=</span> <span class="n">_check_float</span><span class="p">(</span><span class="n">ftp</span><span class="p">)</span>
 
-    <span class="c"># Compute the intensity factor score</span>
+    <span class="c1"># Compute the intensity factor score</span>
     <span class="n">if_score</span> <span class="o">=</span> <span class="n">intensity_factor_ftp_score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">ftp</span><span class="p">)</span>
 
-    <span class="c"># Compute the training stress score</span>
+    <span class="c1"># Compute the training stress score</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">size</span> <span class="o">*</span> <span class="n">if_score</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mf">3600.</span></div>
 
 
@@ -290,11 +290,11 @@
 <span class="sd">        Return the training stress score.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c"># Check the conformity of X and pma</span>
+    <span class="c1"># Check the conformity of X and pma</span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">_check_X</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
     <span class="n">pma</span> <span class="o">=</span> <span class="n">_check_float</span><span class="p">(</span><span class="n">pma</span><span class="p">)</span>
 
-    <span class="c"># Compute the training stress score</span>
+    <span class="c1"># Compute the training stress score</span>
     <span class="k">return</span> <span class="n">training_stress_ftp_score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">pma2ftp</span><span class="p">(</span><span class="n">pma</span><span class="p">))</span></div>
 
 
@@ -350,21 +350,21 @@
 <span class="sd">        Return the training stress score.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c"># Check the consistency of X and pma</span>
+    <span class="c1"># Check the consistency of X and pma</span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">_check_X</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
     <span class="n">pma</span> <span class="o">=</span> <span class="n">_check_float</span><span class="p">(</span><span class="n">pma</span><span class="p">)</span>
 
-    <span class="c"># Compute the stress for each item of the ESIE</span>
+    <span class="c1"># Compute the stress for each item of the ESIE</span>
     <span class="n">tss_grappe</span> <span class="o">=</span> <span class="mf">0.</span>
     <span class="k">for</span> <span class="n">key_sc</span> <span class="ow">in</span> <span class="n">TS_SCALE_GRAPPE</span><span class="o">.</span><span class="n">iterkeys</span><span class="p">():</span>
 
-        <span class="c"># Count the number of elements which corresponds to as sec</span>
-        <span class="c"># We need to convert it to minutes</span>
+        <span class="c1"># Count the number of elements which corresponds to as sec</span>
+        <span class="c1"># We need to convert it to minutes</span>
         <span class="n">curr_stress</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span>
             <span class="n">np</span><span class="o">.</span><span class="n">bitwise_and</span><span class="p">(</span><span class="n">X</span> <span class="o">&gt;=</span> <span class="n">ESIE_SCALE_GRAPPE</span><span class="p">[</span><span class="n">key_sc</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">pma</span><span class="p">,</span>
                            <span class="n">X</span> <span class="o">&lt;</span> <span class="n">ESIE_SCALE_GRAPPE</span><span class="p">[</span><span class="n">key_sc</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">pma</span><span class="p">))</span> <span class="o">/</span> <span class="mf">60.</span>
 
-        <span class="c"># Compute the cumulative stress</span>
+        <span class="c1"># Compute the cumulative stress</span>
         <span class="n">tss_grappe</span> <span class="o">+=</span> <span class="n">curr_stress</span> <span class="o">*</span> <span class="n">TS_SCALE_GRAPPE</span><span class="p">[</span><span class="n">key_sc</span><span class="p">]</span>
 
     <span class="k">return</span> <span class="n">tss_grappe</span></div>
