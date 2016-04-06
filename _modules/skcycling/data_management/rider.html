@@ -1,0 +1,462 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>skcycling.data_management.rider &mdash; scikit-cycling 0.1.dev0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="scikit-cycling 0.1.dev0 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> scikit-cycling
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../support.html">Support</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/modules.html">skcycling</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">scikit-cycling</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>skcycling.data_management.rider</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for skcycling.data_management.rider</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Rider class.</span>
+
+<span class="sd">This module contains the class to manage the data linked to a single rider.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">cPickle</span> <span class="kn">as</span> <span class="nn">pickle</span>
+
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span>
+
+<span class="kn">from</span> <span class="nn">..power_profile</span> <span class="kn">import</span> <span class="n">RidePowerProfile</span>
+<span class="kn">from</span> <span class="nn">..power_profile</span> <span class="kn">import</span> <span class="n">RecordPowerProfile</span>
+
+<span class="kn">from</span> <span class="nn">..utils.checker</span> <span class="kn">import</span> <span class="n">check_filename_pickle_load</span>
+<span class="kn">from</span> <span class="nn">..utils.checker</span> <span class="kn">import</span> <span class="n">check_filename_pickle_save</span>
+<span class="kn">from</span> <span class="nn">..utils.checker</span> <span class="kn">import</span> <span class="n">check_filename_fit</span>
+<span class="kn">from</span> <span class="nn">..utils.checker</span> <span class="kn">import</span> <span class="n">check_tuple_date</span>
+
+
+<div class="viewcode-block" id="Rider"><a class="viewcode-back" href="../../../modules/skcycling.data_management.html#skcycling.data_management.rider.Rider">[docs]</a><span class="k">class</span> <span class="nc">Rider</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Rider class to aggregate all the different power tools.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    max_duration_profile : int</span>
+<span class="sd">        Integer representing the maximum duration in minutes to build the</span>
+<span class="sd">        record power-profile model. It can be infered if the data are loaded</span>
+<span class="sd">        from a pickle file.</span>
+
+<span class="sd">    cyclist_weight : float</span>
+<span class="sd">        Float in order to normalise the record power-profile depending</span>
+<span class="sd">        of its weight.</span>
+
+<span class="sd">    rides_pp : list of RidePowerProfile or None</span>
+<span class="sd">        Initialize the list of RidePowerProfile</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    rides_pp_ : list of RidePowerProfile</span>
+<span class="sd">        The list of the ride power-profile linked to a rider.</span>
+
+<span class="sd">    record_pp_ : RecordPowerProfile</span>
+<span class="sd">        The record power-profile of the rider.</span>
+
+<span class="sd">    max_duration_profile_ : int</span>
+<span class="sd">        Integer representing the maximum duration in minutes to build the</span>
+<span class="sd">        record power-profile model.</span>
+
+<span class="sd">    cyclist_weight_ : float</span>
+<span class="sd">        Float in order to normalise the record power-profile depending</span>
+<span class="sd">        of its weight.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cyclist_weight</span><span class="p">,</span> <span class="n">max_duration_profile</span><span class="p">,</span> <span class="n">rides_pp</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Constructor. &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cyclist_weight_</span> <span class="o">=</span> <span class="n">cyclist_weight</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_duration_profile_</span> <span class="o">=</span> <span class="n">max_duration_profile</span>
+        <span class="c1"># Check the list of ride</span>
+        <span class="k">if</span> <span class="n">rides_pp</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="c1"># Initialize the list to an empty list</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rides_pp_</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Check if all the elements are from the class RidePowerProfile</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rides_pp_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_rides_pp</span><span class="p">(</span><span class="n">rides_pp</span><span class="p">)</span>
+
+        <span class="c1"># Initialize the record_pp by default</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">record_pp_</span> <span class="o">=</span> <span class="n">RecordPowerProfile</span><span class="p">(</span><span class="n">max_duration_profile</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_duration_profile_</span><span class="p">,</span>
+                                             <span class="n">cyclist_weight</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cyclist_weight_</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_validate_rides_pp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rides_pp</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Method to check the consistency of the ride power-profile list.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        rides_pp : list of RidePowerProfile</span>
+<span class="sd">            Normally a list of RidePowerProfile.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ------</span>
+<span class="sd">        rides_pp : list of RidePowerProfile</span>
+<span class="sd">            Return the validated list of RidePowerProfile.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check that this is a list</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rides_pp</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="c1"># Check that each element are from the class RidePowerProfile</span>
+            <span class="k">for</span> <span class="n">rpp</span> <span class="ow">in</span> <span class="n">rides_pp</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rpp</span><span class="p">,</span> <span class="n">RidePowerProfile</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The object in the list need to be from&#39;</span>
+                                     <span class="s1">&#39; the type RidePowerProfile&#39;</span><span class="p">)</span>
+                <span class="c1"># We need to check that each ride has been fitted</span>
+                <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">rpp</span><span class="p">,</span> <span class="s1">&#39;data_&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">rpp</span><span class="o">.</span><span class="n">max_duration_profile_</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;One of the ride never has been fitted.&#39;</span>
+                                     <span class="s1">&#39; Fit before to compute the record rpp.&#39;</span><span class="p">)</span>
+            <span class="c1"># Create a list of all the max duration to check that they are</span>
+            <span class="c1"># all equal</span>
+            <span class="n">max_duration</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">rpp</span><span class="o">.</span><span class="n">max_duration_profile_</span>
+                                     <span class="k">for</span> <span class="n">rpp</span> <span class="ow">in</span> <span class="n">rides_pp</span><span class="p">])</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">max_duration</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_duration_profile_</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The maximum duration of the profile should&#39;</span>
+                                 <span class="s1">&#39; be the same for all the data.&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">rides_pp</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The ride power-profile should be given as&#39;</span>
+                             <span class="s1">&#39; a list.&#39;</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Rider.load_from_pickles"><a class="viewcode-back" href="../../../modules/skcycling.data_management.html#skcycling.data_management.rider.Rider.load_from_pickles">[docs]</a>    <span class="k">def</span> <span class="nf">load_from_pickles</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Function to load an object through pickles.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : str</span>
+<span class="sd">            Filename to the pickle file. The extension should be `.p`.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ------</span>
+<span class="sd">        bpp : object</span>
+<span class="sd">            Returns Rider.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check the consistency of the filename</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">check_filename_pickle_load</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="c1"># Load the pickle</span>
+        <span class="n">bpp</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">bpp</span></div>
+
+<div class="viewcode-block" id="Rider.save_to_pickles"><a class="viewcode-back" href="../../../modules/skcycling.data_management.html#skcycling.data_management.rider.Rider.save_to_pickles">[docs]</a>    <span class="k">def</span> <span class="nf">save_to_pickles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Function to save an object RecordPowerProfile through pickles.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : str</span>
+<span class="sd">            Filename to the pickle file. The extension should be `.p`.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># We need to check that the directory where the file will be exist</span>
+        <span class="n">dir_pickle</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">dir_pickle</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">dir_pickle</span><span class="p">)</span>
+        <span class="c1"># Check the consistency of the filename</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">check_filename_pickle_save</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="c1"># Create the pickle file</span>
+        <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="bp">None</span></div>
+
+<div class="viewcode-block" id="Rider.add_rides_from_path"><a class="viewcode-back" href="../../../modules/skcycling.data_management.html#skcycling.data_management.rider.Rider.add_rides_from_path">[docs]</a>    <span class="k">def</span> <span class="nf">add_rides_from_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Function which allows to read and fit some ride and add them to</span>
+<span class="sd">        the current list of ride.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        path : str</span>
+<span class="sd">            Path from where to get the fit file.</span>
+
+<span class="sd">        overwrite : bool</span>
+<span class="sd">            Overwrite the current ride power-profile list.</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">        self : object</span>
+<span class="sd">            Returns self.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check that the path exist</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The path is not existing.&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Find all the fit file</span>
+        <span class="n">rides_rpp</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+            <span class="c1"># Take only the fit file</span>
+            <span class="k">if</span> <span class="n">filename</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.fit&#39;</span><span class="p">):</span>
+                <span class="n">rpp</span> <span class="o">=</span> <span class="n">RidePowerProfile</span><span class="p">(</span><span class="n">max_duration_profile</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_duration_profile_</span><span class="p">,</span>
+                                       <span class="n">cyclist_weight</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cyclist_weight_</span><span class="p">)</span>
+                <span class="n">rpp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
+                <span class="n">rides_rpp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rpp</span><span class="p">)</span>
+
+        <span class="c1"># Check if we have to overwrite the list</span>
+        <span class="k">if</span> <span class="n">overwrite</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rides_pp_</span> <span class="o">=</span> <span class="n">rides_rpp</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rides_pp_</span> <span class="o">+=</span> <span class="n">rides_rpp</span>
+
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="Rider.add_ride_from_fit"><a class="viewcode-back" href="../../../modules/skcycling.data_management.html#skcycling.data_management.rider.Rider.add_ride_from_fit">[docs]</a>    <span class="k">def</span> <span class="nf">add_ride_from_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Function to add one ride to the list using fit file.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : str</span>
+<span class="sd">            Filename of the fit file to add.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ------</span>
+<span class="sd">        self : obj</span>
+<span class="sd">            Returns self.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check that the filename is a fit file and is consitant</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">check_filename_fit</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+        <span class="c1"># Create an object to handle the ride</span>
+        <span class="n">rpp</span> <span class="o">=</span> <span class="n">RidePowerProfile</span><span class="p">(</span><span class="n">max_duration_profile</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_duration_profile_</span><span class="p">,</span>
+                                       <span class="n">cyclist_weight</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cyclist_weight_</span><span class="p">)</span>
+        <span class="n">rpp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+        <span class="c1"># Add to the current file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rides_pp_</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rpp</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="Rider.delete_ride"><a class="viewcode-back" href="../../../modules/skcycling.data_management.html#skcycling.data_management.rider.Rider.delete_ride">[docs]</a>    <span class="k">def</span> <span class="nf">delete_ride</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">date_ride</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Function to delete a specific ride from the list.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        date_ride : date</span>
+<span class="sd">            The date of the ride to remove.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ------</span>
+<span class="sd">        self : object</span>
+<span class="sd">            Returns self.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check the consistency of the date</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">date_ride</span><span class="p">,</span> <span class="n">date</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The date should be a date object.&#39;</span><span class="p">)</span>
+
+        <span class="c1"># From the list of ride, get the date of the ride</span>
+        <span class="n">date_rides</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">rpp</span><span class="o">.</span><span class="n">date_profile_</span> <span class="k">for</span> <span class="n">rpp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rides_pp_</span><span class="p">])</span>
+
+        <span class="c1"># Find if there is any date corresponding to the one specified by</span>
+        <span class="c1"># the user</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">date_rides</span> <span class="o">==</span> <span class="n">date_ride</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;No rides have been removed. No matching dates.&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">idx_rides_keep</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flatnonzero</span><span class="p">(</span><span class="n">date_rides</span> <span class="o">!=</span> <span class="n">date_ride</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rides_pp_</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">rides_pp_</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">idx_rides_keep</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="Rider.compute_record_pp"><a class="viewcode-back" href="../../../modules/skcycling.data_management.html#skcycling.data_management.rider.Rider.compute_record_pp">[docs]</a>    <span class="k">def</span> <span class="nf">compute_record_pp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">date_start_finish</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Function to compute the record power profile.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        date_start_finish : tuple of date, shape (start, finish)</span>
+<span class="sd">            Starting and finishing date to consider to compute the date.</span>
+<span class="sd">            If None, the full range will be considered.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ------</span>
+<span class="sd">        self : object</span>
+<span class="sd">            Returns self.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check the consistency of the date tuple</span>
+        <span class="k">if</span> <span class="n">date_start_finish</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">date_start_finish</span> <span class="o">=</span> <span class="n">check_tuple_date</span><span class="p">(</span><span class="n">date_start_finish</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">record_pp_</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rides_pp_</span><span class="p">,</span> <span class="n">date_profile</span><span class="o">=</span><span class="n">date_start_finish</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Guillaume Lemaitre.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

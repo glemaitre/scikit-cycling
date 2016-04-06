@@ -30,7 +30,10 @@
   
 
   
-    <link rel="top" title="scikit-cycling 0.1.dev0 documentation" href="../index.html"/> 
+    <link rel="top" title="scikit-cycling 0.1.dev0 documentation" href="../index.html"/>
+        <link rel="up" title="skcycling package" href="skcycling.html"/>
+        <link rel="next" title="skcycling.metrics package" href="skcycling.metrics.html"/>
+        <link rel="prev" title="skcycling package" href="skcycling.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -85,8 +88,24 @@
 <li class="toctree-l1"><a class="reference internal" href="../support.html">Support</a></li>
 </ul>
 <p class="caption"><span class="caption-text">API Documentation</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">skcycling</a></li>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">skcycling</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="skcycling.html">skcycling package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="skcycling.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="">skcycling.data_management package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="skcycling.metrics.html">skcycling.metrics package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="skcycling.power_profile.html">skcycling.power_profile package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="skcycling.restoration.html">skcycling.restoration package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="skcycling.utils.html">skcycling.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="skcycling.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="skcycling.html#module-skcycling.setup">skcycling.setup module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="skcycling.html#module-contents">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
             
@@ -117,6 +136,10 @@
   <ul class="wy-breadcrumbs">
     <li><a href="../index.html">Docs</a> &raquo;</li>
       
+          <li><a href="modules.html">skcycling</a> &raquo;</li>
+      
+          <li><a href="skcycling.html">skcycling package</a> &raquo;</li>
+      
     <li>skcycling.data_management package</li>
       <li class="wy-breadcrumbs-aside">
         
@@ -136,11 +159,244 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="skcycling-data-management-rider-module">
-<h2>skcycling.data_management.rider module<a class="headerlink" href="#skcycling-data-management-rider-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-skcycling.data_management.rider">
+<span id="skcycling-data-management-rider-module"></span><h2>skcycling.data_management.rider module<a class="headerlink" href="#module-skcycling.data_management.rider" title="Permalink to this headline">¶</a></h2>
+<p>Rider class.</p>
+<p>This module contains the class to manage the data linked to a single rider.</p>
+<dl class="class">
+<dt id="skcycling.data_management.rider.Rider">
+<em class="property">class </em><code class="descclassname">skcycling.data_management.rider.</code><code class="descname">Rider</code><span class="sig-paren">(</span><em>cyclist_weight</em>, <em>max_duration_profile</em>, <em>rides_pp=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/data_management/rider.html#Rider"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.data_management.rider.Rider" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Rider class to aggregate all the different power tools.</p>
+<dl class="docutils">
+<dt>max_duration_profile <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>Integer representing the maximum duration in minutes to build the
+record power-profile model. It can be infered if the data are loaded
+from a pickle file.</dd>
+<dt>cyclist_weight <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>Float in order to normalise the record power-profile depending
+of its weight.</dd>
+<dt>rides_pp <span class="classifier-delimiter">:</span> <span class="classifier">list of RidePowerProfile or None</span></dt>
+<dd>Initialize the list of RidePowerProfile</dd>
+</dl>
+<dl class="docutils">
+<dt><a href="#id1"><span class="problematic" id="id2">rides_pp_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">list of RidePowerProfile</span></dt>
+<dd>The list of the ride power-profile linked to a rider.</dd>
+<dt><a href="#id3"><span class="problematic" id="id4">record_pp_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">RecordPowerProfile</span></dt>
+<dd>The record power-profile of the rider.</dd>
+<dt><a href="#id5"><span class="problematic" id="id6">max_duration_profile_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>Integer representing the maximum duration in minutes to build the
+record power-profile model.</dd>
+<dt><a href="#id7"><span class="problematic" id="id8">cyclist_weight_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>Float in order to normalise the record power-profile depending
+of its weight.</dd>
+</dl>
+<dl class="method">
+<dt id="skcycling.data_management.rider.Rider.add_ride_from_fit">
+<code class="descname">add_ride_from_fit</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/data_management/rider.html#Rider.add_ride_from_fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.data_management.rider.Rider.add_ride_from_fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to add one ride to the list using fit file.</p>
+<dl class="docutils">
+<dt>filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>Filename of the fit file to add.</dd>
+</dl>
+<dl class="docutils">
+<dt>self <span class="classifier-delimiter">:</span> <span class="classifier">obj</span></dt>
+<dd>Returns self.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="skcycling.data_management.rider.Rider.add_rides_from_path">
+<code class="descname">add_rides_from_path</code><span class="sig-paren">(</span><em>path</em>, <em>overwrite=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/data_management/rider.html#Rider.add_rides_from_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.data_management.rider.Rider.add_rides_from_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function which allows to read and fit some ride and add them to
+the current list of ride.</p>
+<dl class="docutils">
+<dt>path <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>Path from where to get the fit file.</dd>
+<dt>overwrite <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd>Overwrite the current ride power-profile list.</dd>
+</dl>
+<p>Return:
+self : object</p>
+<blockquote>
+<div>Returns self.</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="skcycling.data_management.rider.Rider.compute_record_pp">
+<code class="descname">compute_record_pp</code><span class="sig-paren">(</span><em>date_start_finish=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/data_management/rider.html#Rider.compute_record_pp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.data_management.rider.Rider.compute_record_pp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to compute the record power profile.</p>
+<dl class="docutils">
+<dt>date_start_finish <span class="classifier-delimiter">:</span> <span class="classifier">tuple of date, shape (start, finish)</span></dt>
+<dd>Starting and finishing date to consider to compute the date.
+If None, the full range will be considered.</dd>
+</dl>
+<dl class="docutils">
+<dt>self <span class="classifier-delimiter">:</span> <span class="classifier">object</span></dt>
+<dd>Returns self.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="skcycling.data_management.rider.Rider.delete_ride">
+<code class="descname">delete_ride</code><span class="sig-paren">(</span><em>date_ride</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/data_management/rider.html#Rider.delete_ride"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.data_management.rider.Rider.delete_ride" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to delete a specific ride from the list.</p>
+<dl class="docutils">
+<dt>date_ride <span class="classifier-delimiter">:</span> <span class="classifier">date</span></dt>
+<dd>The date of the ride to remove.</dd>
+</dl>
+<dl class="docutils">
+<dt>self <span class="classifier-delimiter">:</span> <span class="classifier">object</span></dt>
+<dd>Returns self.</dd>
+</dl>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="skcycling.data_management.rider.Rider.load_from_pickles">
+<em class="property">static </em><code class="descname">load_from_pickles</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/data_management/rider.html#Rider.load_from_pickles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.data_management.rider.Rider.load_from_pickles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to load an object through pickles.</p>
+<dl class="docutils">
+<dt>filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>Filename to the pickle file. The extension should be <cite>.p</cite>.</dd>
+</dl>
+<dl class="docutils">
+<dt>bpp <span class="classifier-delimiter">:</span> <span class="classifier">object</span></dt>
+<dd>Returns Rider.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="skcycling.data_management.rider.Rider.save_to_pickles">
+<code class="descname">save_to_pickles</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/data_management/rider.html#Rider.save_to_pickles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.data_management.rider.Rider.save_to_pickles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to save an object RecordPowerProfile through pickles.</p>
+<dl class="docutils">
+<dt>filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>Filename to the pickle file. The extension should be <cite>.p</cite>.</dd>
+</dl>
+<p>None</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-skcycling.data_management">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-skcycling.data_management" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="#module-skcycling.data_management" title="skcycling.data_management"><code class="xref py py-mod docutils literal"><span class="pre">skcycling.data_management</span></code></a> module include rider management.</p>
+<dl class="class">
+<dt id="skcycling.data_management.Rider">
+<em class="property">class </em><code class="descclassname">skcycling.data_management.</code><code class="descname">Rider</code><span class="sig-paren">(</span><em>cyclist_weight</em>, <em>max_duration_profile</em>, <em>rides_pp=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/data_management/rider.html#Rider"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.data_management.Rider" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Rider class to aggregate all the different power tools.</p>
+<dl class="docutils">
+<dt>max_duration_profile <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>Integer representing the maximum duration in minutes to build the
+record power-profile model. It can be infered if the data are loaded
+from a pickle file.</dd>
+<dt>cyclist_weight <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>Float in order to normalise the record power-profile depending
+of its weight.</dd>
+<dt>rides_pp <span class="classifier-delimiter">:</span> <span class="classifier">list of RidePowerProfile or None</span></dt>
+<dd>Initialize the list of RidePowerProfile</dd>
+</dl>
+<dl class="docutils">
+<dt><a href="#id9"><span class="problematic" id="id10">rides_pp_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">list of RidePowerProfile</span></dt>
+<dd>The list of the ride power-profile linked to a rider.</dd>
+<dt><a href="#id11"><span class="problematic" id="id12">record_pp_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">RecordPowerProfile</span></dt>
+<dd>The record power-profile of the rider.</dd>
+<dt><a href="#id13"><span class="problematic" id="id14">max_duration_profile_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>Integer representing the maximum duration in minutes to build the
+record power-profile model.</dd>
+<dt><a href="#id15"><span class="problematic" id="id16">cyclist_weight_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>Float in order to normalise the record power-profile depending
+of its weight.</dd>
+</dl>
+<dl class="method">
+<dt id="skcycling.data_management.Rider.add_ride_from_fit">
+<code class="descname">add_ride_from_fit</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/data_management/rider.html#Rider.add_ride_from_fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.data_management.Rider.add_ride_from_fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to add one ride to the list using fit file.</p>
+<dl class="docutils">
+<dt>filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>Filename of the fit file to add.</dd>
+</dl>
+<dl class="docutils">
+<dt>self <span class="classifier-delimiter">:</span> <span class="classifier">obj</span></dt>
+<dd>Returns self.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="skcycling.data_management.Rider.add_rides_from_path">
+<code class="descname">add_rides_from_path</code><span class="sig-paren">(</span><em>path</em>, <em>overwrite=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/data_management/rider.html#Rider.add_rides_from_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.data_management.Rider.add_rides_from_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function which allows to read and fit some ride and add them to
+the current list of ride.</p>
+<dl class="docutils">
+<dt>path <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>Path from where to get the fit file.</dd>
+<dt>overwrite <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd>Overwrite the current ride power-profile list.</dd>
+</dl>
+<p>Return:
+self : object</p>
+<blockquote>
+<div>Returns self.</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="skcycling.data_management.Rider.compute_record_pp">
+<code class="descname">compute_record_pp</code><span class="sig-paren">(</span><em>date_start_finish=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/data_management/rider.html#Rider.compute_record_pp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.data_management.Rider.compute_record_pp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to compute the record power profile.</p>
+<dl class="docutils">
+<dt>date_start_finish <span class="classifier-delimiter">:</span> <span class="classifier">tuple of date, shape (start, finish)</span></dt>
+<dd>Starting and finishing date to consider to compute the date.
+If None, the full range will be considered.</dd>
+</dl>
+<dl class="docutils">
+<dt>self <span class="classifier-delimiter">:</span> <span class="classifier">object</span></dt>
+<dd>Returns self.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="skcycling.data_management.Rider.delete_ride">
+<code class="descname">delete_ride</code><span class="sig-paren">(</span><em>date_ride</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/data_management/rider.html#Rider.delete_ride"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.data_management.Rider.delete_ride" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to delete a specific ride from the list.</p>
+<dl class="docutils">
+<dt>date_ride <span class="classifier-delimiter">:</span> <span class="classifier">date</span></dt>
+<dd>The date of the ride to remove.</dd>
+</dl>
+<dl class="docutils">
+<dt>self <span class="classifier-delimiter">:</span> <span class="classifier">object</span></dt>
+<dd>Returns self.</dd>
+</dl>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="skcycling.data_management.Rider.load_from_pickles">
+<em class="property">static </em><code class="descname">load_from_pickles</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/data_management/rider.html#Rider.load_from_pickles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.data_management.Rider.load_from_pickles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to load an object through pickles.</p>
+<dl class="docutils">
+<dt>filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>Filename to the pickle file. The extension should be <cite>.p</cite>.</dd>
+</dl>
+<dl class="docutils">
+<dt>bpp <span class="classifier-delimiter">:</span> <span class="classifier">object</span></dt>
+<dd>Returns Rider.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="skcycling.data_management.Rider.save_to_pickles">
+<code class="descname">save_to_pickles</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/data_management/rider.html#Rider.save_to_pickles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.data_management.Rider.save_to_pickles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to save an object RecordPowerProfile through pickles.</p>
+<dl class="docutils">
+<dt>filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>Filename to the pickle file. The extension should be <cite>.p</cite>.</dd>
+</dl>
+<p>None</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 
@@ -148,6 +404,15 @@
            </div>
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="skcycling.metrics.html" class="btn btn-neutral float-right" title="skcycling.metrics package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="skcycling.html" class="btn btn-neutral" title="skcycling package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

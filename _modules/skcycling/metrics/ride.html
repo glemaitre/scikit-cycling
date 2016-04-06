@@ -133,21 +133,21 @@
            <div itemprop="articleBody">
             
   <h1>Source code for skcycling.metrics.ride</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot; Metrics to asses the performance of a cycling ride</span>
+<span></span><span class="sd">&quot;&quot;&quot; Metrics to asses the performance of a cycling ride.</span>
 
 <span class="sd">Functions named as ``*_score`` return a scalar value to maximize: the higher</span>
-<span class="sd">the better</span>
+<span class="sd">the better.</span>
 
 <span class="sd">Function named as ``*_error`` or ``*_loss`` return a scalar value to minimize:</span>
-<span class="sd">the lower the better</span>
+<span class="sd">the lower the better.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">..utils.checker</span> <span class="kn">import</span> <span class="n">_check_X</span>
-<span class="kn">from</span> <span class="nn">..utils.checker</span> <span class="kn">import</span> <span class="n">_check_float</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">..restoration.denoise</span> <span class="kn">import</span> <span class="n">moving_average</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">..utils.checker</span> <span class="kn">import</span> <span class="n">check_X</span>
+<span class="kn">from</span> <span class="nn">..utils.checker</span> <span class="kn">import</span> <span class="n">check_float</span>
 
 <span class="n">TS_SCALE_GRAPPE</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([(</span><span class="s1">&#39;I1&#39;</span><span class="p">,</span> <span class="mf">2.</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;I2&#39;</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;I3&#39;</span><span class="p">,</span> <span class="mf">3.</span><span class="p">),</span>
                         <span class="p">(</span><span class="s1">&#39;I4&#39;</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;I5&#39;</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;I6&#39;</span><span class="p">,</span> <span class="mf">7.</span><span class="p">),</span>
@@ -177,8 +177,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Check the conformity of X and pma</span>
-    <span class="n">X</span> <span class="o">=</span> <span class="n">_check_X</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-    <span class="n">pma</span> <span class="o">=</span> <span class="n">_check_float</span><span class="p">(</span><span class="n">pma</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">check_X</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">pma</span> <span class="o">=</span> <span class="n">check_float</span><span class="p">(</span><span class="n">pma</span><span class="p">)</span>
 
     <span class="c1"># Denoise the rpp through moving average using 30 sec filter</span>
     <span class="n">x_avg</span> <span class="o">=</span> <span class="n">moving_average</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">win</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
@@ -210,8 +210,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Check the conformity of X and ftp</span>
-    <span class="n">X</span> <span class="o">=</span> <span class="n">_check_X</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-    <span class="n">ftp</span> <span class="o">=</span> <span class="n">_check_float</span><span class="p">(</span><span class="n">ftp</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">check_X</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">ftp</span> <span class="o">=</span> <span class="n">check_float</span><span class="p">(</span><span class="n">ftp</span><span class="p">)</span>
 
     <span class="c1"># Compute the normalized power</span>
     <span class="n">np_score</span> <span class="o">=</span> <span class="n">normalized_power_score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">ftp2pma</span><span class="p">(</span><span class="n">ftp</span><span class="p">))</span>
@@ -237,8 +237,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Check the conformity of X and pma</span>
-    <span class="n">X</span> <span class="o">=</span> <span class="n">_check_X</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-    <span class="n">pma</span> <span class="o">=</span> <span class="n">_check_float</span><span class="p">(</span><span class="n">pma</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">check_X</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">pma</span> <span class="o">=</span> <span class="n">check_float</span><span class="p">(</span><span class="n">pma</span><span class="p">)</span>
 
     <span class="c1"># Compute the resulting IF</span>
     <span class="k">return</span> <span class="n">intensity_factor_ftp_score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">pma2ftp</span><span class="p">(</span><span class="n">pma</span><span class="p">))</span></div>
@@ -263,8 +263,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Check the conformity of X and ftp</span>
-    <span class="n">X</span> <span class="o">=</span> <span class="n">_check_X</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-    <span class="n">ftp</span> <span class="o">=</span> <span class="n">_check_float</span><span class="p">(</span><span class="n">ftp</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">check_X</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">ftp</span> <span class="o">=</span> <span class="n">check_float</span><span class="p">(</span><span class="n">ftp</span><span class="p">)</span>
 
     <span class="c1"># Compute the intensity factor score</span>
     <span class="n">if_score</span> <span class="o">=</span> <span class="n">intensity_factor_ftp_score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">ftp</span><span class="p">)</span>
@@ -291,8 +291,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Check the conformity of X and pma</span>
-    <span class="n">X</span> <span class="o">=</span> <span class="n">_check_X</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-    <span class="n">pma</span> <span class="o">=</span> <span class="n">_check_float</span><span class="p">(</span><span class="n">pma</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">check_X</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">pma</span> <span class="o">=</span> <span class="n">check_float</span><span class="p">(</span><span class="n">pma</span><span class="p">)</span>
 
     <span class="c1"># Compute the training stress score</span>
     <span class="k">return</span> <span class="n">training_stress_ftp_score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">pma2ftp</span><span class="p">(</span><span class="n">pma</span><span class="p">))</span></div>
@@ -351,8 +351,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Check the consistency of X and pma</span>
-    <span class="n">X</span> <span class="o">=</span> <span class="n">_check_X</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-    <span class="n">pma</span> <span class="o">=</span> <span class="n">_check_float</span><span class="p">(</span><span class="n">pma</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">check_X</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">pma</span> <span class="o">=</span> <span class="n">check_float</span><span class="p">(</span><span class="n">pma</span><span class="p">)</span>
 
     <span class="c1"># Compute the stress for each item of the ESIE</span>
     <span class="n">tss_grappe</span> <span class="o">=</span> <span class="mf">0.</span>

@@ -92,6 +92,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">skcycling</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="skcycling.html">skcycling package</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="skcycling.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="skcycling.data_management.html">skcycling.data_management package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="skcycling.metrics.html">skcycling.metrics package</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="">skcycling.power_profile package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="skcycling.restoration.html">skcycling.restoration package</a></li>
@@ -165,118 +166,39 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-skcycling.power_profile.rpp">
-<span id="skcycling-power-profile-rpp-module"></span><h2>skcycling.power_profile.rpp module<a class="headerlink" href="#module-skcycling.power_profile.rpp" title="Permalink to this headline">¶</a></h2>
-<p>Record power-profile</p>
-<p>This module contains class and methods related to the record power-profile.</p>
+<div class="section" id="module-skcycling.power_profile.base_power_profile">
+<span id="skcycling-power-profile-base-power-profile-module"></span><h2>skcycling.power_profile.base_power_profile module<a class="headerlink" href="#module-skcycling.power_profile.base_power_profile" title="Permalink to this headline">¶</a></h2>
+<p>Basic class for power profile.</p>
 <dl class="class">
-<dt id="skcycling.power_profile.rpp.Rpp">
-<em class="property">class </em><code class="descclassname">skcycling.power_profile.rpp.</code><code class="descname">Rpp</code><span class="sig-paren">(</span><em>max_duration_rpp=None</em>, <em>cyclist_weight=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/rpp.html#Rpp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.rpp.Rpp" title="Permalink to this definition">¶</a></dt>
+<dt id="skcycling.power_profile.base_power_profile.BasePowerProfile">
+<em class="property">class </em><code class="descclassname">skcycling.power_profile.base_power_profile.</code><code class="descname">BasePowerProfile</code><span class="sig-paren">(</span><em>max_duration_profile=None</em>, <em>cyclist_weight=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/base_power_profile.html#BasePowerProfile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.base_power_profile.BasePowerProfile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
-<p>Record power-profile</p>
-<p>Can perform online updates via <cite>partial_fit</cite> method.</p>
-<dl class="docutils">
-<dt>max_duration_rpp <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd>Integer representing the maximum duration in minutes to
-build the record power-profile model.</dd>
-<dt>cyclist_weight <span class="classifier-delimiter">:</span> <span class="classifier">float, default None</span></dt>
-<dd>Float in order to normalise the record power-profile depending
-of its weight. By default this is None in order to avoid
-using the data from normalized rpp without this data.</dd>
-</dl>
-<dl class="docutils">
-<dt><a href="#id1"><span class="problematic" id="id2">rpp_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (60 * max_duration_rpp, )</span></dt>
-<dd>Array in which the record power-profile is stored.
-The units used is the second.</dd>
-<dt><a href="#id3"><span class="problematic" id="id4">rpp_norm_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (60 * max_duration_rpp, )</span></dt>
-<dd>Array in which the weight-normalized record power-profile
-is stored. The units used is the seconds.</dd>
-<dt><a href="#id5"><span class="problematic" id="id6">max_duration_rpp_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd>The maximum duration of the record power-profile.</dd>
-<dt><a href="#id7"><span class="problematic" id="id8">cyclist_weight_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>Cyclist weight.</dd>
-</dl>
+<p>Basic class for power profile.</p>
+<p>Warning: This class should not be used directly. Use the derive classes
+instead.</p>
 <dl class="method">
-<dt id="skcycling.power_profile.rpp.Rpp.aerobic_meta_model">
-<code class="descname">aerobic_meta_model</code><span class="sig-paren">(</span><em>ts=None</em>, <em>normalized=False</em>, <em>method='lsq'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/rpp.html#Rpp.aerobic_meta_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.rpp.Rpp.aerobic_meta_model" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Compute the aerobic metabolism model from the</dt>
-<dd>record power-profile</dd>
-</dl>
-<dl class="docutils">
-<dt>ts <span class="classifier-delimiter">:</span> <span class="classifier">ndarray, shape (n_samples, ) or None</span></dt>
-<dd>Array containing the sample to take into account.
-If None, the sampling of the method of Pinot is applied, which is
-equivalent to the sampling from WKO+</dd>
-<dt>normalized <span class="classifier-delimiter">:</span> <span class="classifier">bool, default False</span></dt>
-<dd>Return a weight-normalized rpp if True.</dd>
-<dt>method <span class="classifier-delimiter">:</span> <span class="classifier">string, default &#8216;lsq&#8217;</span></dt>
-<dd>Which type of tehcnic to use to make the fitting (&#8216;lsq&#8217;, &#8216;lm&#8217;).</dd>
-</dl>
-<dl class="docutils">
-<dt>pma <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>Maximum Aerobic Power.</dd>
-<dt>t_pma <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd>Time of the Maximum Aerobic Power in seconds.</dd>
-<dt>aei <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>Aerobic Endurance Index.</dd>
-</dl>
-<p>[1] Pinot et al., &#8220;Determination of Maximal Aerobic Power
-on the Field in Cycling&#8221; (2014)</p>
+<dt id="skcycling.power_profile.base_power_profile.BasePowerProfile.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/base_power_profile.html#BasePowerProfile.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.base_power_profile.BasePowerProfile.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to compute the power profile.</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="skcycling.power_profile.rpp.Rpp.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>in_parallel=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/rpp.html#Rpp.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.rpp.Rpp.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fit the data to the RPP</p>
-<p>X : array-like, shape (n_samples, )</p>
-<dl class="docutils">
-<dt>in_parallel <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
-<dd>If True, the rpp will be computed on all the available cores.</dd>
-</dl>
-<dl class="docutils">
-<dt>self <span class="classifier-delimiter">:</span> <span class="classifier">object</span></dt>
-<dd>Returns self.</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="skcycling.power_profile.rpp.Rpp.load_from_npy">
-<code class="descname">load_from_npy</code><span class="sig-paren">(</span><em>filename</em>, <em>cyclist_weight=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/rpp.html#Rpp.load_from_npy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.rpp.Rpp.load_from_npy" title="Permalink to this definition">¶</a></dt>
-<dd><p>Load the record power-profile from an npy file</p>
+<dl class="staticmethod">
+<dt id="skcycling.power_profile.base_power_profile.BasePowerProfile.load_from_pickles">
+<em class="property">static </em><code class="descname">load_from_pickles</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/base_power_profile.html#BasePowerProfile.load_from_pickles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.base_power_profile.BasePowerProfile.load_from_pickles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to load an object through pickles.</p>
 <dl class="docutils">
 <dt>filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd>String containing the path to the NPY file containing the array
-representing the record power-profile.</dd>
-<dt>cyclist_weight <span class="classifier-delimiter">:</span> <span class="classifier">float or None, default None</span></dt>
-<dd>Float in order to normalise the record power-profile depending
-of its weight. By default this is None in order to avoid
-using the data from normalized rpp without this data.</dd>
+<dd>Filename to the pickle file. The extension should be <cite>.p</cite>.</dd>
 </dl>
 <dl class="docutils">
-<dt>self <span class="classifier-delimiter">:</span> <span class="classifier">object</span></dt>
-<dd>Returns self</dd>
+<dt>bpp <span class="classifier-delimiter">:</span> <span class="classifier">object</span></dt>
+<dd>Returns BasePowerProfile.</dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
-<dt id="skcycling.power_profile.rpp.Rpp.partial_fit">
-<code class="descname">partial_fit</code><span class="sig-paren">(</span><em>X</em>, <em>refit=False</em>, <em>in_parallel=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/rpp.html#Rpp.partial_fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.rpp.Rpp.partial_fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Incremental fit of the RPPB</p>
-<p>X : array-like, shape (n_samples, )</p>
-<dl class="docutils">
-<dt>in_parallel <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
-<dd>If True, the rpp will be computed on all the available cores.</dd>
-</dl>
-<dl class="docutils">
-<dt>self <span class="classifier-delimiter">:</span> <span class="classifier">object</span></dt>
-<dd>Returns self.</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="skcycling.power_profile.rpp.Rpp.resampling_rpp">
-<code class="descname">resampling_rpp</code><span class="sig-paren">(</span><em>ts</em>, <em>method_interp='linear'</em>, <em>normalized=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/rpp.html#Rpp.resampling_rpp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.rpp.Rpp.resampling_rpp" title="Permalink to this definition">¶</a></dt>
+<dt id="skcycling.power_profile.base_power_profile.BasePowerProfile.resampling_rpp">
+<code class="descname">resampling_rpp</code><span class="sig-paren">(</span><em>ts</em>, <em>method_interp='linear'</em>, <em>normalized=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/base_power_profile.html#BasePowerProfile.resampling_rpp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.base_power_profile.BasePowerProfile.resampling_rpp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Resampling the record power-profile</p>
 <dl class="docutils">
 <dt>ts <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_sample, )</span></dt>
@@ -292,26 +214,127 @@ specifying the order of the spline interpolator to use.</dd>
 <dd>Return a weight-normalized rpp if True.</dd>
 </dl>
 <dl class="docutils">
-<dt>rpp <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_samples, )</span></dt>
+<dt>data <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_samples, )</span></dt>
 <dd>Return a resampled record power-profile.</dd>
 </dl>
 </dd></dl>
 
+<dl class="method">
+<dt id="skcycling.power_profile.base_power_profile.BasePowerProfile.save_to_pickles">
+<code class="descname">save_to_pickles</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/base_power_profile.html#BasePowerProfile.save_to_pickles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.base_power_profile.BasePowerProfile.save_to_pickles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to save an object through pickles.</p>
+<dl class="docutils">
+<dt>filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>Filename to the pickle file. The extension should be <cite>.p</cite>.</dd>
+</dl>
+<p>None</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="skcycling.power_profile.rpp.compute_ride_rpp">
-<code class="descclassname">skcycling.power_profile.rpp.</code><code class="descname">compute_ride_rpp</code><span class="sig-paren">(</span><em>X</em>, <em>max_duration_rpp</em>, <em>in_parallel=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/rpp.html#compute_ride_rpp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.rpp.compute_ride_rpp" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute the record power-profile</p>
-<p>X : array-like, shape (n_samples, )</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-skcycling.power_profile.record_power_profile">
+<span id="skcycling-power-profile-record-power-profile-module"></span><h2>skcycling.power_profile.record_power_profile module<a class="headerlink" href="#module-skcycling.power_profile.record_power_profile" title="Permalink to this headline">¶</a></h2>
+<p>Record Power-Profile class.</p>
+<dl class="class">
+<dt id="skcycling.power_profile.record_power_profile.RecordPowerProfile">
+<em class="property">class </em><code class="descclassname">skcycling.power_profile.record_power_profile.</code><code class="descname">RecordPowerProfile</code><span class="sig-paren">(</span><em>max_duration_profile=None</em>, <em>cyclist_weight=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/record_power_profile.html#RecordPowerProfile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.record_power_profile.RecordPowerProfile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#skcycling.power_profile.base_power_profile.BasePowerProfile" title="skcycling.power_profile.base_power_profile.BasePowerProfile"><code class="xref py py-class docutils literal"><span class="pre">skcycling.power_profile.base_power_profile.BasePowerProfile</span></code></a></p>
+<p>Record power-profile</p>
 <dl class="docutils">
-<dt>in_parallel <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
-<dd>If True, the rpp will be computed on all the available cores.</dd>
+<dt>max_duration_profile <span class="classifier-delimiter">:</span> <span class="classifier">int or None</span></dt>
+<dd>Integer representing the maximum duration in minutes to build the
+record power-profile model. It can be infered if the data are loaded
+from a npy file.</dd>
+<dt>cyclist_weight <span class="classifier-delimiter">:</span> <span class="classifier">float, default None</span></dt>
+<dd>Float in order to normalise the record power-profile depending
+of its weight. By default this is None in order to avoid
+using the data from normalized rpp without this data.</dd>
 </dl>
 <dl class="docutils">
-<dt>rpp <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_samples, )</span></dt>
-<dd>Array containing the record power-profile of the current ride.</dd>
+<dt><a href="#id1"><span class="problematic" id="id2">data_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (60 * <a href="#id3"><span class="problematic" id="id4">max_duration_profile_</span></a>, )</span></dt>
+<dd>Array in which the record power-profile is stored.
+The units used is the second.</dd>
+<dt><a href="#id5"><span class="problematic" id="id6">data_norm_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (60 * max_duration_rpp, )</span></dt>
+<dd>Array in which the weight-normalized record power-profile
+is stored. The units used is the seconds.</dd>
+<dt><a href="#id7"><span class="problematic" id="id8">max_duration_data_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>The maximum duration of the record power-profile.</dd>
+<dt><a href="#id9"><span class="problematic" id="id10">cyclist_weight_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>Cyclist weight.</dd>
+<dt><a href="#id11"><span class="problematic" id="id12">date_profile_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">tuple of date, shape (start, finish)</span></dt>
+<dd>Starting and finishing time to compute the record power-profile.</dd>
 </dl>
+<dl class="method">
+<dt id="skcycling.power_profile.record_power_profile.RecordPowerProfile.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>ride_pp</em>, <em>date_profile=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/record_power_profile.html#RecordPowerProfile.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.record_power_profile.RecordPowerProfile.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to build the record power-profile from a list of ride
+power-profile.</p>
+<dl class="docutils">
+<dt>ride_rpp: list of RidePowerProfile</dt>
+<dd>The list from which we will compute the record power-profile.</dd>
+<dt>date_profile: tuple of date, (start, finish)</dt>
+<dd>The starting and finishing date for which we have to compute the
+record power-profile.</dd>
+</dl>
+<dl class="docutils">
+<dt>self <span class="classifier-delimiter">:</span> <span class="classifier">object</span></dt>
+<dd>Returns self.</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-skcycling.power_profile.ride_power_profile">
+<span id="skcycling-power-profile-ride-power-profile-module"></span><h2>skcycling.power_profile.ride_power_profile module<a class="headerlink" href="#module-skcycling.power_profile.ride_power_profile" title="Permalink to this headline">¶</a></h2>
+<p>Ride Power-Profile class.</p>
+<dl class="class">
+<dt id="skcycling.power_profile.ride_power_profile.RidePowerProfile">
+<em class="property">class </em><code class="descclassname">skcycling.power_profile.ride_power_profile.</code><code class="descname">RidePowerProfile</code><span class="sig-paren">(</span><em>max_duration_profile=None</em>, <em>cyclist_weight=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/ride_power_profile.html#RidePowerProfile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.ride_power_profile.RidePowerProfile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#skcycling.power_profile.base_power_profile.BasePowerProfile" title="skcycling.power_profile.base_power_profile.BasePowerProfile"><code class="xref py py-class docutils literal"><span class="pre">skcycling.power_profile.base_power_profile.BasePowerProfile</span></code></a></p>
+<p>Class to handle the power-profile for one ride.</p>
+<dl class="docutils">
+<dt>max_duration_profile <span class="classifier-delimiter">:</span> <span class="classifier">int or None</span></dt>
+<dd>Integer representing the maximum duration in minutes to build the
+record power-profile model. It can be infered if the data are loaded
+from a npy file.</dd>
+<dt>cyclist_weight <span class="classifier-delimiter">:</span> <span class="classifier">float, default None</span></dt>
+<dd>Float in order to normalise the record power-profile depending
+of its weight. By default this is None in order to avoid
+using the data from normalized rpp without this data.</dd>
+</dl>
+<dl class="docutils">
+<dt><a href="#id13"><span class="problematic" id="id14">data_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (60 * max_duration_rpp, )</span></dt>
+<dd>Array in which the record power-profile is stored.
+The units used is the second.</dd>
+<dt><a href="#id15"><span class="problematic" id="id16">data_norm_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (60 * max_duration_rpp, )</span></dt>
+<dd>Array in which the weight-normalized record power-profile
+is stored. The units used is the seconds.</dd>
+<dt><a href="#id17"><span class="problematic" id="id18">max_duration_data_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>The maximum duration of the record power-profile.</dd>
+<dt><a href="#id19"><span class="problematic" id="id20">cyclist_weight_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>Cyclist weight.</dd>
+<dt><a href="#id21"><span class="problematic" id="id22">filename_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>The corresponding fit file attached to this power-profile.</dd>
+<dt><a href="#id23"><span class="problematic" id="id24">date_profile_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">date</span></dt>
+<dd>Date of the current power-profile.</dd>
+</dl>
+<dl class="method">
+<dt id="skcycling.power_profile.ride_power_profile.RidePowerProfile.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/ride_power_profile.html#RidePowerProfile.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.ride_power_profile.RidePowerProfile.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read and build the power-profile from the fit file.</p>
+<dl class="docutils">
+<dt>filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>The corresponding fit file from which the power-profile will be
+extracted from.</dd>
+</dl>
+<dl class="docutils">
+<dt>self <span class="classifier-delimiter">:</span> <span class="classifier">object</span></dt>
+<dd>Returns self.</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </div>
@@ -320,113 +343,35 @@ specifying the order of the spline interpolator to use.</dd>
 <p>The <a class="reference internal" href="#module-skcycling.power_profile" title="skcycling.power_profile"><code class="xref py py-mod docutils literal"><span class="pre">skcycling.power_profile</span></code></a> module include management function for
 record power profile.</p>
 <dl class="class">
-<dt id="skcycling.power_profile.Rpp">
-<em class="property">class </em><code class="descclassname">skcycling.power_profile.</code><code class="descname">Rpp</code><span class="sig-paren">(</span><em>max_duration_rpp=None</em>, <em>cyclist_weight=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/rpp.html#Rpp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.Rpp" title="Permalink to this definition">¶</a></dt>
+<dt id="skcycling.power_profile.BasePowerProfile">
+<em class="property">class </em><code class="descclassname">skcycling.power_profile.</code><code class="descname">BasePowerProfile</code><span class="sig-paren">(</span><em>max_duration_profile=None</em>, <em>cyclist_weight=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/base_power_profile.html#BasePowerProfile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.BasePowerProfile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
-<p>Record power-profile</p>
-<p>Can perform online updates via <cite>partial_fit</cite> method.</p>
-<dl class="docutils">
-<dt>max_duration_rpp <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd>Integer representing the maximum duration in minutes to
-build the record power-profile model.</dd>
-<dt>cyclist_weight <span class="classifier-delimiter">:</span> <span class="classifier">float, default None</span></dt>
-<dd>Float in order to normalise the record power-profile depending
-of its weight. By default this is None in order to avoid
-using the data from normalized rpp without this data.</dd>
-</dl>
-<dl class="docutils">
-<dt><a href="#id9"><span class="problematic" id="id10">rpp_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (60 * max_duration_rpp, )</span></dt>
-<dd>Array in which the record power-profile is stored.
-The units used is the second.</dd>
-<dt><a href="#id11"><span class="problematic" id="id12">rpp_norm_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (60 * max_duration_rpp, )</span></dt>
-<dd>Array in which the weight-normalized record power-profile
-is stored. The units used is the seconds.</dd>
-<dt><a href="#id13"><span class="problematic" id="id14">max_duration_rpp_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd>The maximum duration of the record power-profile.</dd>
-<dt><a href="#id15"><span class="problematic" id="id16">cyclist_weight_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>Cyclist weight.</dd>
-</dl>
+<p>Basic class for power profile.</p>
+<p>Warning: This class should not be used directly. Use the derive classes
+instead.</p>
 <dl class="method">
-<dt id="skcycling.power_profile.Rpp.aerobic_meta_model">
-<code class="descname">aerobic_meta_model</code><span class="sig-paren">(</span><em>ts=None</em>, <em>normalized=False</em>, <em>method='lsq'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/rpp.html#Rpp.aerobic_meta_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.Rpp.aerobic_meta_model" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Compute the aerobic metabolism model from the</dt>
-<dd>record power-profile</dd>
-</dl>
-<dl class="docutils">
-<dt>ts <span class="classifier-delimiter">:</span> <span class="classifier">ndarray, shape (n_samples, ) or None</span></dt>
-<dd>Array containing the sample to take into account.
-If None, the sampling of the method of Pinot is applied, which is
-equivalent to the sampling from WKO+</dd>
-<dt>normalized <span class="classifier-delimiter">:</span> <span class="classifier">bool, default False</span></dt>
-<dd>Return a weight-normalized rpp if True.</dd>
-<dt>method <span class="classifier-delimiter">:</span> <span class="classifier">string, default &#8216;lsq&#8217;</span></dt>
-<dd>Which type of tehcnic to use to make the fitting (&#8216;lsq&#8217;, &#8216;lm&#8217;).</dd>
-</dl>
-<dl class="docutils">
-<dt>pma <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>Maximum Aerobic Power.</dd>
-<dt>t_pma <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd>Time of the Maximum Aerobic Power in seconds.</dd>
-<dt>aei <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>Aerobic Endurance Index.</dd>
-</dl>
-<p>[1] Pinot et al., &#8220;Determination of Maximal Aerobic Power
-on the Field in Cycling&#8221; (2014)</p>
+<dt id="skcycling.power_profile.BasePowerProfile.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/base_power_profile.html#BasePowerProfile.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.BasePowerProfile.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to compute the power profile.</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="skcycling.power_profile.Rpp.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>in_parallel=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/rpp.html#Rpp.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.Rpp.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fit the data to the RPP</p>
-<p>X : array-like, shape (n_samples, )</p>
-<dl class="docutils">
-<dt>in_parallel <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
-<dd>If True, the rpp will be computed on all the available cores.</dd>
-</dl>
-<dl class="docutils">
-<dt>self <span class="classifier-delimiter">:</span> <span class="classifier">object</span></dt>
-<dd>Returns self.</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="skcycling.power_profile.Rpp.load_from_npy">
-<code class="descname">load_from_npy</code><span class="sig-paren">(</span><em>filename</em>, <em>cyclist_weight=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/rpp.html#Rpp.load_from_npy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.Rpp.load_from_npy" title="Permalink to this definition">¶</a></dt>
-<dd><p>Load the record power-profile from an npy file</p>
+<dl class="staticmethod">
+<dt id="skcycling.power_profile.BasePowerProfile.load_from_pickles">
+<em class="property">static </em><code class="descname">load_from_pickles</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/base_power_profile.html#BasePowerProfile.load_from_pickles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.BasePowerProfile.load_from_pickles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to load an object through pickles.</p>
 <dl class="docutils">
 <dt>filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd>String containing the path to the NPY file containing the array
-representing the record power-profile.</dd>
-<dt>cyclist_weight <span class="classifier-delimiter">:</span> <span class="classifier">float or None, default None</span></dt>
-<dd>Float in order to normalise the record power-profile depending
-of its weight. By default this is None in order to avoid
-using the data from normalized rpp without this data.</dd>
+<dd>Filename to the pickle file. The extension should be <cite>.p</cite>.</dd>
 </dl>
 <dl class="docutils">
-<dt>self <span class="classifier-delimiter">:</span> <span class="classifier">object</span></dt>
-<dd>Returns self</dd>
+<dt>bpp <span class="classifier-delimiter">:</span> <span class="classifier">object</span></dt>
+<dd>Returns BasePowerProfile.</dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
-<dt id="skcycling.power_profile.Rpp.partial_fit">
-<code class="descname">partial_fit</code><span class="sig-paren">(</span><em>X</em>, <em>refit=False</em>, <em>in_parallel=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/rpp.html#Rpp.partial_fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.Rpp.partial_fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Incremental fit of the RPPB</p>
-<p>X : array-like, shape (n_samples, )</p>
-<dl class="docutils">
-<dt>in_parallel <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
-<dd>If True, the rpp will be computed on all the available cores.</dd>
-</dl>
-<dl class="docutils">
-<dt>self <span class="classifier-delimiter">:</span> <span class="classifier">object</span></dt>
-<dd>Returns self.</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="skcycling.power_profile.Rpp.resampling_rpp">
-<code class="descname">resampling_rpp</code><span class="sig-paren">(</span><em>ts</em>, <em>method_interp='linear'</em>, <em>normalized=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/rpp.html#Rpp.resampling_rpp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.Rpp.resampling_rpp" title="Permalink to this definition">¶</a></dt>
+<dt id="skcycling.power_profile.BasePowerProfile.resampling_rpp">
+<code class="descname">resampling_rpp</code><span class="sig-paren">(</span><em>ts</em>, <em>method_interp='linear'</em>, <em>normalized=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/base_power_profile.html#BasePowerProfile.resampling_rpp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.BasePowerProfile.resampling_rpp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Resampling the record power-profile</p>
 <dl class="docutils">
 <dt>ts <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_sample, )</span></dt>
@@ -442,26 +387,119 @@ specifying the order of the spline interpolator to use.</dd>
 <dd>Return a weight-normalized rpp if True.</dd>
 </dl>
 <dl class="docutils">
-<dt>rpp <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_samples, )</span></dt>
+<dt>data <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_samples, )</span></dt>
 <dd>Return a resampled record power-profile.</dd>
 </dl>
 </dd></dl>
 
+<dl class="method">
+<dt id="skcycling.power_profile.BasePowerProfile.save_to_pickles">
+<code class="descname">save_to_pickles</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/base_power_profile.html#BasePowerProfile.save_to_pickles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.BasePowerProfile.save_to_pickles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to save an object through pickles.</p>
+<dl class="docutils">
+<dt>filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>Filename to the pickle file. The extension should be <cite>.p</cite>.</dd>
+</dl>
+<p>None</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="skcycling.power_profile.compute_ride_rpp">
-<code class="descclassname">skcycling.power_profile.</code><code class="descname">compute_ride_rpp</code><span class="sig-paren">(</span><em>X</em>, <em>max_duration_rpp</em>, <em>in_parallel=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/rpp.html#compute_ride_rpp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.compute_ride_rpp" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute the record power-profile</p>
-<p>X : array-like, shape (n_samples, )</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="skcycling.power_profile.RidePowerProfile">
+<em class="property">class </em><code class="descclassname">skcycling.power_profile.</code><code class="descname">RidePowerProfile</code><span class="sig-paren">(</span><em>max_duration_profile=None</em>, <em>cyclist_weight=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/ride_power_profile.html#RidePowerProfile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.RidePowerProfile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#skcycling.power_profile.base_power_profile.BasePowerProfile" title="skcycling.power_profile.base_power_profile.BasePowerProfile"><code class="xref py py-class docutils literal"><span class="pre">skcycling.power_profile.base_power_profile.BasePowerProfile</span></code></a></p>
+<p>Class to handle the power-profile for one ride.</p>
 <dl class="docutils">
-<dt>in_parallel <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
-<dd>If True, the rpp will be computed on all the available cores.</dd>
+<dt>max_duration_profile <span class="classifier-delimiter">:</span> <span class="classifier">int or None</span></dt>
+<dd>Integer representing the maximum duration in minutes to build the
+record power-profile model. It can be infered if the data are loaded
+from a npy file.</dd>
+<dt>cyclist_weight <span class="classifier-delimiter">:</span> <span class="classifier">float, default None</span></dt>
+<dd>Float in order to normalise the record power-profile depending
+of its weight. By default this is None in order to avoid
+using the data from normalized rpp without this data.</dd>
 </dl>
 <dl class="docutils">
-<dt>rpp <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_samples, )</span></dt>
-<dd>Array containing the record power-profile of the current ride.</dd>
+<dt><a href="#id25"><span class="problematic" id="id26">data_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (60 * max_duration_rpp, )</span></dt>
+<dd>Array in which the record power-profile is stored.
+The units used is the second.</dd>
+<dt><a href="#id27"><span class="problematic" id="id28">data_norm_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (60 * max_duration_rpp, )</span></dt>
+<dd>Array in which the weight-normalized record power-profile
+is stored. The units used is the seconds.</dd>
+<dt><a href="#id29"><span class="problematic" id="id30">max_duration_data_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>The maximum duration of the record power-profile.</dd>
+<dt><a href="#id31"><span class="problematic" id="id32">cyclist_weight_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>Cyclist weight.</dd>
+<dt><a href="#id33"><span class="problematic" id="id34">filename_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>The corresponding fit file attached to this power-profile.</dd>
+<dt><a href="#id35"><span class="problematic" id="id36">date_profile_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">date</span></dt>
+<dd>Date of the current power-profile.</dd>
 </dl>
+<dl class="method">
+<dt id="skcycling.power_profile.RidePowerProfile.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/ride_power_profile.html#RidePowerProfile.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.RidePowerProfile.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read and build the power-profile from the fit file.</p>
+<dl class="docutils">
+<dt>filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>The corresponding fit file from which the power-profile will be
+extracted from.</dd>
+</dl>
+<dl class="docutils">
+<dt>self <span class="classifier-delimiter">:</span> <span class="classifier">object</span></dt>
+<dd>Returns self.</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="skcycling.power_profile.RecordPowerProfile">
+<em class="property">class </em><code class="descclassname">skcycling.power_profile.</code><code class="descname">RecordPowerProfile</code><span class="sig-paren">(</span><em>max_duration_profile=None</em>, <em>cyclist_weight=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/record_power_profile.html#RecordPowerProfile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.RecordPowerProfile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#skcycling.power_profile.base_power_profile.BasePowerProfile" title="skcycling.power_profile.base_power_profile.BasePowerProfile"><code class="xref py py-class docutils literal"><span class="pre">skcycling.power_profile.base_power_profile.BasePowerProfile</span></code></a></p>
+<p>Record power-profile</p>
+<dl class="docutils">
+<dt>max_duration_profile <span class="classifier-delimiter">:</span> <span class="classifier">int or None</span></dt>
+<dd>Integer representing the maximum duration in minutes to build the
+record power-profile model. It can be infered if the data are loaded
+from a npy file.</dd>
+<dt>cyclist_weight <span class="classifier-delimiter">:</span> <span class="classifier">float, default None</span></dt>
+<dd>Float in order to normalise the record power-profile depending
+of its weight. By default this is None in order to avoid
+using the data from normalized rpp without this data.</dd>
+</dl>
+<dl class="docutils">
+<dt><a href="#id37"><span class="problematic" id="id38">data_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (60 * <a href="#id39"><span class="problematic" id="id40">max_duration_profile_</span></a>, )</span></dt>
+<dd>Array in which the record power-profile is stored.
+The units used is the second.</dd>
+<dt><a href="#id41"><span class="problematic" id="id42">data_norm_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (60 * max_duration_rpp, )</span></dt>
+<dd>Array in which the weight-normalized record power-profile
+is stored. The units used is the seconds.</dd>
+<dt><a href="#id43"><span class="problematic" id="id44">max_duration_data_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>The maximum duration of the record power-profile.</dd>
+<dt><a href="#id45"><span class="problematic" id="id46">cyclist_weight_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>Cyclist weight.</dd>
+<dt><a href="#id47"><span class="problematic" id="id48">date_profile_</span></a> <span class="classifier-delimiter">:</span> <span class="classifier">tuple of date, shape (start, finish)</span></dt>
+<dd>Starting and finishing time to compute the record power-profile.</dd>
+</dl>
+<dl class="method">
+<dt id="skcycling.power_profile.RecordPowerProfile.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>ride_pp</em>, <em>date_profile=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/record_power_profile.html#RecordPowerProfile.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.RecordPowerProfile.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to build the record power-profile from a list of ride
+power-profile.</p>
+<dl class="docutils">
+<dt>ride_rpp: list of RidePowerProfile</dt>
+<dd>The list from which we will compute the record power-profile.</dd>
+<dt>date_profile: tuple of date, (start, finish)</dt>
+<dd>The starting and finishing date for which we have to compute the
+record power-profile.</dd>
+</dl>
+<dl class="docutils">
+<dt>self <span class="classifier-delimiter">:</span> <span class="classifier">object</span></dt>
+<dd>Returns self.</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </div>

@@ -137,11 +137,12 @@
 <span class="sd">Methods to handle input/output files.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">isfile</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">fitparse</span> <span class="kn">import</span> <span class="n">FitFile</span>
+
+<span class="kn">from</span> <span class="nn">.checker</span> <span class="kn">import</span> <span class="n">check_filename_fit</span>
 
 
 <div class="viewcode-block" id="load_power_from_fit"><a class="viewcode-back" href="../../../modules/skcycling.utils.html#skcycling.utils.io_fit.load_power_from_fit">[docs]</a><span class="k">def</span> <span class="nf">load_power_from_fit</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
@@ -156,16 +157,12 @@
 <span class="sd">    ------</span>
 <span class="sd">    power_rec : ndarray, shape (n_samples)</span>
 <span class="sd">        Power records of the ride.</span>
+
+<span class="sd">    date_rec : date</span>
+<span class="sd">        Date associated with the ride</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="c1"># Check that the filename has the good extension</span>
-    <span class="k">if</span> <span class="n">filename</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.fit&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">True</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The file does not have the right extension.&#39;</span>
-                         <span class="s1">&#39; Expected *.fit.&#39;</span><span class="p">)</span>
-
-    <span class="c1"># Check if the file exists</span>
-    <span class="k">if</span> <span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">True</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The file does not exist. Please check the path.&#39;</span><span class="p">)</span>
+    <span class="c1"># Check that the filename is existing</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">check_filename_fit</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 
     <span class="c1"># Create an object to open the activity</span>
     <span class="n">activity</span> <span class="o">=</span> <span class="n">FitFile</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
@@ -173,6 +170,10 @@
 
     <span class="c1"># Get only the power records</span>
     <span class="n">records</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">activity</span><span class="o">.</span><span class="n">get_messages</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;record&#39;</span><span class="p">))</span>
+
+    <span class="c1"># Extract the date from the first record</span>
+    <span class="c1"># It should be more reliable than the device information</span>
+    <span class="n">date_rec</span> <span class="o">=</span> <span class="n">records</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="s1">&#39;timestamp&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
 
     <span class="c1"># Append the different values inside a list which will be later</span>
     <span class="c1"># converted to numpy array</span>
@@ -198,7 +199,7 @@
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;This file does not contain any power data.&#39;</span>
                       <span class="s1">&#39; Be aware.&#39;</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">power_rec</span></div>
+    <span class="k">return</span> <span class="n">power_rec</span><span class="p">,</span> <span class="n">date_rec</span></div>
 </pre></div>
 
            </div>

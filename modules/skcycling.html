@@ -32,7 +32,7 @@
   
     <link rel="top" title="scikit-cycling 0.1.dev0 documentation" href="../index.html"/>
         <link rel="up" title="skcycling" href="modules.html"/>
-        <link rel="next" title="skcycling.metrics package" href="skcycling.metrics.html"/>
+        <link rel="next" title="skcycling.data_management package" href="skcycling.data_management.html"/>
         <link rel="prev" title="skcycling" href="modules.html"/> 
 
   
@@ -92,6 +92,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">skcycling</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="">skcycling package</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="skcycling.data_management.html">skcycling.data_management package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="skcycling.metrics.html">skcycling.metrics package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="skcycling.power_profile.html">skcycling.power_profile package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="skcycling.restoration.html">skcycling.restoration package</a></li>
@@ -160,11 +161,18 @@
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="skcycling.data_management.html">skcycling.data_management package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="skcycling.data_management.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="skcycling.data_management.html#module-skcycling.data_management.rider">skcycling.data_management.rider module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="skcycling.data_management.html#module-skcycling.data_management">Module contents</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="skcycling.metrics.html">skcycling.metrics package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="skcycling.metrics.html#subpackages">Subpackages</a><ul class="simple">
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="skcycling.metrics.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="skcycling.metrics.html#module-skcycling.metrics.power_profile">skcycling.metrics.power_profile module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="skcycling.metrics.html#module-skcycling.metrics.ride">skcycling.metrics.ride module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="skcycling.metrics.html#module-skcycling.metrics">Module contents</a></li>
 </ul>
@@ -174,7 +182,9 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="skcycling.power_profile.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="skcycling.power_profile.html#module-skcycling.power_profile.rpp">skcycling.power_profile.rpp module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="skcycling.power_profile.html#module-skcycling.power_profile.base_power_profile">skcycling.power_profile.base_power_profile module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="skcycling.power_profile.html#module-skcycling.power_profile.record_power_profile">skcycling.power_profile.record_power_profile module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="skcycling.power_profile.html#module-skcycling.power_profile.ride_power_profile">skcycling.power_profile.ride_power_profile module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="skcycling.power_profile.html#module-skcycling.power_profile">Module contents</a></li>
 </ul>
 </li>
@@ -193,6 +203,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="skcycling.utils.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="skcycling.utils.html#module-skcycling.utils.checker">skcycling.utils.checker module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="skcycling.utils.html#module-skcycling.utils.fit">skcycling.utils.fit module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="skcycling.utils.html#module-skcycling.utils.io_fit">skcycling.utils.io_fit module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="skcycling.utils.html#module-skcycling.utils">Module contents</a></li>
 </ul>
@@ -219,6 +230,8 @@ analyse file extracted from powermeters.</p>
 <div class="section" id="id1">
 <h3>Subpackages<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
+<dt>data_management</dt>
+<dd>Class to manage the data for a rider.</dd>
 <dt>metrics</dt>
 <dd>Metrics to quantify cyclist ride.</dd>
 <dt>power_profile</dt>
@@ -239,7 +252,7 @@ analyse file extracted from powermeters.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="skcycling.metrics.html" class="btn btn-neutral float-right" title="skcycling.metrics package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="skcycling.data_management.html" class="btn btn-neutral float-right" title="skcycling.data_management package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="modules.html" class="btn btn-neutral" title="skcycling" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>

@@ -1,0 +1,314 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>skcycling.power_profile.base_power_profile &mdash; scikit-cycling 0.1.dev0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="scikit-cycling 0.1.dev0 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> scikit-cycling
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../support.html">Support</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/modules.html">skcycling</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">scikit-cycling</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>skcycling.power_profile.base_power_profile</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for skcycling.power_profile.base_power_profile</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Basic class for power profile.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">cPickle</span> <span class="kn">as</span> <span class="nn">pickle</span>
+
+<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">interp1d</span>
+
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABCMeta</span><span class="p">,</span> <span class="n">abstractmethod</span>
+
+<span class="kn">from</span> <span class="nn">..utils.checker</span> <span class="kn">import</span> <span class="n">check_filename_pickle_load</span>
+<span class="kn">from</span> <span class="nn">..utils.checker</span> <span class="kn">import</span> <span class="n">check_filename_pickle_save</span>
+
+
+<div class="viewcode-block" id="BasePowerProfile"><a class="viewcode-back" href="../../../modules/skcycling.power_profile.html#skcycling.power_profile.base_power_profile.BasePowerProfile">[docs]</a><span class="k">class</span> <span class="nc">BasePowerProfile</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Basic class for power profile.</span>
+
+<span class="sd">    Warning: This class should not be used directly. Use the derive classes</span>
+<span class="sd">    instead.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">__metaclass__</span> <span class="o">=</span> <span class="n">ABCMeta</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_duration_profile</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">cyclist_weight</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Constructor. &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_duration_profile_</span> <span class="o">=</span> <span class="n">max_duration_profile</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cyclist_weight_</span> <span class="o">=</span> <span class="n">cyclist_weight</span>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="BasePowerProfile.load_from_pickles"><a class="viewcode-back" href="../../../modules/skcycling.power_profile.html#skcycling.power_profile.base_power_profile.BasePowerProfile.load_from_pickles">[docs]</a>    <span class="k">def</span> <span class="nf">load_from_pickles</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Function to load an object through pickles.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : str</span>
+<span class="sd">            Filename to the pickle file. The extension should be `.p`.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ------</span>
+<span class="sd">        bpp : object</span>
+<span class="sd">            Returns BasePowerProfile.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check the consistency of the filename</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">check_filename_pickle_load</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="c1"># Load the pickle</span>
+        <span class="n">bpp</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">bpp</span></div>
+
+<div class="viewcode-block" id="BasePowerProfile.save_to_pickles"><a class="viewcode-back" href="../../../modules/skcycling.power_profile.html#skcycling.power_profile.base_power_profile.BasePowerProfile.save_to_pickles">[docs]</a>    <span class="k">def</span> <span class="nf">save_to_pickles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Function to save an object through pickles.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : str</span>
+<span class="sd">            Filename to the pickle file. The extension should be `.p`.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ------</span>
+<span class="sd">        None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># We need to check that the directory where the file will be exist</span>
+        <span class="n">dir_pickle</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">dir_pickle</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">dir_pickle</span><span class="p">)</span>
+        <span class="c1"># Check the consistency of the filename</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">check_filename_pickle_save</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="c1"># Create the pickle file</span>
+        <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="bp">None</span></div>
+
+    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="BasePowerProfile.fit"><a class="viewcode-back" href="../../../modules/skcycling.power_profile.html#skcycling.power_profile.base_power_profile.BasePowerProfile.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Method to compute the power profile. &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="BasePowerProfile.resampling_rpp"><a class="viewcode-back" href="../../../modules/skcycling.power_profile.html#skcycling.power_profile.base_power_profile.BasePowerProfile.resampling_rpp">[docs]</a>    <span class="k">def</span> <span class="nf">resampling_rpp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ts</span><span class="p">,</span> <span class="n">method_interp</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">normalized</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Resampling the record power-profile</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        ts : array-like, shape (n_sample, )</span>
+<span class="sd">            An array containaining the time landmark to sample.</span>
+
+<span class="sd">        method_interp : string, default &#39;linear&#39;</span>
+<span class="sd">            Name of the method to interpolate the data.</span>
+<span class="sd">            Specifies the kind of interpolation as a string (&#39;linear&#39;,</span>
+<span class="sd">            &#39;nearest&#39;, &#39;zero&#39;, &#39;slinear&#39;, &#39;quadratic, &#39;cubic&#39;</span>
+<span class="sd">            where &#39;slinear&#39;, &#39;quadratic&#39; and &#39;cubic&#39; refer to a spline</span>
+<span class="sd">            interpolation of first, second or third order) or as an integer</span>
+<span class="sd">            specifying the order of the spline interpolator to use.</span>
+
+<span class="sd">        normalized : bool, default False</span>
+<span class="sd">            Return a weight-normalized rpp if True.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ------</span>
+<span class="sd">        data : array-like, shape (n_samples, )</span>
+<span class="sd">            Return a resampled record power-profile.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Shall used the rpp or weight-normalized rpp</span>
+        <span class="k">if</span> <span class="n">normalized</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="c1"># Check that the cyclist weight was provided</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cyclist_weight_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_norm_</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;You cannot get a normalized rpp if the&#39;</span>
+                                 <span class="s1">&#39; cyclist weight never has been given.&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_</span>
+
+        <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_duration_profile_</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">interp1d</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">method_interp</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="n">ts</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Guillaume Lemaitre.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

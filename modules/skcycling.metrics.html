@@ -33,7 +33,7 @@
     <link rel="top" title="scikit-cycling 0.1.dev0 documentation" href="../index.html"/>
         <link rel="up" title="skcycling package" href="skcycling.html"/>
         <link rel="next" title="skcycling.power_profile package" href="skcycling.power_profile.html"/>
-        <link rel="prev" title="skcycling package" href="skcycling.html"/> 
+        <link rel="prev" title="skcycling.data_management package" href="skcycling.data_management.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -92,6 +92,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">skcycling</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="skcycling.html">skcycling package</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="skcycling.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="skcycling.data_management.html">skcycling.data_management package</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="">skcycling.metrics package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="skcycling.power_profile.html">skcycling.power_profile package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="skcycling.restoration.html">skcycling.restoration package</a></li>
@@ -165,13 +166,49 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
+<div class="section" id="module-skcycling.metrics.power_profile">
+<span id="skcycling-metrics-power-profile-module"></span><h2>skcycling.metrics.power_profile module<a class="headerlink" href="#module-skcycling.metrics.power_profile" title="Permalink to this headline">¶</a></h2>
+<p>Metrics to asses the power profile.</p>
+<dl class="function">
+<dt id="skcycling.metrics.power_profile.aerobic_meta_model">
+<code class="descclassname">skcycling.metrics.power_profile.</code><code class="descname">aerobic_meta_model</code><span class="sig-paren">(</span><em>profile</em>, <em>ts=None</em>, <em>normalized=False</em>, <em>method='lsq'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/metrics/power_profile.html#aerobic_meta_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.metrics.power_profile.aerobic_meta_model" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Compute the aerobic metabolism model from the</dt>
+<dd>record power-profile</dd>
+</dl>
+<dl class="docutils">
+<dt>profile <span class="classifier-delimiter">:</span> <span class="classifier">RidePowerProfile or RecordPowerProfile</span></dt>
+<dd>The profile that we want to use for computing the different
+statistics.</dd>
+<dt>ts <span class="classifier-delimiter">:</span> <span class="classifier">ndarray, shape (n_samples, ) or None</span></dt>
+<dd>Array containing the sample to take into account.
+If None, the sampling of the method of Pinot is applied, which is
+equivalent to the sampling from WKO+</dd>
+<dt>normalized <span class="classifier-delimiter">:</span> <span class="classifier">bool, default False</span></dt>
+<dd>Return a weight-normalized rpp if True.</dd>
+<dt>method <span class="classifier-delimiter">:</span> <span class="classifier">string, default &#8216;lsq&#8217;</span></dt>
+<dd>Which type of tehcnic to use to make the fitting (&#8216;lsq&#8217;, &#8216;lm&#8217;).</dd>
+</dl>
+<dl class="docutils">
+<dt>pma <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>Maximum Aerobic Power.</dd>
+<dt>t_pma <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>Time of the Maximum Aerobic Power in seconds.</dd>
+<dt>aei <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>Aerobic Endurance Index.</dd>
+</dl>
+<p>[1] Pinot et al., &#8220;Determination of Maximal Aerobic Power
+on the Field in Cycling&#8221; (2014)</p>
+</dd></dl>
+
+</div>
 <div class="section" id="module-skcycling.metrics.ride">
 <span id="skcycling-metrics-ride-module"></span><h2>skcycling.metrics.ride module<a class="headerlink" href="#module-skcycling.metrics.ride" title="Permalink to this headline">¶</a></h2>
-<p>Metrics to asses the performance of a cycling ride</p>
+<p>Metrics to asses the performance of a cycling ride.</p>
 <p>Functions named as <code class="docutils literal"><span class="pre">*_score</span></code> return a scalar value to maximize: the higher
-the better</p>
+the better.</p>
 <p>Function named as <code class="docutils literal"><span class="pre">*_error</span></code> or <code class="docutils literal"><span class="pre">*_loss</span></code> return a scalar value to minimize:
-the lower the better</p>
+the lower the better.</p>
 <dl class="function">
 <dt id="skcycling.metrics.ride.ftp2pma">
 <code class="descclassname">skcycling.metrics.ride.</code><code class="descname">ftp2pma</code><span class="sig-paren">(</span><em>ftp</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/metrics/ride.html#ftp2pma"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.metrics.ride.ftp2pma" title="Permalink to this definition">¶</a></dt>
@@ -468,6 +505,38 @@ the lower the better</p>
 </dl>
 </dd></dl>
 
+<dl class="function">
+<dt id="skcycling.metrics.aerobic_meta_model">
+<code class="descclassname">skcycling.metrics.</code><code class="descname">aerobic_meta_model</code><span class="sig-paren">(</span><em>profile</em>, <em>ts=None</em>, <em>normalized=False</em>, <em>method='lsq'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/metrics/power_profile.html#aerobic_meta_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.metrics.aerobic_meta_model" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Compute the aerobic metabolism model from the</dt>
+<dd>record power-profile</dd>
+</dl>
+<dl class="docutils">
+<dt>profile <span class="classifier-delimiter">:</span> <span class="classifier">RidePowerProfile or RecordPowerProfile</span></dt>
+<dd>The profile that we want to use for computing the different
+statistics.</dd>
+<dt>ts <span class="classifier-delimiter">:</span> <span class="classifier">ndarray, shape (n_samples, ) or None</span></dt>
+<dd>Array containing the sample to take into account.
+If None, the sampling of the method of Pinot is applied, which is
+equivalent to the sampling from WKO+</dd>
+<dt>normalized <span class="classifier-delimiter">:</span> <span class="classifier">bool, default False</span></dt>
+<dd>Return a weight-normalized rpp if True.</dd>
+<dt>method <span class="classifier-delimiter">:</span> <span class="classifier">string, default &#8216;lsq&#8217;</span></dt>
+<dd>Which type of tehcnic to use to make the fitting (&#8216;lsq&#8217;, &#8216;lm&#8217;).</dd>
+</dl>
+<dl class="docutils">
+<dt>pma <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>Maximum Aerobic Power.</dd>
+<dt>t_pma <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>Time of the Maximum Aerobic Power in seconds.</dd>
+<dt>aei <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>Aerobic Endurance Index.</dd>
+</dl>
+<p>[1] Pinot et al., &#8220;Determination of Maximal Aerobic Power
+on the Field in Cycling&#8221; (2014)</p>
+</dd></dl>
+
 </div>
 </div>
 
@@ -481,7 +550,7 @@ the lower the better</p>
         <a href="skcycling.power_profile.html" class="btn btn-neutral float-right" title="skcycling.power_profile package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="skcycling.html" class="btn btn-neutral" title="skcycling package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="skcycling.data_management.html" class="btn btn-neutral" title="skcycling.data_management package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

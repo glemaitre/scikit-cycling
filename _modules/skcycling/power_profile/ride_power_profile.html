@@ -1,0 +1,325 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>skcycling.power_profile.ride_power_profile &mdash; scikit-cycling 0.1.dev0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="scikit-cycling 0.1.dev0 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> scikit-cycling
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../support.html">Support</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/modules.html">skcycling</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">scikit-cycling</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>skcycling.power_profile.ride_power_profile</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for skcycling.power_profile.ride_power_profile</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Ride Power-Profile class.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">joblib</span> <span class="kn">import</span> <span class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span>
+
+<span class="kn">from</span> <span class="nn">.base_power_profile</span> <span class="kn">import</span> <span class="n">BasePowerProfile</span>
+
+<span class="kn">from</span> <span class="nn">..utils</span> <span class="kn">import</span> <span class="n">check_filename_fit</span>
+<span class="kn">from</span> <span class="nn">..utils</span> <span class="kn">import</span> <span class="n">check_X</span>
+<span class="kn">from</span> <span class="nn">..utils</span> <span class="kn">import</span> <span class="n">load_power_from_fit</span>
+
+
+<span class="k">def</span> <span class="nf">_rpp_parallel</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">idx_t_rpp</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Function to compute the rpp in parallel</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X : ndarray, shape (n_samples)</span>
+<span class="sd">        The power records.</span>
+
+<span class="sd">    idx_t_rpp : int</span>
+<span class="sd">        Index of the time to compute the rpp.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ------</span>
+<span class="sd">    power : float</span>
+<span class="sd">        Returns the best power for the given duration of the rpp.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Slice the data such that we can compute efficiently the mean later</span>
+    <span class="n">t_crop</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="o">-</span><span class="n">idx_t_rpp</span> <span class="o">+</span> <span class="n">i</span><span class="p">:]</span>
+                       <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">idx_t_rpp</span><span class="p">)])</span>
+    <span class="c1"># Check that there is some value cropped. In the case that</span>
+    <span class="c1"># the duration is longer than the file, the table crop is</span>
+    <span class="c1"># empty</span>
+    <span class="k">if</span> <span class="n">t_crop</span><span class="o">.</span><span class="n">size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># Compute the mean for each of these samples</span>
+        <span class="n">t_crop_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">t_crop</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="c1"># Keep the best to store as rpp</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">t_crop_mean</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+
+<div class="viewcode-block" id="RidePowerProfile"><a class="viewcode-back" href="../../../modules/skcycling.power_profile.html#skcycling.power_profile.ride_power_profile.RidePowerProfile">[docs]</a><span class="k">class</span> <span class="nc">RidePowerProfile</span><span class="p">(</span><span class="n">BasePowerProfile</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Class to handle the power-profile for one ride.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    max_duration_profile : int or None</span>
+<span class="sd">        Integer representing the maximum duration in minutes to build the</span>
+<span class="sd">        record power-profile model. It can be infered if the data are loaded</span>
+<span class="sd">        from a npy file.</span>
+
+<span class="sd">    cyclist_weight : float, default None</span>
+<span class="sd">        Float in order to normalise the record power-profile depending</span>
+<span class="sd">        of its weight. By default this is None in order to avoid</span>
+<span class="sd">        using the data from normalized rpp without this data.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data_ : array-like, shape (60 * max_duration_rpp, )</span>
+<span class="sd">        Array in which the record power-profile is stored.</span>
+<span class="sd">        The units used is the second.</span>
+
+<span class="sd">    data_norm_ : array-like, shape (60 * max_duration_rpp, )</span>
+<span class="sd">        Array in which the weight-normalized record power-profile</span>
+<span class="sd">        is stored. The units used is the seconds.</span>
+
+<span class="sd">    max_duration_data_ : int</span>
+<span class="sd">        The maximum duration of the record power-profile.</span>
+
+<span class="sd">    cyclist_weight_ : float</span>
+<span class="sd">        Cyclist weight.</span>
+
+<span class="sd">    filename_ : str</span>
+<span class="sd">        The corresponding fit file attached to this power-profile.</span>
+
+<span class="sd">    date_profile_ : date</span>
+<span class="sd">        Date of the current power-profile.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_duration_profile</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">cyclist_weight</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="c1"># Call the constructor of the parent class</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">RidePowerProfile</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">max_duration_profile</span><span class="p">,</span>
+                                               <span class="n">cyclist_weight</span><span class="p">)</span>
+
+<div class="viewcode-block" id="RidePowerProfile.fit"><a class="viewcode-back" href="../../../modules/skcycling.power_profile.html#skcycling.power_profile.ride_power_profile.RidePowerProfile.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Read and build the power-profile from the fit file.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : str</span>
+<span class="sd">            The corresponding fit file from which the power-profile will be</span>
+<span class="sd">            extracted from.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ------</span>
+<span class="sd">        self : object</span>
+<span class="sd">            Returns self.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filename_</span> <span class="o">=</span> <span class="n">check_filename_fit</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+        <span class="c1"># Open the fit file and get the data power and the associated date</span>
+        <span class="n">ride_power</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">date_profile_</span> <span class="o">=</span> <span class="n">load_power_from_fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename_</span><span class="p">)</span>
+
+        <span class="c1"># Compute the ride power profile</span>
+        <span class="c1"># Check that the power data are ok</span>
+        <span class="n">ride_power</span> <span class="o">=</span> <span class="n">check_X</span><span class="p">(</span><span class="n">ride_power</span><span class="p">)</span>
+
+        <span class="c1"># Compute the rpp in parallel</span>
+        <span class="c1"># Check that the maximum duration of the profile was given</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_duration_profile_</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;You need to specify the maximum duration that is&#39;</span>
+                             <span class="s1">&#39; required during the profile computation.&#39;</span><span class="p">)</span>
+        <span class="c1"># Make the processing with all the available processor</span>
+        <span class="n">pp</span> <span class="o">=</span> <span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)(</span><span class="n">delayed</span><span class="p">(</span><span class="n">_rpp_parallel</span><span class="p">)(</span><span class="n">ride_power</span><span class="p">,</span>
+                                                        <span class="n">idx_t_rpp</span><span class="p">)</span>
+                                 <span class="k">for</span> <span class="n">idx_t_rpp</span>
+                                 <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">60</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_duration_profile_</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pp</span><span class="p">)</span>
+        <span class="c1"># Compute the normalized rpp if we should</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cyclist_weight_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data_norm_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">cyclist_weight_</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data_norm_</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="k">return</span> <span class="bp">self</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Guillaume Lemaitre.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

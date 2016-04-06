@@ -6,6 +6,7 @@ Subpackages
 
 .. toctree::
 
+    skcycling.data_management
     skcycling.metrics
     skcycling.power_profile
     skcycling.restoration

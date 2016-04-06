@@ -1,0 +1,324 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>skcycling.metrics.power_profile &mdash; scikit-cycling 0.1.dev0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="scikit-cycling 0.1.dev0 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> scikit-cycling
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../support.html">Support</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/modules.html">skcycling</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">scikit-cycling</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>skcycling.metrics.power_profile</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for skcycling.metrics.power_profile</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Metrics to asses the power profile. &quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">..power_profile</span> <span class="kn">import</span> <span class="n">BasePowerProfile</span>
+
+<span class="kn">from</span> <span class="nn">..utils.fit</span> <span class="kn">import</span> <span class="n">log_linear_fitting</span>
+<span class="kn">from</span> <span class="nn">..utils.fit</span> <span class="kn">import</span> <span class="n">log_linear_model</span>
+
+
+<span class="n">SAMPLING_WKO</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.016</span><span class="p">,</span> <span class="mf">0.083</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">,</span>
+                         <span class="mi">6</span><span class="p">,</span> <span class="mf">6.5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">240</span><span class="p">])</span>
+
+
+<div class="viewcode-block" id="aerobic_meta_model"><a class="viewcode-back" href="../../../modules/skcycling.metrics.html#skcycling.metrics.power_profile.aerobic_meta_model">[docs]</a><span class="k">def</span> <span class="nf">aerobic_meta_model</span><span class="p">(</span><span class="n">profile</span><span class="p">,</span> <span class="n">ts</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">normalized</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;lsq&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Compute the aerobic metabolism model from the</span>
+<span class="sd">        record power-profile</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    profile : RidePowerProfile or RecordPowerProfile</span>
+<span class="sd">        The profile that we want to use for computing the different</span>
+<span class="sd">        statistics.</span>
+
+<span class="sd">    ts : ndarray, shape (n_samples, ) or None</span>
+<span class="sd">        Array containing the sample to take into account.</span>
+<span class="sd">        If None, the sampling of the method of Pinot is applied, which is</span>
+<span class="sd">        equivalent to the sampling from WKO+</span>
+
+<span class="sd">    normalized : bool, default False</span>
+<span class="sd">        Return a weight-normalized rpp if True.</span>
+
+<span class="sd">    method : string, default &#39;lsq&#39;</span>
+<span class="sd">        Which type of tehcnic to use to make the fitting (&#39;lsq&#39;, &#39;lm&#39;).</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ------</span>
+<span class="sd">    pma : float</span>
+<span class="sd">        Maximum Aerobic Power.</span>
+
+<span class="sd">    t_pma : int</span>
+<span class="sd">        Time of the Maximum Aerobic Power in seconds.</span>
+
+<span class="sd">    aei : float</span>
+<span class="sd">        Aerobic Endurance Index.</span>
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    [1] Pinot et al., &quot;Determination of Maximal Aerobic Power</span>
+<span class="sd">    on the Field in Cycling&quot; (2014)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Check that the profile is inherating from the class BasePowerProfile</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">profile</span><span class="p">),</span> <span class="n">BasePowerProfile</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The variable profile need to be of type&#39;</span>
+                         <span class="s1">&#39; RecordPowerProfile or RidePowerProfile.&#39;</span><span class="p">)</span>
+
+    <span class="c1"># If ts is not provided we have to create a timeline</span>
+    <span class="k">if</span> <span class="n">ts</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="c1"># By default ts will be taken as in WKO+</span>
+        <span class="n">ts</span> <span class="o">=</span> <span class="n">SAMPLING_WKO</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">ts</span> <span class="o">&gt;</span> <span class="n">profile</span><span class="o">.</span><span class="n">max_duration_profile_</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># The values which are outside of the maximum duration need to</span>
+        <span class="c1"># be removed</span>
+        <span class="n">ts</span> <span class="o">=</span> <span class="n">ts</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">ts</span> <span class="o">&lt;=</span> <span class="n">profile</span><span class="o">.</span><span class="n">max_duration_profile_</span><span class="p">)]</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Samples in `ts` have been removed since that they&#39;</span>
+                      <span class="s1">&#39; are not information inside the rpp.&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Compute the rpp</span>
+    <span class="n">rpp</span> <span class="o">=</span> <span class="n">profile</span><span class="o">.</span><span class="n">resampling_rpp</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">normalized</span><span class="o">=</span><span class="n">normalized</span><span class="p">)</span>
+
+    <span class="c1"># The zero values need to be avoided for the fitting</span>
+    <span class="c1"># Keep the signal which is not zero</span>
+    <span class="n">ts</span> <span class="o">=</span> <span class="n">ts</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">rpp</span><span class="p">)]</span>
+    <span class="n">rpp</span> <span class="o">=</span> <span class="n">rpp</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">rpp</span><span class="p">)]</span>
+
+    <span class="c1"># Find the MAP and the corresponding time</span>
+    <span class="c1"># Only the time between 10 and 240 minutes is used for the regression</span>
+    <span class="n">ts_pma_reg</span> <span class="o">=</span> <span class="n">ts</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">bitwise_and</span><span class="p">(</span><span class="n">ts</span> <span class="o">&gt;=</span> <span class="mf">10.</span><span class="p">,</span> <span class="n">ts</span> <span class="o">&lt;=</span> <span class="mf">240.</span><span class="p">))]</span>
+    <span class="n">rpp_pma_reg</span> <span class="o">=</span> <span class="n">rpp</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">bitwise_and</span><span class="p">(</span><span class="n">ts</span> <span class="o">&gt;=</span> <span class="mf">10.</span><span class="p">,</span> <span class="n">ts</span> <span class="o">&lt;=</span> <span class="mf">240.</span><span class="p">))]</span>
+
+    <span class="c1"># Apply the first log-linear fitting</span>
+    <span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">std_err</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">log_linear_fitting</span><span class="p">(</span><span class="n">ts_pma_reg</span><span class="p">,</span>
+                                                      <span class="n">rpp_pma_reg</span><span class="p">,</span>
+                                                      <span class="n">method</span><span class="p">)</span>
+
+    <span class="c1"># Find t_pma and pma</span>
+    <span class="c1"># First record between 3 and 7 min in the confidence area</span>
+    <span class="n">ts_pma</span> <span class="o">=</span> <span class="n">ts</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">bitwise_and</span><span class="p">(</span><span class="n">ts</span> <span class="o">&gt;=</span> <span class="mf">3.</span><span class="p">,</span>
+                                          <span class="n">ts</span> <span class="o">&lt;=</span> <span class="mf">7.</span><span class="p">))]</span>
+    <span class="n">rpp_pma</span> <span class="o">=</span> <span class="n">rpp</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">bitwise_and</span><span class="p">(</span><span class="n">ts</span> <span class="o">&gt;=</span> <span class="mf">3.</span><span class="p">,</span>
+                                            <span class="n">ts</span> <span class="o">&lt;=</span> <span class="mf">7.</span><span class="p">))]</span>
+
+    <span class="c1"># Compute the aerobic model found from the regression for</span>
+    <span class="c1"># the range of interest</span>
+    <span class="n">aerobic_model</span> <span class="o">=</span> <span class="n">log_linear_model</span><span class="p">(</span><span class="n">ts_pma</span><span class="p">,</span> <span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span><span class="p">)</span>
+
+    <span class="c1"># Check the first value which entered in the confidence of 2 std</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">rpp_pma</span> <span class="o">-</span>
+                               <span class="n">aerobic_model</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">2.</span> <span class="o">*</span> <span class="n">std_err</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># Get the first value</span>
+        <span class="n">t_pma</span> <span class="o">=</span> <span class="n">ts_pma</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">flatnonzero</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">rpp_pma</span> <span class="o">-</span>
+                                             <span class="n">aerobic_model</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">2.</span> <span class="o">*</span>
+                                      <span class="n">std_err</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="c1"># Obtain the corresponding mpa</span>
+        <span class="n">pma</span> <span class="o">=</span> <span class="n">rpp_pma</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">flatnonzero</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">rpp_pma</span> <span class="o">-</span>
+                                            <span class="n">aerobic_model</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">2.</span> <span class="o">*</span>
+                                     <span class="n">std_err</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;There is no value entering in the confidence&#39;</span>
+                         <span class="s1">&#39; level between 3 and 7 minutes.&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Find aei</span>
+    <span class="c1"># Get the rpp and ts between t_pma and 240 minutes</span>
+    <span class="n">ts_aei_reg</span> <span class="o">=</span> <span class="n">ts</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">bitwise_and</span><span class="p">(</span><span class="n">ts</span> <span class="o">&gt;=</span> <span class="nb">float</span><span class="p">(</span><span class="n">t_pma</span><span class="p">),</span>
+                                              <span class="n">ts</span> <span class="o">&lt;=</span> <span class="mf">240.</span><span class="p">))]</span>
+    <span class="n">rpp_aei_reg</span> <span class="o">=</span> <span class="n">rpp</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">bitwise_and</span><span class="p">(</span><span class="n">ts</span> <span class="o">&gt;=</span> <span class="nb">float</span><span class="p">(</span><span class="n">t_pma</span><span class="p">),</span>
+                                                <span class="n">ts</span> <span class="o">&lt;=</span> <span class="mf">240.</span><span class="p">))]</span>
+    <span class="c1"># Express the rpp in term of percentage of PMA</span>
+    <span class="n">rpp_aei_reg</span> <span class="o">=</span> <span class="n">rpp_aei_reg</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">pma</span><span class="p">)</span> <span class="o">*</span> <span class="mf">100.</span>
+
+    <span class="c1"># Apply a new regression with the aei value</span>
+    <span class="n">aei</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">log_linear_fitting</span><span class="p">(</span><span class="n">ts_aei_reg</span><span class="p">,</span>
+                                      <span class="n">rpp_aei_reg</span><span class="p">,</span>
+                                      <span class="n">method</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">pma</span><span class="p">,</span> <span class="n">t_pma</span><span class="p">,</span> <span class="n">aei</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Guillaume Lemaitre.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

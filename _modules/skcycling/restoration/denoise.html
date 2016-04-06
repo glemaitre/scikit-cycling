@@ -138,7 +138,7 @@
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">..utils.checker</span> <span class="kn">import</span> <span class="n">_check_X</span>
+<span class="kn">from</span> <span class="nn">..utils.checker</span> <span class="kn">import</span> <span class="n">check_X</span>
 
 
 <div class="viewcode-block" id="outliers_rejection"><a class="viewcode-back" href="../../../modules/skcycling.restoration.html#skcycling.restoration.denoise.outliers_rejection">[docs]</a><span class="k">def</span> <span class="nf">outliers_rejection</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;threshold&#39;</span><span class="p">,</span> <span class="n">thres</span><span class="o">=</span><span class="mf">2500.</span><span class="p">):</span>
@@ -163,7 +163,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Check if the variable X is valid</span>
-    <span class="n">X</span> <span class="o">=</span> <span class="n">_check_X</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">check_X</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 
     <span class="c1"># Detect the outliers</span>
     <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;threshold&#39;</span><span class="p">:</span>

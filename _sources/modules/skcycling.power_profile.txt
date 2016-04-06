@@ -11,10 +11,26 @@ Subpackages
 Submodules
 ----------
 
-skcycling.power_profile.rpp module
-----------------------------------
+skcycling.power_profile.base_power_profile module
+-------------------------------------------------
 
-.. automodule:: skcycling.power_profile.rpp
+.. automodule:: skcycling.power_profile.base_power_profile
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+skcycling.power_profile.record_power_profile module
+---------------------------------------------------
+
+.. automodule:: skcycling.power_profile.record_power_profile
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+skcycling.power_profile.ride_power_profile module
+-------------------------------------------------
+
+.. automodule:: skcycling.power_profile.ride_power_profile
     :members:
     :undoc-members:
     :show-inheritance:

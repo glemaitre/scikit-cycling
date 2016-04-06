@@ -19,6 +19,14 @@ skcycling.utils.checker module
     :undoc-members:
     :show-inheritance:
 
+skcycling.utils.fit module
+--------------------------
+
+.. automodule:: skcycling.utils.fit
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 skcycling.utils.io_fit module
 -----------------------------
 
