@@ -1,0 +1,316 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>skcycling.power_profile.record_power_profile module &mdash; scikit-cycling 0.1.dev0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="scikit-cycling 0.1.dev0 documentation" href="../index.html"/>
+        <link rel="up" title="skcycling.power_profile package" href="skcycling.power_profile.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> scikit-cycling
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../support.html">Support</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">skcycling</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="skcycling.html">skcycling package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="skcycling.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="skcycling.data_management.html">skcycling.data_management package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="skcycling.metrics.html">skcycling.metrics package</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="skcycling.power_profile.html">skcycling.power_profile package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="skcycling.restoration.html">skcycling.restoration package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="skcycling.utils.html">skcycling.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="skcycling.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="skcycling.html#module-contents">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">scikit-cycling</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="modules.html">skcycling</a> &raquo;</li>
+      
+          <li><a href="skcycling.html">skcycling package</a> &raquo;</li>
+      
+          <li><a href="skcycling.power_profile.html">skcycling.power_profile package</a> &raquo;</li>
+      
+    <li>skcycling.power_profile.record_power_profile module</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/modules/skcycling.power_profile.record_power_profile.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-skcycling.power_profile.record_power_profile">
+<span id="skcycling-power-profile-record-power-profile-module"></span><h1>skcycling.power_profile.record_power_profile module<a class="headerlink" href="#module-skcycling.power_profile.record_power_profile" title="Permalink to this headline">¶</a></h1>
+<p>Record Power-Profile class.</p>
+<dl class="class">
+<dt id="skcycling.power_profile.record_power_profile.RecordPowerProfile">
+<em class="property">class </em><code class="descclassname">skcycling.power_profile.record_power_profile.</code><code class="descname">RecordPowerProfile</code><span class="sig-paren">(</span><em>max_duration_profile=None</em>, <em>cyclist_weight=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/record_power_profile.html#RecordPowerProfile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.record_power_profile.RecordPowerProfile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="skcycling.power_profile.base_power_profile.html#skcycling.power_profile.base_power_profile.BasePowerProfile" title="skcycling.power_profile.base_power_profile.BasePowerProfile"><code class="xref py py-class docutils literal"><span class="pre">skcycling.power_profile.base_power_profile.BasePowerProfile</span></code></a></p>
+<p>Record power-profile</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>max_duration_profile</strong> : int or None</p>
+<blockquote>
+<div><p>Integer representing the maximum duration in minutes to build the
+record power-profile model. It can be infered if the data are loaded
+from a npy file.</p>
+</div></blockquote>
+<p><strong>cyclist_weight</strong> : float, default None</p>
+<blockquote class="last">
+<div><p>Float in order to normalise the record power-profile depending
+of its weight. By default this is None in order to avoid
+using the data from normalized rpp without this data.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="11%" />
+<col width="89%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a href="#id1"><span class="problematic" id="id2">data_</span></a></td>
+<td>(array-like, shape (60 * <a href="#id3"><span class="problematic" id="id4">max_duration_profile_</span></a>, )) Array in which the record power-profile is stored. The units used is the second.</td>
+</tr>
+<tr class="row-even"><td><a href="#id5"><span class="problematic" id="id6">data_norm_</span></a></td>
+<td>(array-like, shape (60 * max_duration_rpp, )) Array in which the weight-normalized record power-profile is stored. The units used is the seconds.</td>
+</tr>
+<tr class="row-odd"><td><a href="#id7"><span class="problematic" id="id8">max_duration_data_</span></a></td>
+<td>(int) The maximum duration of the record power-profile.</td>
+</tr>
+<tr class="row-even"><td><a href="#id9"><span class="problematic" id="id10">cyclist_weight_</span></a></td>
+<td>(float) Cyclist weight.</td>
+</tr>
+<tr class="row-odd"><td><a href="#id11"><span class="problematic" id="id12">date_profile_</span></a></td>
+<td>(tuple of date, shape (start, finish)) Starting and finishing time to compute the record power-profile.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#skcycling.power_profile.record_power_profile.RecordPowerProfile.fit" title="skcycling.power_profile.record_power_profile.RecordPowerProfile.fit"><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code></a>(ride_pp[,&nbsp;date_profile])</td>
+<td>Function to build the record power-profile from a list of ride power-profile.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">load_from_pickles</span></code>(filename)</td>
+<td>Function to load an object through pickles.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">resampling_rpp</span></code>(ts[,&nbsp;method_interp,&nbsp;normalized])</td>
+<td>Resampling the record power-profile</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">save_to_pickles</span></code>(filename)</td>
+<td>Function to save an object through pickles.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="skcycling.power_profile.record_power_profile.RecordPowerProfile.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>ride_pp</em>, <em>date_profile=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/record_power_profile.html#RecordPowerProfile.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.record_power_profile.RecordPowerProfile.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to build the record power-profile from a list of ride
+power-profile.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>ride_rpp: list of RidePowerProfile</strong></p>
+<blockquote>
+<div><p>The list from which we will compute the record power-profile.</p>
+</div></blockquote>
+<p><strong>date_profile: tuple of date, (start, finish)</strong></p>
+<blockquote class="last">
+<div><p>The starting and finishing date for which we have to compute the
+record power-profile.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Guillaume Lemaitre.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

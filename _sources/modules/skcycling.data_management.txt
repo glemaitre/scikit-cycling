@@ -4,14 +4,9 @@ skcycling.data_management package
 Submodules
 ----------
 
-skcycling.data_management.rider module
---------------------------------------
+.. toctree::
 
-.. automodule:: skcycling.data_management.rider
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
+   skcycling.data_management.rider
 
 Module contents
 ---------------

@@ -159,7 +159,7 @@
                           <span class="p">(</span><span class="s1">&#39;I7&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mf">1.8</span><span class="p">,</span> <span class="mf">3.</span><span class="p">))])</span>
 
 
-<div class="viewcode-block" id="normalized_power_score"><a class="viewcode-back" href="../../../modules/skcycling.metrics.html#skcycling.metrics.ride.normalized_power_score">[docs]</a><span class="k">def</span> <span class="nf">normalized_power_score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">pma</span><span class="p">):</span>
+<div class="viewcode-block" id="normalized_power_score"><a class="viewcode-back" href="../../../modules/skcycling.metrics.ride.html#skcycling.metrics.ride.normalized_power_score">[docs]</a><span class="k">def</span> <span class="nf">normalized_power_score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">pma</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Compute the normalized power for a given ride</span>
 
 <span class="sd">    Parameters</span>
@@ -192,7 +192,7 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x_avg</span> <span class="o">**</span> <span class="mf">4.</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">/</span> <span class="mf">4.</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="intensity_factor_ftp_score"><a class="viewcode-back" href="../../../modules/skcycling.metrics.html#skcycling.metrics.ride.intensity_factor_ftp_score">[docs]</a><span class="k">def</span> <span class="nf">intensity_factor_ftp_score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">ftp</span><span class="p">):</span>
+<div class="viewcode-block" id="intensity_factor_ftp_score"><a class="viewcode-back" href="../../../modules/skcycling.metrics.ride.html#skcycling.metrics.ride.intensity_factor_ftp_score">[docs]</a><span class="k">def</span> <span class="nf">intensity_factor_ftp_score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">ftp</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Compute the intensity factor using the FTP</span>
 
 <span class="sd">    Parameters</span>
@@ -219,7 +219,7 @@
     <span class="k">return</span> <span class="n">np_score</span> <span class="o">/</span> <span class="n">ftp</span></div>
 
 
-<div class="viewcode-block" id="intensity_factor_pma_score"><a class="viewcode-back" href="../../../modules/skcycling.metrics.html#skcycling.metrics.ride.intensity_factor_pma_score">[docs]</a><span class="k">def</span> <span class="nf">intensity_factor_pma_score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">pma</span><span class="p">):</span>
+<div class="viewcode-block" id="intensity_factor_pma_score"><a class="viewcode-back" href="../../../modules/skcycling.metrics.ride.html#skcycling.metrics.ride.intensity_factor_pma_score">[docs]</a><span class="k">def</span> <span class="nf">intensity_factor_pma_score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">pma</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Compute the intensity factor using the PMAB</span>
 
 <span class="sd">    Parameters</span>
@@ -244,7 +244,7 @@
     <span class="k">return</span> <span class="n">intensity_factor_ftp_score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">pma2ftp</span><span class="p">(</span><span class="n">pma</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="training_stress_ftp_score"><a class="viewcode-back" href="../../../modules/skcycling.metrics.html#skcycling.metrics.ride.training_stress_ftp_score">[docs]</a><span class="k">def</span> <span class="nf">training_stress_ftp_score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">ftp</span><span class="p">):</span>
+<div class="viewcode-block" id="training_stress_ftp_score"><a class="viewcode-back" href="../../../modules/skcycling.metrics.ride.html#skcycling.metrics.ride.training_stress_ftp_score">[docs]</a><span class="k">def</span> <span class="nf">training_stress_ftp_score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">ftp</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Compute the training stress score using the FTP</span>
 
 <span class="sd">    Parameters</span>
@@ -273,7 +273,7 @@
     <span class="k">return</span> <span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">size</span> <span class="o">*</span> <span class="n">if_score</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mf">3600.</span></div>
 
 
-<div class="viewcode-block" id="training_stress_pma_score"><a class="viewcode-back" href="../../../modules/skcycling.metrics.html#skcycling.metrics.ride.training_stress_pma_score">[docs]</a><span class="k">def</span> <span class="nf">training_stress_pma_score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">pma</span><span class="p">):</span>
+<div class="viewcode-block" id="training_stress_pma_score"><a class="viewcode-back" href="../../../modules/skcycling.metrics.ride.html#skcycling.metrics.ride.training_stress_pma_score">[docs]</a><span class="k">def</span> <span class="nf">training_stress_pma_score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">pma</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Compute the training stress score</span>
 
 <span class="sd">    Parameters</span>
@@ -298,7 +298,7 @@
     <span class="k">return</span> <span class="n">training_stress_ftp_score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">pma2ftp</span><span class="p">(</span><span class="n">pma</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="pma2ftp"><a class="viewcode-back" href="../../../modules/skcycling.metrics.html#skcycling.metrics.ride.pma2ftp">[docs]</a><span class="k">def</span> <span class="nf">pma2ftp</span><span class="p">(</span><span class="n">pma</span><span class="p">):</span>
+<div class="viewcode-block" id="pma2ftp"><a class="viewcode-back" href="../../../modules/skcycling.metrics.ride.html#skcycling.metrics.ride.pma2ftp">[docs]</a><span class="k">def</span> <span class="nf">pma2ftp</span><span class="p">(</span><span class="n">pma</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Convert the PMA to FTP</span>
 
 <span class="sd">    Parameter:</span>
@@ -315,7 +315,7 @@
     <span class="k">return</span> <span class="mf">0.76</span> <span class="o">*</span> <span class="n">pma</span></div>
 
 
-<div class="viewcode-block" id="ftp2pma"><a class="viewcode-back" href="../../../modules/skcycling.metrics.html#skcycling.metrics.ride.ftp2pma">[docs]</a><span class="k">def</span> <span class="nf">ftp2pma</span><span class="p">(</span><span class="n">ftp</span><span class="p">):</span>
+<div class="viewcode-block" id="ftp2pma"><a class="viewcode-back" href="../../../modules/skcycling.metrics.ride.html#skcycling.metrics.ride.ftp2pma">[docs]</a><span class="k">def</span> <span class="nf">ftp2pma</span><span class="p">(</span><span class="n">ftp</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Convert the PMA to FTP</span>
 
 <span class="sd">    Parameter:</span>
@@ -332,7 +332,7 @@
     <span class="k">return</span> <span class="n">ftp</span> <span class="o">/</span> <span class="mf">0.76</span></div>
 
 
-<div class="viewcode-block" id="training_stress_pma_grappe_score"><a class="viewcode-back" href="../../../modules/skcycling.metrics.html#skcycling.metrics.ride.training_stress_pma_grappe_score">[docs]</a><span class="k">def</span> <span class="nf">training_stress_pma_grappe_score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">pma</span><span class="p">):</span>
+<div class="viewcode-block" id="training_stress_pma_grappe_score"><a class="viewcode-back" href="../../../modules/skcycling.metrics.ride.html#skcycling.metrics.ride.training_stress_pma_grappe_score">[docs]</a><span class="k">def</span> <span class="nf">training_stress_pma_grappe_score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">pma</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Compute the training stress score using the PMA,</span>
 <span class="sd">        considering Grappe et al. approach</span>
 
@@ -370,7 +370,7 @@
     <span class="k">return</span> <span class="n">tss_grappe</span></div>
 
 
-<div class="viewcode-block" id="training_stress_ftp_grappe_score"><a class="viewcode-back" href="../../../modules/skcycling.metrics.html#skcycling.metrics.ride.training_stress_ftp_grappe_score">[docs]</a><span class="k">def</span> <span class="nf">training_stress_ftp_grappe_score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">ftp</span><span class="p">):</span>
+<div class="viewcode-block" id="training_stress_ftp_grappe_score"><a class="viewcode-back" href="../../../modules/skcycling.metrics.ride.html#skcycling.metrics.ride.training_stress_ftp_grappe_score">[docs]</a><span class="k">def</span> <span class="nf">training_stress_ftp_grappe_score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">ftp</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Compute the training stress score using the FTP,</span>
 <span class="sd">        considering Grappe et al. approach</span>
 

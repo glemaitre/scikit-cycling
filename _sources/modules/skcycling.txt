@@ -15,14 +15,9 @@ Subpackages
 Submodules
 ----------
 
-skcycling.setup module
-----------------------
+.. toctree::
 
-.. automodule:: skcycling.setup
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
+   skcycling.setup
 
 Module contents
 ---------------

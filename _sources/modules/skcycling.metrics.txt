@@ -11,22 +11,10 @@ Subpackages
 Submodules
 ----------
 
-skcycling.metrics.power_profile module
---------------------------------------
+.. toctree::
 
-.. automodule:: skcycling.metrics.power_profile
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-skcycling.metrics.ride module
------------------------------
-
-.. automodule:: skcycling.metrics.ride
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
+   skcycling.metrics.power_profile
+   skcycling.metrics.ride
 
 Module contents
 ---------------

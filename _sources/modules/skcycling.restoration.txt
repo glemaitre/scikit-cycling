@@ -11,14 +11,9 @@ Subpackages
 Submodules
 ----------
 
-skcycling.restoration.denoise module
-------------------------------------
+.. toctree::
 
-.. automodule:: skcycling.restoration.denoise
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
+   skcycling.restoration.denoise
 
 Module contents
 ---------------

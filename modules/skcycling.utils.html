@@ -32,7 +32,8 @@
   
     <link rel="top" title="scikit-cycling 0.1.dev0 documentation" href="../index.html"/>
         <link rel="up" title="skcycling package" href="skcycling.html"/>
-        <link rel="prev" title="skcycling.restoration package" href="skcycling.restoration.html"/> 
+        <link rel="next" title="skcycling.utils.checker module" href="skcycling.utils.checker.html"/>
+        <link rel="prev" title="skcycling.restoration.denoise module" href="skcycling.restoration.denoise.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -99,7 +100,6 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="skcycling.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="skcycling.html#module-skcycling.setup">skcycling.setup module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="skcycling.html#module-contents">Module contents</a></li>
 </ul>
 </li>
@@ -164,204 +164,13 @@
 </div>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="module-skcycling.utils.checker">
-<span id="skcycling-utils-checker-module"></span><h2>skcycling.utils.checker module<a class="headerlink" href="#module-skcycling.utils.checker" title="Permalink to this headline">¶</a></h2>
-<p>Helper function to check data conformity</p>
-<dl class="function">
-<dt id="skcycling.utils.checker.check_X">
-<code class="descclassname">skcycling.utils.checker.</code><code class="descname">check_X</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/utils/checker.html#check_X"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.utils.checker.check_X" title="Permalink to this definition">¶</a></dt>
-<dd><p>Private function helper to check if X is of proper size</p>
-<p>X : array-like, shape = (data, )</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="skcycling.utils.checker.check_filename_fit">
-<code class="descclassname">skcycling.utils.checker.</code><code class="descname">check_filename_fit</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/utils/checker.html#check_filename_fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.utils.checker.check_filename_fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Method to check if the filename corresponds to a fit file.</p>
-<dl class="docutils">
-<dt>filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd>The fit file to check.</dd>
-</dl>
-<dl class="docutils">
-<dt>filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd>The checked filename.</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skcycling.utils.checker.check_filename_pickle_load">
-<code class="descclassname">skcycling.utils.checker.</code><code class="descname">check_filename_pickle_load</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/utils/checker.html#check_filename_pickle_load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.utils.checker.check_filename_pickle_load" title="Permalink to this definition">¶</a></dt>
-<dd><p>Method to check if the filename corresponds to a pickle file.</p>
-<dl class="docutils">
-<dt>filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd>The pickle file to check.</dd>
-</dl>
-<dl class="docutils">
-<dt>filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd>The checked filename.</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skcycling.utils.checker.check_filename_pickle_save">
-<code class="descclassname">skcycling.utils.checker.</code><code class="descname">check_filename_pickle_save</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/utils/checker.html#check_filename_pickle_save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.utils.checker.check_filename_pickle_save" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function to check the extension of the pickle file.</p>
-<dl class="docutils">
-<dt>filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd>The filename which needs to be checked.</dd>
-</dl>
-<dl class="docutils">
-<dt>filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd>The filename which has been checked.</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skcycling.utils.checker.check_float">
-<code class="descclassname">skcycling.utils.checker.</code><code class="descname">check_float</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/utils/checker.html#check_float"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.utils.checker.check_float" title="Permalink to this definition">¶</a></dt>
-<dd><p>Private function helper to check if the value is a float</p>
-<dl class="docutils">
-<dt>X :</dt>
-<dd>Value to check and convert if not float</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skcycling.utils.checker.check_tuple_date">
-<code class="descclassname">skcycling.utils.checker.</code><code class="descname">check_tuple_date</code><span class="sig-paren">(</span><em>date_tuple</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/utils/checker.html#check_tuple_date"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.utils.checker.check_tuple_date" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function to check if the date tuple is consistent.</p>
-<dl class="docutils">
-<dt>date_tuple <span class="classifier-delimiter">:</span> <span class="classifier">tuple of date, shape (start, finish)</span></dt>
-<dd>The tuple to check.</dd>
-</dl>
-<dl class="docutils">
-<dt>date_tuple <span class="classifier-delimiter">:</span> <span class="classifier">tuple of date, shape (start, finish)</span></dt>
-<dd>The validated tuple.</dd>
-</dl>
-</dd></dl>
-
-</div>
-<div class="section" id="module-skcycling.utils.fit">
-<span id="skcycling-utils-fit-module"></span><h2>skcycling.utils.fit module<a class="headerlink" href="#module-skcycling.utils.fit" title="Permalink to this headline">¶</a></h2>
-<p>Methods to help for mathematical fitting.</p>
-<dl class="function">
-<dt id="skcycling.utils.fit.linear_model">
-<code class="descclassname">skcycling.utils.fit.</code><code class="descname">linear_model</code><span class="sig-paren">(</span><em>x</em>, <em>slope</em>, <em>intercept</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/utils/fit.html#linear_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.utils.fit.linear_model" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function wich return value of a linear model.</p>
-<dl class="docutils">
-<dt>x <span class="classifier-delimiter">:</span> <span class="classifier">ndarray, shape (n_samples, )</span></dt>
-<dd>Values for which to compute the output of the linear model.</dd>
-<dt>slope <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>Slope of the linear equation.</dd>
-<dt>intercept <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>Intercept of the linear equation.</dd>
-</dl>
-<dl class="docutils">
-<dt>y <span class="classifier-delimiter">:</span> <span class="classifier">ndarray, shape (n_samples)</span></dt>
-<dd>Output of the linear model.</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skcycling.utils.fit.log_linear_fitting">
-<code class="descclassname">skcycling.utils.fit.</code><code class="descname">log_linear_fitting</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>method='lsq'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/utils/fit.html#log_linear_fitting"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.utils.fit.log_linear_fitting" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function to perform log linear regression.</p>
-<dl class="docutils">
-<dt>x <span class="classifier-delimiter">:</span> <span class="classifier">ndarray, shape (n_samples)</span></dt>
-<dd>Corresponds to the x. In our case, it should be the time.</dd>
-<dt>y <span class="classifier-delimiter">:</span> <span class="classifier">ndarray, shape (n_samples)</span></dt>
-<dd>Corresponds to the y. In our case, it should be the rpp.</dd>
-<dt>method <span class="classifier-delimiter">:</span> <span class="classifier">string, optional (default=&#8217;lsq&#8217;)</span></dt>
-<dd><p class="first">The method to use to perform the regression. The choices are:</p>
-<ul class="last simple">
-<li>If &#8216;lsq&#8217;, an ordinary least-square approach is used.</li>
-<li>If &#8216;lm&#8217;, the Levenberg-Marquardt is used.</li>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="skcycling.utils.checker.html">skcycling.utils.checker module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="skcycling.utils.fit.html">skcycling.utils.fit module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="skcycling.utils.io_fit.html">skcycling.utils.io_fit module</a></li>
 </ul>
-</dd>
-</dl>
-<dl class="docutils">
-<dt>slope <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>slope of the regression line.</dd>
-<dt>intercept <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>intercept of the regression line.</dd>
-<dt>stderr <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>Standard error of the estimate.</dd>
-<dt>coeff_det <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>Coefficient of determination.</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skcycling.utils.fit.log_linear_model">
-<code class="descclassname">skcycling.utils.fit.</code><code class="descname">log_linear_model</code><span class="sig-paren">(</span><em>x</em>, <em>slope</em>, <em>intercept</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/utils/fit.html#log_linear_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.utils.fit.log_linear_model" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function wich return value of a log linear model.</p>
-<dl class="docutils">
-<dt>x <span class="classifier-delimiter">:</span> <span class="classifier">ndarray, shape (n_samples, )</span></dt>
-<dd>Values for which to compute the output of the linear model.</dd>
-<dt>slope <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>Slope of the linear equation.</dd>
-<dt>intercept <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>Intercept of the linear equation.</dd>
-</dl>
-<dl class="docutils">
-<dt>y <span class="classifier-delimiter">:</span> <span class="classifier">ndarray, shape (n_samples)</span></dt>
-<dd>Output of the linear model.</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skcycling.utils.fit.r_squared">
-<code class="descclassname">skcycling.utils.fit.</code><code class="descname">r_squared</code><span class="sig-paren">(</span><em>model</em>, <em>estimate</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/utils/fit.html#r_squared"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.utils.fit.r_squared" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function to compute the coefficient of determination</p>
-<dl class="docutils">
-<dt>model <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_sample, )</span></dt>
-<dd>Value used to made the fitting.</dd>
-<dt>estimate <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_sample, )</span></dt>
-<dd>Value obtained by fitting.</dd>
-</dl>
-<dl class="docutils">
-<dt>coeff_det <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>Coefficient of determination.</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="skcycling.utils.fit.res_std_dev">
-<code class="descclassname">skcycling.utils.fit.</code><code class="descname">res_std_dev</code><span class="sig-paren">(</span><em>model</em>, <em>estimate</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/utils/fit.html#res_std_dev"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.utils.fit.res_std_dev" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function to compute the residual standard deviation</p>
-<dl class="docutils">
-<dt>model <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_sample, )</span></dt>
-<dd>Value used to made the fitting.</dd>
-<dt>estimate <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_sample, )</span></dt>
-<dd>Value obtained by fitting.</dd>
-</dl>
-<dl class="docutils">
-<dt>residual <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>Residual standard deviation.</dd>
-</dl>
-</dd></dl>
-
 </div>
-<div class="section" id="module-skcycling.utils.io_fit">
-<span id="skcycling-utils-io-fit-module"></span><h2>skcycling.utils.io_fit module<a class="headerlink" href="#module-skcycling.utils.io_fit" title="Permalink to this headline">¶</a></h2>
-<p>Methods to handle input/output files.</p>
-<dl class="function">
-<dt id="skcycling.utils.io_fit.load_power_from_fit">
-<code class="descclassname">skcycling.utils.io_fit.</code><code class="descname">load_power_from_fit</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/utils/io_fit.html#load_power_from_fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.utils.io_fit.load_power_from_fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Method to open the power data from FIT file into a numpy array.</p>
-<dl class="docutils">
-<dt>filename <span class="classifier-delimiter">:</span> <span class="classifier">str,</span></dt>
-<dd>Path to the FIT file.</dd>
-</dl>
-<dl class="docutils">
-<dt>power_rec <span class="classifier-delimiter">:</span> <span class="classifier">ndarray, shape (n_samples)</span></dt>
-<dd>Power records of the ride.</dd>
-<dt>date_rec <span class="classifier-delimiter">:</span> <span class="classifier">date</span></dt>
-<dd>Date associated with the ride</dd>
-</dl>
-</dd></dl>
-
 </div>
 <div class="section" id="module-skcycling.utils">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-skcycling.utils" title="Permalink to this headline">¶</a></h2>
@@ -370,186 +179,236 @@
 <dt id="skcycling.utils.load_power_from_fit">
 <code class="descclassname">skcycling.utils.</code><code class="descname">load_power_from_fit</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/utils/io_fit.html#load_power_from_fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.utils.load_power_from_fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Method to open the power data from FIT file into a numpy array.</p>
-<dl class="docutils">
-<dt>filename <span class="classifier-delimiter">:</span> <span class="classifier">str,</span></dt>
-<dd>Path to the FIT file.</dd>
-</dl>
-<dl class="docutils">
-<dt>power_rec <span class="classifier-delimiter">:</span> <span class="classifier">ndarray, shape (n_samples)</span></dt>
-<dd>Power records of the ride.</dd>
-<dt>date_rec <span class="classifier-delimiter">:</span> <span class="classifier">date</span></dt>
-<dd>Date associated with the ride</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>filename</strong> : str,</p>
+<blockquote class="last">
+<div><p>Path to the FIT file.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="skcycling.utils.res_std_dev">
 <code class="descclassname">skcycling.utils.</code><code class="descname">res_std_dev</code><span class="sig-paren">(</span><em>model</em>, <em>estimate</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/utils/fit.html#res_std_dev"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.utils.res_std_dev" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to compute the residual standard deviation</p>
-<dl class="docutils">
-<dt>model <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_sample, )</span></dt>
-<dd>Value used to made the fitting.</dd>
-<dt>estimate <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_sample, )</span></dt>
-<dd>Value obtained by fitting.</dd>
-</dl>
-<dl class="docutils">
-<dt>residual <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>Residual standard deviation.</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>model</strong> : array-like, shape (n_sample, )</p>
+<blockquote>
+<div><p>Value used to made the fitting.</p>
+</div></blockquote>
+<p><strong>estimate</strong> : array-like, shape (n_sample, )</p>
+<blockquote class="last">
+<div><p>Value obtained by fitting.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="skcycling.utils.r_squared">
 <code class="descclassname">skcycling.utils.</code><code class="descname">r_squared</code><span class="sig-paren">(</span><em>model</em>, <em>estimate</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/utils/fit.html#r_squared"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.utils.r_squared" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to compute the coefficient of determination</p>
-<dl class="docutils">
-<dt>model <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_sample, )</span></dt>
-<dd>Value used to made the fitting.</dd>
-<dt>estimate <span class="classifier-delimiter">:</span> <span class="classifier">array-like, shape (n_sample, )</span></dt>
-<dd>Value obtained by fitting.</dd>
-</dl>
-<dl class="docutils">
-<dt>coeff_det <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>Coefficient of determination.</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>model</strong> : array-like, shape (n_sample, )</p>
+<blockquote>
+<div><p>Value used to made the fitting.</p>
+</div></blockquote>
+<p><strong>estimate</strong> : array-like, shape (n_sample, )</p>
+<blockquote class="last">
+<div><p>Value obtained by fitting.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="skcycling.utils.log_linear_fitting">
 <code class="descclassname">skcycling.utils.</code><code class="descname">log_linear_fitting</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>method='lsq'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/utils/fit.html#log_linear_fitting"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.utils.log_linear_fitting" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to perform log linear regression.</p>
-<dl class="docutils">
-<dt>x <span class="classifier-delimiter">:</span> <span class="classifier">ndarray, shape (n_samples)</span></dt>
-<dd>Corresponds to the x. In our case, it should be the time.</dd>
-<dt>y <span class="classifier-delimiter">:</span> <span class="classifier">ndarray, shape (n_samples)</span></dt>
-<dd>Corresponds to the y. In our case, it should be the rpp.</dd>
-<dt>method <span class="classifier-delimiter">:</span> <span class="classifier">string, optional (default=&#8217;lsq&#8217;)</span></dt>
-<dd><p class="first">The method to use to perform the regression. The choices are:</p>
-<ul class="last simple">
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x</strong> : ndarray, shape (n_samples)</p>
+<blockquote>
+<div><p>Corresponds to the x. In our case, it should be the time.</p>
+</div></blockquote>
+<p><strong>y</strong> : ndarray, shape (n_samples)</p>
+<blockquote>
+<div><p>Corresponds to the y. In our case, it should be the rpp.</p>
+</div></blockquote>
+<p><strong>method</strong> : string, optional (default=&#8217;lsq&#8217;)</p>
+<blockquote class="last">
+<div><p>The method to use to perform the regression. The choices are:</p>
+<ul class="simple">
 <li>If &#8216;lsq&#8217;, an ordinary least-square approach is used.</li>
 <li>If &#8216;lm&#8217;, the Levenberg-Marquardt is used.</li>
 </ul>
-</dd>
-</dl>
-<dl class="docutils">
-<dt>slope <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>slope of the regression line.</dd>
-<dt>intercept <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>intercept of the regression line.</dd>
-<dt>stderr <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>Standard error of the estimate.</dd>
-<dt>coeff_det <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>Coefficient of determination.</dd>
-</dl>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="skcycling.utils.linear_model">
 <code class="descclassname">skcycling.utils.</code><code class="descname">linear_model</code><span class="sig-paren">(</span><em>x</em>, <em>slope</em>, <em>intercept</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/utils/fit.html#linear_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.utils.linear_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function wich return value of a linear model.</p>
-<dl class="docutils">
-<dt>x <span class="classifier-delimiter">:</span> <span class="classifier">ndarray, shape (n_samples, )</span></dt>
-<dd>Values for which to compute the output of the linear model.</dd>
-<dt>slope <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>Slope of the linear equation.</dd>
-<dt>intercept <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>Intercept of the linear equation.</dd>
-</dl>
-<dl class="docutils">
-<dt>y <span class="classifier-delimiter">:</span> <span class="classifier">ndarray, shape (n_samples)</span></dt>
-<dd>Output of the linear model.</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x</strong> : ndarray, shape (n_samples, )</p>
+<blockquote>
+<div><p>Values for which to compute the output of the linear model.</p>
+</div></blockquote>
+<p><strong>slope</strong> : float</p>
+<blockquote>
+<div><p>Slope of the linear equation.</p>
+</div></blockquote>
+<p><strong>intercept</strong> : float</p>
+<blockquote class="last">
+<div><p>Intercept of the linear equation.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="skcycling.utils.log_linear_model">
 <code class="descclassname">skcycling.utils.</code><code class="descname">log_linear_model</code><span class="sig-paren">(</span><em>x</em>, <em>slope</em>, <em>intercept</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/utils/fit.html#log_linear_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.utils.log_linear_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function wich return value of a log linear model.</p>
-<dl class="docutils">
-<dt>x <span class="classifier-delimiter">:</span> <span class="classifier">ndarray, shape (n_samples, )</span></dt>
-<dd>Values for which to compute the output of the linear model.</dd>
-<dt>slope <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>Slope of the linear equation.</dd>
-<dt>intercept <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>Intercept of the linear equation.</dd>
-</dl>
-<dl class="docutils">
-<dt>y <span class="classifier-delimiter">:</span> <span class="classifier">ndarray, shape (n_samples)</span></dt>
-<dd>Output of the linear model.</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x</strong> : ndarray, shape (n_samples, )</p>
+<blockquote>
+<div><p>Values for which to compute the output of the linear model.</p>
+</div></blockquote>
+<p><strong>slope</strong> : float</p>
+<blockquote>
+<div><p>Slope of the linear equation.</p>
+</div></blockquote>
+<p><strong>intercept</strong> : float</p>
+<blockquote class="last">
+<div><p>Intercept of the linear equation.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="skcycling.utils.check_X">
 <code class="descclassname">skcycling.utils.</code><code class="descname">check_X</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/utils/checker.html#check_X"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.utils.check_X" title="Permalink to this definition">¶</a></dt>
 <dd><p>Private function helper to check if X is of proper size</p>
-<p>X : array-like, shape = (data, )</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>X</strong> : array-like, shape = (data, )</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="skcycling.utils.check_float">
 <code class="descclassname">skcycling.utils.</code><code class="descname">check_float</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/utils/checker.html#check_float"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.utils.check_float" title="Permalink to this definition">¶</a></dt>
 <dd><p>Private function helper to check if the value is a float</p>
-<dl class="docutils">
-<dt>X :</dt>
-<dd>Value to check and convert if not float</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X :</strong></p>
+<blockquote class="last">
+<div><p>Value to check and convert if not float</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="skcycling.utils.check_tuple_date">
 <code class="descclassname">skcycling.utils.</code><code class="descname">check_tuple_date</code><span class="sig-paren">(</span><em>date_tuple</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/utils/checker.html#check_tuple_date"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.utils.check_tuple_date" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to check if the date tuple is consistent.</p>
-<dl class="docutils">
-<dt>date_tuple <span class="classifier-delimiter">:</span> <span class="classifier">tuple of date, shape (start, finish)</span></dt>
-<dd>The tuple to check.</dd>
-</dl>
-<dl class="docutils">
-<dt>date_tuple <span class="classifier-delimiter">:</span> <span class="classifier">tuple of date, shape (start, finish)</span></dt>
-<dd>The validated tuple.</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>date_tuple</strong> : tuple of date, shape (start, finish)</p>
+<blockquote class="last">
+<div><p>The tuple to check.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="skcycling.utils.check_filename_fit">
 <code class="descclassname">skcycling.utils.</code><code class="descname">check_filename_fit</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/utils/checker.html#check_filename_fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.utils.check_filename_fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Method to check if the filename corresponds to a fit file.</p>
-<dl class="docutils">
-<dt>filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd>The fit file to check.</dd>
-</dl>
-<dl class="docutils">
-<dt>filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd>The checked filename.</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>filename</strong> : str</p>
+<blockquote class="last">
+<div><p>The fit file to check.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="skcycling.utils.check_filename_pickle_load">
 <code class="descclassname">skcycling.utils.</code><code class="descname">check_filename_pickle_load</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/utils/checker.html#check_filename_pickle_load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.utils.check_filename_pickle_load" title="Permalink to this definition">¶</a></dt>
 <dd><p>Method to check if the filename corresponds to a pickle file.</p>
-<dl class="docutils">
-<dt>filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd>The pickle file to check.</dd>
-</dl>
-<dl class="docutils">
-<dt>filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd>The checked filename.</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>filename</strong> : str</p>
+<blockquote class="last">
+<div><p>The pickle file to check.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="skcycling.utils.check_filename_pickle_save">
 <code class="descclassname">skcycling.utils.</code><code class="descname">check_filename_pickle_save</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/utils/checker.html#check_filename_pickle_save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.utils.check_filename_pickle_save" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to check the extension of the pickle file.</p>
-<dl class="docutils">
-<dt>filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd>The filename which needs to be checked.</dd>
-</dl>
-<dl class="docutils">
-<dt>filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd>The filename which has been checked.</dd>
-</dl>
 </dd></dl>
 
 </div>
@@ -562,8 +421,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
+        <a href="skcycling.utils.checker.html" class="btn btn-neutral float-right" title="skcycling.utils.checker module" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-        <a href="skcycling.restoration.html" class="btn btn-neutral" title="skcycling.restoration package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+        <a href="skcycling.restoration.denoise.html" class="btn btn-neutral" title="skcycling.restoration.denoise module" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

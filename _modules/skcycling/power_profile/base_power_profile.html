@@ -148,7 +148,7 @@
 <span class="kn">from</span> <span class="nn">..utils.checker</span> <span class="kn">import</span> <span class="n">check_filename_pickle_save</span>
 
 
-<div class="viewcode-block" id="BasePowerProfile"><a class="viewcode-back" href="../../../modules/skcycling.power_profile.html#skcycling.power_profile.base_power_profile.BasePowerProfile">[docs]</a><span class="k">class</span> <span class="nc">BasePowerProfile</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="BasePowerProfile"><a class="viewcode-back" href="../../../modules/skcycling.power_profile.base_power_profile.html#skcycling.power_profile.base_power_profile.BasePowerProfile">[docs]</a><span class="k">class</span> <span class="nc">BasePowerProfile</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Basic class for power profile.</span>
 
 <span class="sd">    Warning: This class should not be used directly. Use the derive classes</span>
@@ -163,7 +163,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">cyclist_weight_</span> <span class="o">=</span> <span class="n">cyclist_weight</span>
 
     <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="BasePowerProfile.load_from_pickles"><a class="viewcode-back" href="../../../modules/skcycling.power_profile.html#skcycling.power_profile.base_power_profile.BasePowerProfile.load_from_pickles">[docs]</a>    <span class="k">def</span> <span class="nf">load_from_pickles</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+<div class="viewcode-block" id="BasePowerProfile.load_from_pickles"><a class="viewcode-back" href="../../../modules/skcycling.power_profile.base_power_profile.html#skcycling.power_profile.base_power_profile.BasePowerProfile.load_from_pickles">[docs]</a>    <span class="k">def</span> <span class="nf">load_from_pickles</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Function to load an object through pickles.</span>
 
 <span class="sd">        Parameters</span>
@@ -183,7 +183,7 @@
 
         <span class="k">return</span> <span class="n">bpp</span></div>
 
-<div class="viewcode-block" id="BasePowerProfile.save_to_pickles"><a class="viewcode-back" href="../../../modules/skcycling.power_profile.html#skcycling.power_profile.base_power_profile.BasePowerProfile.save_to_pickles">[docs]</a>    <span class="k">def</span> <span class="nf">save_to_pickles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+<div class="viewcode-block" id="BasePowerProfile.save_to_pickles"><a class="viewcode-back" href="../../../modules/skcycling.power_profile.base_power_profile.html#skcycling.power_profile.base_power_profile.BasePowerProfile.save_to_pickles">[docs]</a>    <span class="k">def</span> <span class="nf">save_to_pickles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Function to save an object through pickles.</span>
 
 <span class="sd">        Parameters</span>
@@ -207,11 +207,11 @@
         <span class="k">return</span> <span class="bp">None</span></div>
 
     <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="BasePowerProfile.fit"><a class="viewcode-back" href="../../../modules/skcycling.power_profile.html#skcycling.power_profile.base_power_profile.BasePowerProfile.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="BasePowerProfile.fit"><a class="viewcode-back" href="../../../modules/skcycling.power_profile.base_power_profile.html#skcycling.power_profile.base_power_profile.BasePowerProfile.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Method to compute the power profile. &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-<div class="viewcode-block" id="BasePowerProfile.resampling_rpp"><a class="viewcode-back" href="../../../modules/skcycling.power_profile.html#skcycling.power_profile.base_power_profile.BasePowerProfile.resampling_rpp">[docs]</a>    <span class="k">def</span> <span class="nf">resampling_rpp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ts</span><span class="p">,</span> <span class="n">method_interp</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">normalized</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="BasePowerProfile.resampling_rpp"><a class="viewcode-back" href="../../../modules/skcycling.power_profile.base_power_profile.html#skcycling.power_profile.base_power_profile.BasePowerProfile.resampling_rpp">[docs]</a>    <span class="k">def</span> <span class="nf">resampling_rpp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ts</span><span class="p">,</span> <span class="n">method_interp</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">normalized</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Resampling the record power-profile</span>
 
 <span class="sd">        Parameters</span>

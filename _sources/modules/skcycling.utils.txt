@@ -11,30 +11,11 @@ Subpackages
 Submodules
 ----------
 
-skcycling.utils.checker module
-------------------------------
+.. toctree::
 
-.. automodule:: skcycling.utils.checker
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-skcycling.utils.fit module
---------------------------
-
-.. automodule:: skcycling.utils.fit
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-skcycling.utils.io_fit module
------------------------------
-
-.. automodule:: skcycling.utils.io_fit
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
+   skcycling.utils.checker
+   skcycling.utils.fit
+   skcycling.utils.io_fit
 
 Module contents
 ---------------

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>skcycling.restoration package &mdash; scikit-cycling 0.1.dev0 documentation</title>
+  <title>skcycling.metrics.power_profile module &mdash; scikit-cycling 0.1.dev0 documentation</title>
   
 
   
@@ -31,8 +31,9 @@
 
   
     <link rel="top" title="scikit-cycling 0.1.dev0 documentation" href="../index.html"/>
-        <link rel="up" title="skcycling package" href="skcycling.html"/>
-        <link rel="next" title="skcycling.restoration.denoise module" href="skcycling.restoration.denoise.html"/> 
+        <link rel="up" title="skcycling.metrics package" href="skcycling.metrics.html"/>
+        <link rel="next" title="skcycling.metrics.ride module" href="skcycling.metrics.ride.html"/>
+        <link rel="prev" title="skcycling.metrics package" href="skcycling.metrics.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -92,9 +93,9 @@
 <li class="toctree-l2 current"><a class="reference internal" href="skcycling.html">skcycling package</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="skcycling.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="skcycling.data_management.html">skcycling.data_management package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="skcycling.metrics.html">skcycling.metrics package</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="skcycling.metrics.html">skcycling.metrics package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="skcycling.power_profile.html">skcycling.power_profile package</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="">skcycling.restoration package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="skcycling.restoration.html">skcycling.restoration package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="skcycling.utils.html">skcycling.utils package</a></li>
 </ul>
 </li>
@@ -138,11 +139,13 @@
       
           <li><a href="skcycling.html">skcycling package</a> &raquo;</li>
       
-    <li>skcycling.restoration package</li>
+          <li><a href="skcycling.metrics.html">skcycling.metrics package</a> &raquo;</li>
+      
+    <li>skcycling.metrics.power_profile module</li>
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/modules/skcycling.restoration.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/modules/skcycling.metrics.power_profile.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -152,52 +155,38 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="skcycling-restoration-package">
-<h1>skcycling.restoration package<a class="headerlink" href="#skcycling-restoration-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="subpackages">
-<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
-<div class="toctree-wrapper compound">
-<ul class="simple">
-</ul>
-</div>
-</div>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="skcycling.restoration.denoise.html">skcycling.restoration.denoise module</a></li>
-</ul>
-</div>
-</div>
-<div class="section" id="module-skcycling.restoration">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-skcycling.restoration" title="Permalink to this headline">¶</a></h2>
-<p>The <a class="reference internal" href="#module-skcycling.restoration" title="skcycling.restoration"><code class="xref py py-mod docutils literal"><span class="pre">skcycling.restoration</span></code></a> module include denoising methods.</p>
+  <div class="section" id="module-skcycling.metrics.power_profile">
+<span id="skcycling-metrics-power-profile-module"></span><h1>skcycling.metrics.power_profile module<a class="headerlink" href="#module-skcycling.metrics.power_profile" title="Permalink to this headline">¶</a></h1>
+<p>Metrics to asses the power profile.</p>
 <dl class="function">
-<dt id="skcycling.restoration.outliers_rejection">
-<code class="descclassname">skcycling.restoration.</code><code class="descname">outliers_rejection</code><span class="sig-paren">(</span><em>X</em>, <em>method='threshold'</em>, <em>thres=2500.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/restoration/denoise.html#outliers_rejection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.restoration.outliers_rejection" title="Permalink to this definition">¶</a></dt>
-<dd><p>Remove the outliers from the given ride</p>
+<dt id="skcycling.metrics.power_profile.aerobic_meta_model">
+<code class="descclassname">skcycling.metrics.power_profile.</code><code class="descname">aerobic_meta_model</code><span class="sig-paren">(</span><em>profile</em>, <em>ts=None</em>, <em>normalized=False</em>, <em>method='lsq'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/metrics/power_profile.html#aerobic_meta_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.metrics.power_profile.aerobic_meta_model" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Compute the aerobic metabolism model from the</dt>
+<dd>record power-profile</dd>
+</dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : array-like, shape (n_samples, )</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>profile</strong> : RidePowerProfile or RecordPowerProfile</p>
 <blockquote>
-<div><p>Array containing the power intensities for a ride.</p>
+<div><p>The profile that we want to use for computing the different
+statistics.</p>
 </div></blockquote>
-<p><strong>method</strong> : string, default &#8216;threshold&#8217;</p>
+<p><strong>ts</strong> : ndarray, shape (n_samples, ) or None</p>
 <blockquote>
-<div><p>String to specified which outliers detection method to use.</p>
+<div><p>Array containing the sample to take into account.
+If None, the sampling of the method of Pinot is applied, which is
+equivalent to the sampling from WKO+</p>
 </div></blockquote>
-<p><strong>thres</strong> : float, default 2500.</p>
+<p><strong>normalized</strong> : bool, default False</p>
 <blockquote>
-<div><p>The maximum power to consider in case the method &#8216;threshold&#8217;
-is considered.</p>
+<div><p>Return a weight-normalized rpp if True.</p>
 </div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>X</strong> : array-like, shape (n_samples, )</p>
+<p><strong>method</strong> : string, default &#8216;lsq&#8217;</p>
 <blockquote class="last">
-<div><p>Array containing the power intensities, outliers free.</p>
+<div><p>Which type of tehcnic to use to make the fitting (&#8216;lsq&#8217;, &#8216;lm&#8217;).</p>
 </div></blockquote>
 </td>
 </tr>
@@ -205,35 +194,6 @@ is considered.</p>
 </table>
 </dd></dl>
 
-<dl class="function">
-<dt id="skcycling.restoration.moving_average">
-<code class="descclassname">skcycling.restoration.</code><code class="descname">moving_average</code><span class="sig-paren">(</span><em>X</em>, <em>win=30</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/restoration/denoise.html#moving_average"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.restoration.moving_average" title="Permalink to this definition">¶</a></dt>
-<dd><p>Apply an average filter to the data</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : array-like, shape (n_samples, )</p>
-<blockquote>
-<div><p>Array containing the ride or a selection of a ride.</p>
-</div></blockquote>
-<p><strong>win</strong> : interger</p>
-<blockquote>
-<div><p>Size of the sliding window.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>avg</strong> : array-like (float)</p>
-<blockquote class="last">
-<div><p>Return the denoised data mean-filter.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</div>
 </div>
 
 
@@ -243,8 +203,10 @@ is considered.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="skcycling.restoration.denoise.html" class="btn btn-neutral float-right" title="skcycling.restoration.denoise module" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="skcycling.metrics.ride.html" class="btn btn-neutral float-right" title="skcycling.metrics.ride module" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
+      
+        <a href="skcycling.metrics.html" class="btn btn-neutral" title="skcycling.metrics package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
