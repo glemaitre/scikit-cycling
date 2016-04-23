@@ -127,7 +127,7 @@
         <div class="rst-content">
           
 
-
+ 
 
 
 
@@ -175,8 +175,14 @@
 <div><p>Slope of the linear equation.</p>
 </div></blockquote>
 <p><strong>intercept</strong> : float</p>
-<blockquote class="last">
+<blockquote>
 <div><p>Intercept of the linear equation.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>y</strong> : ndarray, shape (n_samples)</p>
+<blockquote class="last">
+<div><p>Output of the linear model.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -201,12 +207,30 @@
 <div><p>Corresponds to the y. In our case, it should be the rpp.</p>
 </div></blockquote>
 <p><strong>method</strong> : string, optional (default=&#8217;lsq&#8217;)</p>
-<blockquote class="last">
+<blockquote>
 <div><p>The method to use to perform the regression. The choices are:</p>
 <ul class="simple">
 <li>If &#8216;lsq&#8217;, an ordinary least-square approach is used.</li>
 <li>If &#8216;lm&#8217;, the Levenberg-Marquardt is used.</li>
 </ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>slope</strong> : float</p>
+<blockquote>
+<div><p>slope of the regression line.</p>
+</div></blockquote>
+<p><strong>intercept</strong> : float</p>
+<blockquote>
+<div><p>intercept of the regression line.</p>
+</div></blockquote>
+<p><strong>std_err</strong> : float</p>
+<blockquote>
+<div><p>Standard error of the estimate.</p>
+</div></blockquote>
+<p><strong>coeff_det</strong> : float</p>
+<blockquote class="last">
+<div><p>Coefficient of determination.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -231,8 +255,14 @@
 <div><p>Slope of the linear equation.</p>
 </div></blockquote>
 <p><strong>intercept</strong> : float</p>
-<blockquote class="last">
+<blockquote>
 <div><p>Intercept of the linear equation.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>y</strong> : ndarray, shape (n_samples)</p>
+<blockquote class="last">
+<div><p>Output of the linear model.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -243,7 +273,7 @@
 <dl class="function">
 <dt id="skcycling.utils.fit.r_squared">
 <code class="descclassname">skcycling.utils.fit.</code><code class="descname">r_squared</code><span class="sig-paren">(</span><em>model</em>, <em>estimate</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/utils/fit.html#r_squared"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.utils.fit.r_squared" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function to compute the coefficient of determination</p>
+<dd><p>Function to compute the coefficient of determination.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -253,8 +283,14 @@
 <div><p>Value used to made the fitting.</p>
 </div></blockquote>
 <p><strong>estimate</strong> : array-like, shape (n_sample, )</p>
-<blockquote class="last">
+<blockquote>
 <div><p>Value obtained by fitting.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>coeff_det</strong> : float</p>
+<blockquote class="last">
+<div><p>Coefficient of determination.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -265,7 +301,7 @@
 <dl class="function">
 <dt id="skcycling.utils.fit.res_std_dev">
 <code class="descclassname">skcycling.utils.fit.</code><code class="descname">res_std_dev</code><span class="sig-paren">(</span><em>model</em>, <em>estimate</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/utils/fit.html#res_std_dev"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.utils.fit.res_std_dev" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function to compute the residual standard deviation</p>
+<dd><p>Function to compute the residual standard deviation.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -275,8 +311,14 @@
 <div><p>Value used to made the fitting.</p>
 </div></blockquote>
 <p><strong>estimate</strong> : array-like, shape (n_sample, )</p>
-<blockquote class="last">
+<blockquote>
 <div><p>Value obtained by fitting.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>residual</strong> : float</p>
+<blockquote class="last">
+<div><p>Residual standard deviation.</p>
 </div></blockquote>
 </td>
 </tr>

@@ -133,8 +133,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for skcycling.utils.checker</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot; Helper function to check data conformity</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;Helper function to check data conformity.&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
@@ -142,12 +141,19 @@
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span>
 
 
-<div class="viewcode-block" id="check_X"><a class="viewcode-back" href="../../../modules/skcycling.utils.checker.html#skcycling.utils.checker.check_X">[docs]</a><span class="k">def</span> <span class="nf">check_X</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Private function helper to check if X is of proper size</span>
+<div class="viewcode-block" id="check_X"><a class="viewcode-back" href="../../../modules/skcycling.utils.checker.html#skcycling.utils.check_X">[docs]</a><span class="k">def</span> <span class="nf">check_X</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Private function helper to check if X is of proper size</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    X : array-like, shape = (data, )</span>
+<span class="sd">    X : ndarray, shape (data, )</span>
+<span class="sd">        Array to check the consistency.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    X : ndarray, shape (data, )</span>
+<span class="sd">        Array which is consistent.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Check that X is a numpy vector</span>
@@ -162,13 +168,19 @@
     <span class="k">return</span> <span class="n">X</span></div>
 
 
-<div class="viewcode-block" id="check_float"><a class="viewcode-back" href="../../../modules/skcycling.utils.checker.html#skcycling.utils.checker.check_float">[docs]</a><span class="k">def</span> <span class="nf">check_float</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Private function helper to check if the value is a float</span>
+<div class="viewcode-block" id="check_float"><a class="viewcode-back" href="../../../modules/skcycling.utils.checker.html#skcycling.utils.check_float">[docs]</a><span class="k">def</span> <span class="nf">check_float</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Private function helper to check if the value is a float</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    X :</span>
-<span class="sd">        Value to check and convert if not float</span>
+<span class="sd">    X : float</span>
+<span class="sd">        Value to check and convert if not float.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    X : float</span>
+<span class="sd">        Value float which is consistent.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Check that the value is a float</span>
@@ -178,18 +190,19 @@
         <span class="k">return</span> <span class="n">X</span></div>
 
 
-<div class="viewcode-block" id="check_filename_fit"><a class="viewcode-back" href="../../../modules/skcycling.utils.checker.html#skcycling.utils.checker.check_filename_fit">[docs]</a><span class="k">def</span> <span class="nf">check_filename_fit</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Method to check if the filename corresponds to a fit file.</span>
+<div class="viewcode-block" id="check_filename_fit"><a class="viewcode-back" href="../../../modules/skcycling.utils.checker.html#skcycling.utils.check_filename_fit">[docs]</a><span class="k">def</span> <span class="nf">check_filename_fit</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Method to check if the filename corresponds to a fit file.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    filename : str</span>
 <span class="sd">        The fit file to check.</span>
 
-<span class="sd">    Return</span>
-<span class="sd">    ------</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
 <span class="sd">    filename : str</span>
 <span class="sd">        The checked filename.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Check that filename is of string type</span>
@@ -207,18 +220,19 @@
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The filename needs to be a string.&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="check_filename_pickle_load"><a class="viewcode-back" href="../../../modules/skcycling.utils.checker.html#skcycling.utils.checker.check_filename_pickle_load">[docs]</a><span class="k">def</span> <span class="nf">check_filename_pickle_load</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Method to check if the filename corresponds to a pickle file.</span>
+<div class="viewcode-block" id="check_filename_pickle_load"><a class="viewcode-back" href="../../../modules/skcycling.utils.checker.html#skcycling.utils.check_filename_pickle_load">[docs]</a><span class="k">def</span> <span class="nf">check_filename_pickle_load</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Method to check if the filename corresponds to a pickle file.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    filename : str</span>
 <span class="sd">        The pickle file to check.</span>
 
-<span class="sd">    Return</span>
-<span class="sd">    ------</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
 <span class="sd">    filename : str</span>
 <span class="sd">        The checked filename.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Check that filename is of string type</span>
@@ -236,18 +250,19 @@
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The filename needs to be a string.&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="check_filename_pickle_save"><a class="viewcode-back" href="../../../modules/skcycling.utils.checker.html#skcycling.utils.checker.check_filename_pickle_save">[docs]</a><span class="k">def</span> <span class="nf">check_filename_pickle_save</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Function to check the extension of the pickle file.</span>
+<div class="viewcode-block" id="check_filename_pickle_save"><a class="viewcode-back" href="../../../modules/skcycling.utils.checker.html#skcycling.utils.check_filename_pickle_save">[docs]</a><span class="k">def</span> <span class="nf">check_filename_pickle_save</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Function to check the extension of the pickle file.</span>
 
-<span class="sd">    Parameter</span>
-<span class="sd">    ---------</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
 <span class="sd">    filename : str</span>
 <span class="sd">        The filename which needs to be checked.</span>
 
-<span class="sd">    Return</span>
-<span class="sd">    ------</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
 <span class="sd">    filename : str</span>
 <span class="sd">        The filename which has been checked.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Check that the filename is a string</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">):</span>
@@ -260,18 +275,19 @@
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The filename needs to be of type string.&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="check_tuple_date"><a class="viewcode-back" href="../../../modules/skcycling.utils.checker.html#skcycling.utils.checker.check_tuple_date">[docs]</a><span class="k">def</span> <span class="nf">check_tuple_date</span><span class="p">(</span><span class="n">date_tuple</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Function to check if the date tuple is consistent.</span>
+<div class="viewcode-block" id="check_tuple_date"><a class="viewcode-back" href="../../../modules/skcycling.utils.checker.html#skcycling.utils.check_tuple_date">[docs]</a><span class="k">def</span> <span class="nf">check_tuple_date</span><span class="p">(</span><span class="n">date_tuple</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Function to check if the date tuple is consistent.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    date_tuple : tuple of date, shape (start, finish)</span>
 <span class="sd">        The tuple to check.</span>
 
-<span class="sd">    Return</span>
-<span class="sd">    ------</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
 <span class="sd">    date_tuple : tuple of date, shape (start, finish)</span>
 <span class="sd">        The validated tuple.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">date_tuple</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">date_tuple</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
         <span class="c1"># Check that the tuple is of write type</span>

@@ -133,8 +133,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for skcycling.power_profile.record_power_profile</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot; Record Power-Profile class.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;Record Power-Profile class.&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
@@ -143,8 +142,38 @@
 
 <span class="kn">from</span> <span class="nn">..utils.checker</span> <span class="kn">import</span> <span class="n">check_tuple_date</span>
 
-<div class="viewcode-block" id="RecordPowerProfile"><a class="viewcode-back" href="../../../modules/skcycling.power_profile.record_power_profile.html#skcycling.power_profile.record_power_profile.RecordPowerProfile">[docs]</a><span class="k">class</span> <span class="nc">RecordPowerProfile</span><span class="p">(</span><span class="n">BasePowerProfile</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Record power-profile</span>
+<div class="viewcode-block" id="maximal_mean_power"><a class="viewcode-back" href="../../../modules/skcycling.power_profile.record_power_profile.html#skcycling.power_profile.maximal_mean_power">[docs]</a><span class="k">def</span> <span class="nf">maximal_mean_power</span><span class="p">(</span><span class="n">ride_pp</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Function to compute the maximal mean power for different time.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ride_pp : list of RidePowerProfile</span>
+<span class="sd">        The list from the power-profile to consider.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    mmp : ndarray, shape (max_duration_profile_, )</span>
+<span class="sd">        The Maximal Mean Power for the different time</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Check that ride_pp is a list of RidePowerProfile</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ride_pp</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="c1"># Check that each ride is the correct type</span>
+        <span class="k">for</span> <span class="n">pp</span> <span class="ow">in</span> <span class="n">ride_pp</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pp</span><span class="p">,</span> <span class="n">RidePowerProfile</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The objects in the list need to be of&#39;</span>
+                                 <span class="s1">&#39; type RidePowerProfile.&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;A list of RidePowerProfile needs to be passed&#39;</span>
+                         <span class="s1">&#39; as argument.&#39;</span><span class="p">)</span>
+
+    <span class="c1"># From the list of RidePowerProfile, we need to extract the power</span>
+    <span class="c1"># information</span>
+    <span class="n">profile</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">pp</span><span class="o">.</span><span class="n">data_</span> <span class="k">for</span> <span class="n">pp</span> <span class="ow">in</span> <span class="n">ride_pp</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">profile</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RecordPowerProfile"><a class="viewcode-back" href="../../../modules/skcycling.power_profile.record_power_profile.html#skcycling.power_profile.RecordPowerProfile">[docs]</a><span class="k">class</span> <span class="nc">RecordPowerProfile</span><span class="p">(</span><span class="n">BasePowerProfile</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Record power-profile.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -176,6 +205,7 @@
 
 <span class="sd">    date_profile_ : tuple of date, shape (start, finish)</span>
 <span class="sd">        Starting and finishing time to compute the record power-profile.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_duration_profile</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
@@ -185,17 +215,18 @@
                                                  <span class="n">cyclist_weight</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_validate_ride_pp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ride_pp</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Method to check the consistency of the ride power-profile list.</span>
+        <span class="sd">&quot;&quot;&quot;Method to check the consistency of the ride power-profile list.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        ride_pp : list of RidePowerProfile</span>
 <span class="sd">            Normally a list of RidePowerProfile.</span>
 
-<span class="sd">        Return</span>
-<span class="sd">        ------</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
 <span class="sd">        ride_pp : list of RidePowerProfile</span>
 <span class="sd">            Return the validated list of RidePowerProfile.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Check that this is a list</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ride_pp</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
@@ -205,7 +236,8 @@
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The object in the list need to be from&#39;</span>
                                      <span class="s1">&#39; the type RidePowerProfile&#39;</span><span class="p">)</span>
                 <span class="c1"># We need to check that each ride has been fitted</span>
-                <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">rpp</span><span class="p">,</span> <span class="s1">&#39;data_&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">rpp</span><span class="o">.</span><span class="n">max_duration_profile_</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">rpp</span><span class="p">,</span> <span class="s1">&#39;data_&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span>
+                    <span class="n">rpp</span><span class="o">.</span><span class="n">max_duration_profile_</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">):</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;One of the ride never has been fitted.&#39;</span>
                                      <span class="s1">&#39; Fit before to compute the record rpp.&#39;</span><span class="p">)</span>
             <span class="c1"># Create a list of all the max duration to check that they are</span>
@@ -224,28 +256,8 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The ride power-profile should be given as&#39;</span>
                              <span class="s1">&#39; a list.&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_maximal_mean_power</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ride_pp</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Function to compute the maximal mean power for different time.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        ride_pp : list of RidePowerProfile</span>
-<span class="sd">            The list from the power-profile to consider.</span>
-
-<span class="sd">        Return</span>
-<span class="sd">        ------</span>
-<span class="sd">        mmp : ndarray, shape (max_duration_profile_, )</span>
-<span class="sd">            The Maximal Mean Power for the different time</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># From the list of RidePowerProfile, we need to extract the power</span>
-        <span class="c1"># information</span>
-        <span class="n">profile</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">pp</span><span class="o">.</span><span class="n">data_</span> <span class="k">for</span> <span class="n">pp</span> <span class="ow">in</span> <span class="n">ride_pp</span><span class="p">])</span>
-
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">profile</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-
-<div class="viewcode-block" id="RecordPowerProfile.fit"><a class="viewcode-back" href="../../../modules/skcycling.power_profile.record_power_profile.html#skcycling.power_profile.record_power_profile.RecordPowerProfile.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ride_pp</span><span class="p">,</span> <span class="n">date_profile</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Function to build the record power-profile from a list of ride</span>
-<span class="sd">        power-profile.</span>
+<div class="viewcode-block" id="RecordPowerProfile.fit"><a class="viewcode-back" href="../../../modules/skcycling.power_profile.record_power_profile.html#skcycling.power_profile.RecordPowerProfile.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ride_pp</span><span class="p">,</span> <span class="n">date_profile</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Build the record power-profile from a list of ride power-profile.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -256,10 +268,11 @@
 <span class="sd">            The starting and finishing date for which we have to compute the</span>
 <span class="sd">            record power-profile.</span>
 
-<span class="sd">        Return</span>
-<span class="sd">        ------</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
 <span class="sd">        self : object</span>
 <span class="sd">            Returns self.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Check that the ride power-profile list is ok</span>
         <span class="n">ride_pp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_ride_pp</span><span class="p">(</span><span class="n">ride_pp</span><span class="p">)</span>
@@ -280,14 +293,14 @@
                 <span class="n">date_list</span> <span class="o">&lt;=</span> <span class="n">date_profile</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
 
             <span class="c1"># Compute the record for these files only</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">data_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maximal_mean_power</span><span class="p">([</span><span class="n">ride_pp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-                                                   <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">idx_ride</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data_</span> <span class="o">=</span> <span class="n">maximal_mean_power</span><span class="p">([</span><span class="n">ride_pp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                                             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">idx_ride</span><span class="p">])</span>
 
             <span class="c1"># Store the date range</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">date_profile_</span> <span class="o">=</span> <span class="n">date_profile</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Compute the record for all the files</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">data_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maximal_mean_power</span><span class="p">(</span><span class="n">ride_pp</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data_</span> <span class="o">=</span> <span class="n">maximal_mean_power</span><span class="p">(</span><span class="n">ride_pp</span><span class="p">)</span>
 
             <span class="c1"># Store the date range</span>
             <span class="n">date_list</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">rpp</span><span class="o">.</span><span class="n">date_profile_</span> <span class="k">for</span> <span class="n">rpp</span> <span class="ow">in</span> <span class="n">ride_pp</span><span class="p">])</span>

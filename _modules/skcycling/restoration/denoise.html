@@ -133,16 +133,15 @@
            <div itemprop="articleBody">
             
   <h1>Source code for skcycling.restoration.denoise</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot; Methods to denoise the power signal provided from a ride</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;Methods to denoise the power signal provided from a ride.&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">..utils.checker</span> <span class="kn">import</span> <span class="n">check_X</span>
 
 
-<div class="viewcode-block" id="outliers_rejection"><a class="viewcode-back" href="../../../modules/skcycling.restoration.denoise.html#skcycling.restoration.denoise.outliers_rejection">[docs]</a><span class="k">def</span> <span class="nf">outliers_rejection</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;threshold&#39;</span><span class="p">,</span> <span class="n">thres</span><span class="o">=</span><span class="mf">2500.</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Remove the outliers from the given ride</span>
+<div class="viewcode-block" id="outliers_rejection"><a class="viewcode-back" href="../../../modules/skcycling.restoration.denoise.html#skcycling.restoration.outliers_rejection">[docs]</a><span class="k">def</span> <span class="nf">outliers_rejection</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;threshold&#39;</span><span class="p">,</span> <span class="n">thres</span><span class="o">=</span><span class="mf">2500.</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Remove the outliers from the given ride.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -160,6 +159,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    X : array-like, shape (n_samples, )</span>
 <span class="sd">        Array containing the power intensities, outliers free.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Check if the variable X is valid</span>
@@ -177,8 +177,8 @@
     <span class="k">return</span> <span class="n">X</span></div>
 
 
-<div class="viewcode-block" id="moving_average"><a class="viewcode-back" href="../../../modules/skcycling.restoration.denoise.html#skcycling.restoration.denoise.moving_average">[docs]</a><span class="k">def</span> <span class="nf">moving_average</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">win</span><span class="o">=</span><span class="mi">30</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Apply an average filter to the data</span>
+<div class="viewcode-block" id="moving_average"><a class="viewcode-back" href="../../../modules/skcycling.restoration.denoise.html#skcycling.restoration.moving_average">[docs]</a><span class="k">def</span> <span class="nf">moving_average</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">win</span><span class="o">=</span><span class="mi">30</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Apply an average filter to the data.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>

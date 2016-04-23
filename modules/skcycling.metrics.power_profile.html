@@ -127,7 +127,7 @@
         <div class="rst-content">
           
 
-
+ 
 
 
 
@@ -161,10 +161,7 @@
 <dl class="function">
 <dt id="skcycling.metrics.power_profile.aerobic_meta_model">
 <code class="descclassname">skcycling.metrics.power_profile.</code><code class="descname">aerobic_meta_model</code><span class="sig-paren">(</span><em>profile</em>, <em>ts=None</em>, <em>normalized=False</em>, <em>method='lsq'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/metrics/power_profile.html#aerobic_meta_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.metrics.power_profile.aerobic_meta_model" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Compute the aerobic metabolism model from the</dt>
-<dd>record power-profile</dd>
-</dl>
+<dd><p>Compute the aerobic metabolism model from the record power-profile.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -185,11 +182,58 @@ equivalent to the sampling from WKO+</p>
 <div><p>Return a weight-normalized rpp if True.</p>
 </div></blockquote>
 <p><strong>method</strong> : string, default &#8216;lsq&#8217;</p>
-<blockquote class="last">
+<blockquote>
 <div><p>Which type of tehcnic to use to make the fitting (&#8216;lsq&#8217;, &#8216;lm&#8217;).</p>
 </div></blockquote>
 </td>
 </tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>pma</strong> : float</p>
+<blockquote>
+<div><p>Maximum Aerobic Power.</p>
+</div></blockquote>
+<p><strong>t_pma</strong> : int</p>
+<blockquote>
+<div><p>Time of the Maximum Aerobic Power in seconds.</p>
+</div></blockquote>
+<p><strong>aei</strong> : float</p>
+<blockquote>
+<div><p>Aerobic Endurance Index.</p>
+</div></blockquote>
+<p><strong>fit_info_pma_fitting</strong> : dict</p>
+<blockquote>
+<div><p>This is a dictionary with the information collected about the fitting
+related to the MAP. The attributes will be the following:</p>
+<ul class="simple">
+<li><cite>slope</cite>: slope of the linear fitting,</li>
+<li><cite>intercept</cite>: intercept of the linear fitting,</li>
+<li><cite>std_err</cite>: standard error of the fitting,</li>
+<li><cite>coeff_det</cite>: coefficient of determination.</li>
+</ul>
+</div></blockquote>
+<p><strong>fit_info_aei_fitting</strong> : dict</p>
+<blockquote class="last">
+<div><p>This is a dictionary with the information collected about the fitting
+related to the AEI. The attributes will be the following:</p>
+<ul class="simple">
+<li><cite>slope</cite>: slope of the linear fitting,</li>
+<li><cite>intercept</cite>: intercept of the linear fitting,</li>
+<li><cite>std_err</cite>: standard error of the fitting,</li>
+<li><cite>coeff_det</cite>: coefficient of determination.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The method implemented here follow the work presented in <a class="reference internal" href="#r2" id="id1">[R2]</a>.</p>
+<p class="rubric">References</p>
+<table class="docutils citation" frame="void" id="r2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[R2]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id2">2</a>)</em> Pinot et al., &#8220;Determination of Maximal Aerobic Power
+on the Field in Cycling&#8221;, Jounal of Science and Cycling, vol. 3(1),
+pp. 26-31, 2014.</td></tr>
 </tbody>
 </table>
 </dd></dl>

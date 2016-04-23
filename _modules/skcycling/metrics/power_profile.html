@@ -148,9 +148,8 @@
                          <span class="mi">6</span><span class="p">,</span> <span class="mf">6.5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">240</span><span class="p">])</span>
 
 
-<div class="viewcode-block" id="aerobic_meta_model"><a class="viewcode-back" href="../../../modules/skcycling.metrics.power_profile.html#skcycling.metrics.power_profile.aerobic_meta_model">[docs]</a><span class="k">def</span> <span class="nf">aerobic_meta_model</span><span class="p">(</span><span class="n">profile</span><span class="p">,</span> <span class="n">ts</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">normalized</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;lsq&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Compute the aerobic metabolism model from the</span>
-<span class="sd">        record power-profile</span>
+<div class="viewcode-block" id="aerobic_meta_model"><a class="viewcode-back" href="../../../modules/skcycling.metrics.power_profile.html#skcycling.metrics.aerobic_meta_model">[docs]</a><span class="k">def</span> <span class="nf">aerobic_meta_model</span><span class="p">(</span><span class="n">profile</span><span class="p">,</span> <span class="n">ts</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">normalized</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;lsq&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute the aerobic metabolism model from the record power-profile.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -169,8 +168,8 @@
 <span class="sd">    method : string, default &#39;lsq&#39;</span>
 <span class="sd">        Which type of tehcnic to use to make the fitting (&#39;lsq&#39;, &#39;lm&#39;).</span>
 
-<span class="sd">    Return</span>
-<span class="sd">    ------</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
 <span class="sd">    pma : float</span>
 <span class="sd">        Maximum Aerobic Power.</span>
 
@@ -179,10 +178,35 @@
 
 <span class="sd">    aei : float</span>
 <span class="sd">        Aerobic Endurance Index.</span>
+
+<span class="sd">    fit_info_pma_fitting : dict</span>
+<span class="sd">        This is a dictionary with the information collected about the fitting</span>
+<span class="sd">        related to the MAP. The attributes will be the following:</span>
+
+<span class="sd">        - `slope`: slope of the linear fitting,</span>
+<span class="sd">        - `intercept`: intercept of the linear fitting,</span>
+<span class="sd">        - `std_err`: standard error of the fitting,</span>
+<span class="sd">        - `coeff_det`: coefficient of determination.</span>
+
+<span class="sd">    fit_info_aei_fitting : dict</span>
+<span class="sd">        This is a dictionary with the information collected about the fitting</span>
+<span class="sd">        related to the AEI. The attributes will be the following:</span>
+
+<span class="sd">        - `slope`: slope of the linear fitting,</span>
+<span class="sd">        - `intercept`: intercept of the linear fitting,</span>
+<span class="sd">        - `std_err`: standard error of the fitting,</span>
+<span class="sd">        - `coeff_det`: coefficient of determination.</span>
+
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
-<span class="sd">    [1] Pinot et al., &quot;Determination of Maximal Aerobic Power</span>
-<span class="sd">    on the Field in Cycling&quot; (2014)</span>
+<span class="sd">    The method implemented here follow the work presented in [1]_.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] Pinot et al., &quot;Determination of Maximal Aerobic Power</span>
+<span class="sd">       on the Field in Cycling&quot;, Jounal of Science and Cycling, vol. 3(1),</span>
+<span class="sd">       pp. 26-31, 2014.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Check that the profile is inherating from the class BasePowerProfile</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">profile</span><span class="p">),</span> <span class="n">BasePowerProfile</span><span class="p">):</span>
@@ -215,9 +239,13 @@
     <span class="n">rpp_pma_reg</span> <span class="o">=</span> <span class="n">rpp</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">bitwise_and</span><span class="p">(</span><span class="n">ts</span> <span class="o">&gt;=</span> <span class="mf">10.</span><span class="p">,</span> <span class="n">ts</span> <span class="o">&lt;=</span> <span class="mf">240.</span><span class="p">))]</span>
 
     <span class="c1"># Apply the first log-linear fitting</span>
-    <span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">std_err</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">log_linear_fitting</span><span class="p">(</span><span class="n">ts_pma_reg</span><span class="p">,</span>
+    <span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">std_err</span><span class="p">,</span> <span class="n">coeff_det</span> <span class="o">=</span> <span class="n">log_linear_fitting</span><span class="p">(</span><span class="n">ts_pma_reg</span><span class="p">,</span>
                                                       <span class="n">rpp_pma_reg</span><span class="p">,</span>
                                                       <span class="n">method</span><span class="p">)</span>
+
+    <span class="c1"># Store the value inside a dictionary</span>
+    <span class="n">fit_info_pma_fitting</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;slope&#39;</span> <span class="p">:</span> <span class="n">slope</span><span class="p">,</span> <span class="s1">&#39;intercept&#39;</span> <span class="p">:</span> <span class="n">intercept</span><span class="p">,</span>
+                            <span class="s1">&#39;std_err&#39;</span><span class="p">:</span> <span class="n">std_err</span><span class="p">,</span> <span class="s1">&#39;coeff_det&#39;</span> <span class="p">:</span> <span class="n">coeff_det</span><span class="p">}</span>
 
     <span class="c1"># Find t_pma and pma</span>
     <span class="c1"># First record between 3 and 7 min in the confidence area</span>
@@ -255,11 +283,15 @@
     <span class="n">rpp_aei_reg</span> <span class="o">=</span> <span class="n">rpp_aei_reg</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">pma</span><span class="p">)</span> <span class="o">*</span> <span class="mf">100.</span>
 
     <span class="c1"># Apply a new regression with the aei value</span>
-    <span class="n">aei</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">log_linear_fitting</span><span class="p">(</span><span class="n">ts_aei_reg</span><span class="p">,</span>
+    <span class="n">aei</span><span class="p">,</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">std_err</span><span class="p">,</span> <span class="n">coeff_det</span> <span class="o">=</span> <span class="n">log_linear_fitting</span><span class="p">(</span><span class="n">ts_aei_reg</span><span class="p">,</span>
                                       <span class="n">rpp_aei_reg</span><span class="p">,</span>
                                       <span class="n">method</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">pma</span><span class="p">,</span> <span class="n">t_pma</span><span class="p">,</span> <span class="n">aei</span></div>
+    <span class="c1"># Store the value inside a dictionary</span>
+    <span class="n">fit_info_aei_fitting</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;slope&#39;</span> <span class="p">:</span> <span class="n">aei</span><span class="p">,</span> <span class="s1">&#39;intercept&#39;</span> <span class="p">:</span> <span class="n">intercept</span><span class="p">,</span>
+                            <span class="s1">&#39;std_err&#39;</span><span class="p">:</span> <span class="n">std_err</span><span class="p">,</span> <span class="s1">&#39;coeff_det&#39;</span> <span class="p">:</span> <span class="n">coeff_det</span><span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">pma</span><span class="p">,</span> <span class="n">t_pma</span><span class="p">,</span> <span class="n">aei</span><span class="p">,</span> <span class="n">fit_info_pma_fitting</span><span class="p">,</span> <span class="n">fit_info_aei_fitting</span></div>
 
 </pre></div>
 

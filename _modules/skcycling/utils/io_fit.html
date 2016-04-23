@@ -133,9 +133,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for skcycling.utils.io_fit</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Methods to handle input/output files.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;Methods to handle input/output files.&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
@@ -144,22 +142,25 @@
 
 <span class="kn">from</span> <span class="nn">.checker</span> <span class="kn">import</span> <span class="n">check_filename_fit</span>
 
+<span class="kn">from</span> <span class="nn">..restoration</span> <span class="kn">import</span> <span class="n">outliers_rejection</span>
 
-<div class="viewcode-block" id="load_power_from_fit"><a class="viewcode-back" href="../../../modules/skcycling.utils.io_fit.html#skcycling.utils.io_fit.load_power_from_fit">[docs]</a><span class="k">def</span> <span class="nf">load_power_from_fit</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Method to open the power data from FIT file into a numpy array.</span>
+
+<div class="viewcode-block" id="load_power_from_fit"><a class="viewcode-back" href="../../../modules/skcycling.utils.io_fit.html#skcycling.utils.load_power_from_fit">[docs]</a><span class="k">def</span> <span class="nf">load_power_from_fit</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Method to open the power data from FIT file into a numpy array.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    filename : str,</span>
 <span class="sd">        Path to the FIT file.</span>
 
-<span class="sd">    Return</span>
-<span class="sd">    ------</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
 <span class="sd">    power_rec : ndarray, shape (n_samples)</span>
 <span class="sd">        Power records of the ride.</span>
 
 <span class="sd">    date_rec : date</span>
-<span class="sd">        Date associated with the ride</span>
+<span class="sd">        Date associated with the ride.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Check that the filename is existing</span>
     <span class="n">filename</span> <span class="o">=</span> <span class="n">check_filename_fit</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
@@ -170,6 +171,10 @@
 
     <span class="c1"># Get only the power records</span>
     <span class="n">records</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">activity</span><span class="o">.</span><span class="n">get_messages</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;record&#39;</span><span class="p">))</span>
+
+    <span class="c1"># Through an error if there is no data</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">records</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;There is no data to treat in that file.&#39;</span><span class="p">)</span>
 
     <span class="c1"># Extract the date from the first record</span>
     <span class="c1"># It should be more reliable than the device information</span>
@@ -193,6 +198,9 @@
             <span class="n">power_rec</span><span class="p">[</span><span class="n">idx_rec</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.</span>
             <span class="c1"># We keep track of the number of inconsitent data</span>
             <span class="n">warn_sample</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="c1"># Remove artefact if there is any</span>
+    <span class="n">power_rec</span> <span class="o">=</span> <span class="n">outliers_rejection</span><span class="p">(</span><span class="n">power_rec</span><span class="p">)</span>
 
     <span class="c1"># Through a warning if there is no power data found</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">records</span><span class="p">)</span> <span class="o">==</span> <span class="n">warn_sample</span><span class="p">:</span>

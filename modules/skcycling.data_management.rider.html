@@ -126,7 +126,7 @@
         <div class="rst-content">
           
 
-
+ 
 
 
 
@@ -163,6 +163,10 @@
 <em class="property">class </em><code class="descclassname">skcycling.data_management.rider.</code><code class="descname">Rider</code><span class="sig-paren">(</span><em>cyclist_weight</em>, <em>max_duration_profile</em>, <em>rides_pp=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/data_management/rider.html#Rider"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.data_management.rider.Rider" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Rider class to aggregate all the different power tools.</p>
+<p>This class should be the main class used to handle all the data.
+In this object, the information about the power-profile of each
+ride will be stored. Furthermore, a record power-profile can
+be updated by providing some starting and ending date.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -217,8 +221,8 @@ of its weight.</p>
 <tr class="row-odd"><td><a class="reference internal" href="#skcycling.data_management.rider.Rider.add_ride_from_fit" title="skcycling.data_management.rider.Rider.add_ride_from_fit"><code class="xref py py-obj docutils literal"><span class="pre">add_ride_from_fit</span></code></a>(filename)</td>
 <td>Function to add one ride to the list using fit file.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#skcycling.data_management.rider.Rider.add_rides_from_path" title="skcycling.data_management.rider.Rider.add_rides_from_path"><code class="xref py py-obj docutils literal"><span class="pre">add_rides_from_path</span></code></a>(path[,&nbsp;overwrite])</td>
-<td>Function which allows to read and fit some ride and add them to the current list of ride.</td>
+<tr class="row-even"><td><a class="reference internal" href="#skcycling.data_management.rider.Rider.add_rides_from_path" title="skcycling.data_management.rider.Rider.add_rides_from_path"><code class="xref py py-obj docutils literal"><span class="pre">add_rides_from_path</span></code></a>(path[,&nbsp;overwrite,&nbsp;verbose])</td>
+<td>Read a <cite>fit</cite> file, fit it, and add it to the rider profile.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#skcycling.data_management.rider.Rider.compute_record_pp" title="skcycling.data_management.rider.Rider.compute_record_pp"><code class="xref py py-obj docutils literal"><span class="pre">compute_record_pp</span></code></a>([date_start_finish])</td>
 <td>Function to compute the record power profile.</td>
@@ -243,8 +247,14 @@ of its weight.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>filename</strong> : str</p>
-<blockquote class="last">
+<blockquote>
 <div><p>Filename of the fit file to add.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>self</strong> : obj</p>
+<blockquote class="last">
+<div><p>Returns self.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -254,9 +264,8 @@ of its weight.</p>
 
 <dl class="method">
 <dt id="skcycling.data_management.rider.Rider.add_rides_from_path">
-<code class="descname">add_rides_from_path</code><span class="sig-paren">(</span><em>path</em>, <em>overwrite=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/data_management/rider.html#Rider.add_rides_from_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.data_management.rider.Rider.add_rides_from_path" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function which allows to read and fit some ride and add them to
-the current list of ride.</p>
+<code class="descname">add_rides_from_path</code><span class="sig-paren">(</span><em>path</em>, <em>overwrite=False</em>, <em>verbose=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/data_management/rider.html#Rider.add_rides_from_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.data_management.rider.Rider.add_rides_from_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a <cite>fit</cite> file, fit it, and add it to the rider profile.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -269,8 +278,13 @@ the current list of ride.</p>
 <blockquote>
 <div><p>Overwrite the current ride power-profile list.</p>
 </div></blockquote>
-<p><strong>Return:</strong></p>
-<p><strong>self</strong> : object</p>
+<p><strong>verbose</strong> : bool</p>
+<blockquote>
+<div><p>Show information of the process.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>self</strong> : object</p>
 <blockquote class="last">
 <div><p>Returns self.</p>
 </div></blockquote>
@@ -289,9 +303,15 @@ the current list of ride.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>date_start_finish</strong> : tuple of date, shape (start, finish)</p>
-<blockquote class="last">
+<blockquote>
 <div><p>Starting and finishing date to consider to compute the date.
 If None, the full range will be considered.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>self</strong> : object</p>
+<blockquote class="last">
+<div><p>Returns self.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -308,8 +328,14 @@ If None, the full range will be considered.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>date_ride</strong> : date</p>
-<blockquote class="last">
+<blockquote>
 <div><p>The date of the ride to remove.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>self</strong> : object</p>
+<blockquote class="last">
+<div><p>Returns self.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -326,8 +352,14 @@ If None, the full range will be considered.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>filename</strong> : str</p>
-<blockquote class="last">
+<blockquote>
 <div><p>Filename to the pickle file. The extension should be <cite>.p</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>bpp</strong> : object</p>
+<blockquote class="last">
+<div><p>Returns Rider.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -344,9 +376,12 @@ If None, the full range will be considered.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>filename</strong> : str</p>
-<blockquote class="last">
+<blockquote>
 <div><p>Filename to the pickle file. The extension should be <cite>.p</cite>.</p>
 </div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">None</p>
 </td>
 </tr>
 </tbody>

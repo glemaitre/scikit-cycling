@@ -133,8 +133,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for skcycling.power_profile.ride_power_profile</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot; Ride Power-Profile class.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;Ride Power-Profile class.&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
@@ -148,7 +147,7 @@
 
 
 <span class="k">def</span> <span class="nf">_rpp_parallel</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">idx_t_rpp</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Function to compute the rpp in parallel</span>
+    <span class="sd">&quot;&quot;&quot;Function to compute the rpp in parallel.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -158,10 +157,11 @@
 <span class="sd">    idx_t_rpp : int</span>
 <span class="sd">        Index of the time to compute the rpp.</span>
 
-<span class="sd">    Return</span>
-<span class="sd">    ------</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
 <span class="sd">    power : float</span>
 <span class="sd">        Returns the best power for the given duration of the rpp.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Slice the data such that we can compute efficiently the mean later</span>
     <span class="n">t_crop</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="o">-</span><span class="n">idx_t_rpp</span> <span class="o">+</span> <span class="n">i</span><span class="p">:]</span>
@@ -178,8 +178,8 @@
         <span class="k">return</span> <span class="mi">0</span>
 
 
-<div class="viewcode-block" id="RidePowerProfile"><a class="viewcode-back" href="../../../modules/skcycling.power_profile.ride_power_profile.html#skcycling.power_profile.ride_power_profile.RidePowerProfile">[docs]</a><span class="k">class</span> <span class="nc">RidePowerProfile</span><span class="p">(</span><span class="n">BasePowerProfile</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Class to handle the power-profile for one ride.</span>
+<div class="viewcode-block" id="RidePowerProfile"><a class="viewcode-back" href="../../../modules/skcycling.power_profile.ride_power_profile.html#skcycling.power_profile.RidePowerProfile">[docs]</a><span class="k">class</span> <span class="nc">RidePowerProfile</span><span class="p">(</span><span class="n">BasePowerProfile</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class to handle the power-profile for one ride.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -214,6 +214,7 @@
 
 <span class="sd">    date_profile_ : date</span>
 <span class="sd">        Date of the current power-profile.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_duration_profile</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">cyclist_weight</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
@@ -221,8 +222,8 @@
         <span class="nb">super</span><span class="p">(</span><span class="n">RidePowerProfile</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">max_duration_profile</span><span class="p">,</span>
                                                <span class="n">cyclist_weight</span><span class="p">)</span>
 
-<div class="viewcode-block" id="RidePowerProfile.fit"><a class="viewcode-back" href="../../../modules/skcycling.power_profile.ride_power_profile.html#skcycling.power_profile.ride_power_profile.RidePowerProfile.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Read and build the power-profile from the fit file.</span>
+<div class="viewcode-block" id="RidePowerProfile.fit"><a class="viewcode-back" href="../../../modules/skcycling.power_profile.ride_power_profile.html#skcycling.power_profile.RidePowerProfile.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Read and build the power-profile from the fit file.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -230,10 +231,11 @@
 <span class="sd">            The corresponding fit file from which the power-profile will be</span>
 <span class="sd">            extracted from.</span>
 
-<span class="sd">        Return</span>
-<span class="sd">        ------</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
 <span class="sd">        self : object</span>
 <span class="sd">            Returns self.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">filename_</span> <span class="o">=</span> <span class="n">check_filename_fit</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 

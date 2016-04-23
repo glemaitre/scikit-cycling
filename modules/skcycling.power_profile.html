@@ -94,7 +94,7 @@
 <li class="toctree-l3 current"><a class="reference internal" href="skcycling.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="skcycling.data_management.html">skcycling.data_management package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="skcycling.metrics.html">skcycling.metrics package</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="">skcycling.power_profile package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">skcycling.power_profile package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="skcycling.restoration.html">skcycling.restoration package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="skcycling.utils.html">skcycling.utils package</a></li>
 </ul>
@@ -127,7 +127,7 @@
         <div class="rst-content">
           
 
-
+ 
 
 
 
@@ -225,8 +225,14 @@ instead.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>filename</strong> : str</p>
-<blockquote class="last">
+<blockquote>
 <div><p>Filename to the pickle file. The extension should be <cite>.p</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>bpp</strong> : object</p>
+<blockquote class="last">
+<div><p>Returns BasePowerProfile.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -256,8 +262,14 @@ interpolation of first, second or third order) or as an integer
 specifying the order of the spline interpolator to use.</p>
 </div></blockquote>
 <p><strong>normalized</strong> : bool, default False</p>
-<blockquote class="last">
+<blockquote>
 <div><p>Return a weight-normalized rpp if True.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>data</strong> : array-like, shape (n_samples, )</p>
+<blockquote class="last">
+<div><p>Returns a resampled record power-profile.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -274,9 +286,12 @@ specifying the order of the spline interpolator to use.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>filename</strong> : str</p>
-<blockquote class="last">
+<blockquote>
 <div><p>Filename to the pickle file. The extension should be <cite>.p</cite>.</p>
 </div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">None</p>
 </td>
 </tr>
 </tbody>
@@ -367,9 +382,15 @@ using the data from normalized rpp without this data.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>filename</strong> : str</p>
-<blockquote class="last">
+<blockquote>
 <div><p>The corresponding fit file from which the power-profile will be
 extracted from.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>self</strong> : object</p>
+<blockquote class="last">
+<div><p>Returns self.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -383,7 +404,7 @@ extracted from.</p>
 <dt id="skcycling.power_profile.RecordPowerProfile">
 <em class="property">class </em><code class="descclassname">skcycling.power_profile.</code><code class="descname">RecordPowerProfile</code><span class="sig-paren">(</span><em>max_duration_profile=None</em>, <em>cyclist_weight=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/record_power_profile.html#RecordPowerProfile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.RecordPowerProfile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="skcycling.power_profile.base_power_profile.html#skcycling.power_profile.base_power_profile.BasePowerProfile" title="skcycling.power_profile.base_power_profile.BasePowerProfile"><code class="xref py py-class docutils literal"><span class="pre">skcycling.power_profile.base_power_profile.BasePowerProfile</span></code></a></p>
-<p>Record power-profile</p>
+<p>Record power-profile.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -436,7 +457,7 @@ using the data from normalized rpp without this data.</p>
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="#skcycling.power_profile.RecordPowerProfile.fit" title="skcycling.power_profile.RecordPowerProfile.fit"><code class="xref py py-obj docutils literal"><span class="pre">fit</span></code></a>(ride_pp[,&nbsp;date_profile])</td>
-<td>Function to build the record power-profile from a list of ride power-profile.</td>
+<td>Build the record power-profile from a list of ride power-profile.</td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">load_from_pickles</span></code>(filename)</td>
 <td>Function to load an object through pickles.</td>
@@ -452,8 +473,7 @@ using the data from normalized rpp without this data.</p>
 <dl class="method">
 <dt id="skcycling.power_profile.RecordPowerProfile.fit">
 <code class="descname">fit</code><span class="sig-paren">(</span><em>ride_pp</em>, <em>date_profile=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/power_profile/record_power_profile.html#RecordPowerProfile.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.power_profile.RecordPowerProfile.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function to build the record power-profile from a list of ride
-power-profile.</p>
+<dd><p>Build the record power-profile from a list of ride power-profile.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -463,9 +483,15 @@ power-profile.</p>
 <div><p>The list from which we will compute the record power-profile.</p>
 </div></blockquote>
 <p><strong>date_profile: tuple of date, (start, finish)</strong></p>
-<blockquote class="last">
+<blockquote>
 <div><p>The starting and finishing date for which we have to compute the
 record power-profile.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>self</strong> : object</p>
+<blockquote class="last">
+<div><p>Returns self.</p>
 </div></blockquote>
 </td>
 </tr>

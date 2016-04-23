@@ -154,8 +154,13 @@
 <span class="kn">from</span> <span class="nn">..utils.checker</span> <span class="kn">import</span> <span class="n">check_tuple_date</span>
 
 
-<div class="viewcode-block" id="Rider"><a class="viewcode-back" href="../../../modules/skcycling.data_management.rider.html#skcycling.data_management.rider.Rider">[docs]</a><span class="k">class</span> <span class="nc">Rider</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Rider"><a class="viewcode-back" href="../../../modules/skcycling.data_management.rider.html#skcycling.data_management.Rider">[docs]</a><span class="k">class</span> <span class="nc">Rider</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Rider class to aggregate all the different power tools.</span>
+
+<span class="sd">    This class should be the main class used to handle all the data.</span>
+<span class="sd">    In this object, the information about the power-profile of each</span>
+<span class="sd">    ride will be stored. Furthermore, a record power-profile can</span>
+<span class="sd">    be updated by providing some starting and ending date.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -201,8 +206,10 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">rides_pp_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_rides_pp</span><span class="p">(</span><span class="n">rides_pp</span><span class="p">)</span>
 
         <span class="c1"># Initialize the record_pp by default</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">record_pp_</span> <span class="o">=</span> <span class="n">RecordPowerProfile</span><span class="p">(</span><span class="n">max_duration_profile</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_duration_profile_</span><span class="p">,</span>
-                                             <span class="n">cyclist_weight</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cyclist_weight_</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">record_pp_</span> <span class="o">=</span> <span class="n">RecordPowerProfile</span><span class="p">(</span><span class="n">max_duration_profile</span><span class="o">=</span>\
+                                             <span class="bp">self</span><span class="o">.</span><span class="n">max_duration_profile_</span><span class="p">,</span>
+                                             <span class="n">cyclist_weight</span><span class="o">=</span>\
+                                             <span class="bp">self</span><span class="o">.</span><span class="n">cyclist_weight_</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_validate_rides_pp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rides_pp</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Method to check the consistency of the ride power-profile list.</span>
@@ -212,8 +219,8 @@
 <span class="sd">        rides_pp : list of RidePowerProfile</span>
 <span class="sd">            Normally a list of RidePowerProfile.</span>
 
-<span class="sd">        Return</span>
-<span class="sd">        ------</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
 <span class="sd">        rides_pp : list of RidePowerProfile</span>
 <span class="sd">            Return the validated list of RidePowerProfile.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -225,7 +232,8 @@
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The object in the list need to be from&#39;</span>
                                      <span class="s1">&#39; the type RidePowerProfile&#39;</span><span class="p">)</span>
                 <span class="c1"># We need to check that each ride has been fitted</span>
-                <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">rpp</span><span class="p">,</span> <span class="s1">&#39;data_&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">rpp</span><span class="o">.</span><span class="n">max_duration_profile_</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">rpp</span><span class="p">,</span> <span class="s1">&#39;data_&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span>
+                    <span class="n">rpp</span><span class="o">.</span><span class="n">max_duration_profile_</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">):</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;One of the ride never has been fitted.&#39;</span>
                                      <span class="s1">&#39; Fit before to compute the record rpp.&#39;</span><span class="p">)</span>
             <span class="c1"># Create a list of all the max duration to check that they are</span>
@@ -241,7 +249,7 @@
                              <span class="s1">&#39; a list.&#39;</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="Rider.load_from_pickles"><a class="viewcode-back" href="../../../modules/skcycling.data_management.rider.html#skcycling.data_management.rider.Rider.load_from_pickles">[docs]</a>    <span class="k">def</span> <span class="nf">load_from_pickles</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+<div class="viewcode-block" id="Rider.load_from_pickles"><a class="viewcode-back" href="../../../modules/skcycling.data_management.rider.html#skcycling.data_management.Rider.load_from_pickles">[docs]</a>    <span class="k">def</span> <span class="nf">load_from_pickles</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Function to load an object through pickles.</span>
 
 <span class="sd">        Parameters</span>
@@ -249,8 +257,8 @@
 <span class="sd">        filename : str</span>
 <span class="sd">            Filename to the pickle file. The extension should be `.p`.</span>
 
-<span class="sd">        Return</span>
-<span class="sd">        ------</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
 <span class="sd">        bpp : object</span>
 <span class="sd">            Returns Rider.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -261,7 +269,7 @@
 
         <span class="k">return</span> <span class="n">bpp</span></div>
 
-<div class="viewcode-block" id="Rider.save_to_pickles"><a class="viewcode-back" href="../../../modules/skcycling.data_management.rider.html#skcycling.data_management.rider.Rider.save_to_pickles">[docs]</a>    <span class="k">def</span> <span class="nf">save_to_pickles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+<div class="viewcode-block" id="Rider.save_to_pickles"><a class="viewcode-back" href="../../../modules/skcycling.data_management.rider.html#skcycling.data_management.Rider.save_to_pickles">[docs]</a>    <span class="k">def</span> <span class="nf">save_to_pickles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Function to save an object RecordPowerProfile through pickles.</span>
 
 <span class="sd">        Parameters</span>
@@ -269,8 +277,8 @@
 <span class="sd">        filename : str</span>
 <span class="sd">            Filename to the pickle file. The extension should be `.p`.</span>
 
-<span class="sd">        Return</span>
-<span class="sd">        ------</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
 <span class="sd">        None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># We need to check that the directory where the file will be exist</span>
@@ -284,9 +292,8 @@
 
         <span class="k">return</span> <span class="bp">None</span></div>
 
-<div class="viewcode-block" id="Rider.add_rides_from_path"><a class="viewcode-back" href="../../../modules/skcycling.data_management.rider.html#skcycling.data_management.rider.Rider.add_rides_from_path">[docs]</a>    <span class="k">def</span> <span class="nf">add_rides_from_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Function which allows to read and fit some ride and add them to</span>
-<span class="sd">        the current list of ride.</span>
+<div class="viewcode-block" id="Rider.add_rides_from_path"><a class="viewcode-back" href="../../../modules/skcycling.data_management.rider.html#skcycling.data_management.Rider.add_rides_from_path">[docs]</a>    <span class="k">def</span> <span class="nf">add_rides_from_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Read a `fit` file, fit it, and add it to the rider profile.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -296,7 +303,11 @@
 <span class="sd">        overwrite : bool</span>
 <span class="sd">            Overwrite the current ride power-profile list.</span>
 
-<span class="sd">        Return:</span>
+<span class="sd">        verbose : bool</span>
+<span class="sd">            Show information of the process.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
 <span class="sd">        self : object</span>
 <span class="sd">            Returns self.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -309,7 +320,10 @@
         <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
             <span class="c1"># Take only the fit file</span>
             <span class="k">if</span> <span class="n">filename</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.fit&#39;</span><span class="p">):</span>
-                <span class="n">rpp</span> <span class="o">=</span> <span class="n">RidePowerProfile</span><span class="p">(</span><span class="n">max_duration_profile</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_duration_profile_</span><span class="p">,</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                    <span class="k">print</span> <span class="s1">&#39;Process the file: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+                <span class="n">rpp</span> <span class="o">=</span> <span class="n">RidePowerProfile</span><span class="p">(</span><span class="n">max_duration_profile</span><span class="o">=</span>\
+                                       <span class="bp">self</span><span class="o">.</span><span class="n">max_duration_profile_</span><span class="p">,</span>
                                        <span class="n">cyclist_weight</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cyclist_weight_</span><span class="p">)</span>
                 <span class="n">rpp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
                 <span class="n">rides_rpp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rpp</span><span class="p">)</span>
@@ -322,7 +336,7 @@
 
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="Rider.add_ride_from_fit"><a class="viewcode-back" href="../../../modules/skcycling.data_management.rider.html#skcycling.data_management.rider.Rider.add_ride_from_fit">[docs]</a>    <span class="k">def</span> <span class="nf">add_ride_from_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+<div class="viewcode-block" id="Rider.add_ride_from_fit"><a class="viewcode-back" href="../../../modules/skcycling.data_management.rider.html#skcycling.data_management.Rider.add_ride_from_fit">[docs]</a>    <span class="k">def</span> <span class="nf">add_ride_from_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Function to add one ride to the list using fit file.</span>
 
 <span class="sd">        Parameters</span>
@@ -330,8 +344,8 @@
 <span class="sd">        filename : str</span>
 <span class="sd">            Filename of the fit file to add.</span>
 
-<span class="sd">        Return</span>
-<span class="sd">        ------</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
 <span class="sd">        self : obj</span>
 <span class="sd">            Returns self.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -348,7 +362,7 @@
 
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="Rider.delete_ride"><a class="viewcode-back" href="../../../modules/skcycling.data_management.rider.html#skcycling.data_management.rider.Rider.delete_ride">[docs]</a>    <span class="k">def</span> <span class="nf">delete_ride</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">date_ride</span><span class="p">):</span>
+<div class="viewcode-block" id="Rider.delete_ride"><a class="viewcode-back" href="../../../modules/skcycling.data_management.rider.html#skcycling.data_management.Rider.delete_ride">[docs]</a>    <span class="k">def</span> <span class="nf">delete_ride</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">date_ride</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Function to delete a specific ride from the list.</span>
 
 <span class="sd">        Parameters</span>
@@ -356,8 +370,8 @@
 <span class="sd">        date_ride : date</span>
 <span class="sd">            The date of the ride to remove.</span>
 
-<span class="sd">        Return</span>
-<span class="sd">        ------</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
 <span class="sd">        self : object</span>
 <span class="sd">            Returns self.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -378,7 +392,7 @@
 
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="Rider.compute_record_pp"><a class="viewcode-back" href="../../../modules/skcycling.data_management.rider.html#skcycling.data_management.rider.Rider.compute_record_pp">[docs]</a>    <span class="k">def</span> <span class="nf">compute_record_pp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">date_start_finish</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Rider.compute_record_pp"><a class="viewcode-back" href="../../../modules/skcycling.data_management.rider.html#skcycling.data_management.Rider.compute_record_pp">[docs]</a>    <span class="k">def</span> <span class="nf">compute_record_pp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">date_start_finish</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Function to compute the record power profile.</span>
 
 <span class="sd">        Parameters</span>
@@ -387,8 +401,8 @@
 <span class="sd">            Starting and finishing date to consider to compute the date.</span>
 <span class="sd">            If None, the full range will be considered.</span>
 
-<span class="sd">        Return</span>
-<span class="sd">        ------</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
 <span class="sd">        self : object</span>
 <span class="sd">            Returns self.</span>
 <span class="sd">        &quot;&quot;&quot;</span>

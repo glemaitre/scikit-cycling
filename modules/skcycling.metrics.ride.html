@@ -127,7 +127,7 @@
         <div class="rst-content">
           
 
-
+ 
 
 
 
@@ -165,13 +165,25 @@ the lower the better.</p>
 <dl class="function">
 <dt id="skcycling.metrics.ride.ftp2pma">
 <code class="descclassname">skcycling.metrics.ride.</code><code class="descname">ftp2pma</code><span class="sig-paren">(</span><em>ftp</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/metrics/ride.html#ftp2pma"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.metrics.ride.ftp2pma" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert the PMA to FTP</p>
+<dd><p>Convert the MAP to FTP.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>ftp</strong> : float</p>
+<blockquote class="last">
+<div><p>Functioning Threhold Power.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="skcycling.metrics.ride.intensity_factor_ftp_score">
 <code class="descclassname">skcycling.metrics.ride.</code><code class="descname">intensity_factor_ftp_score</code><span class="sig-paren">(</span><em>X</em>, <em>ftp</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/metrics/ride.html#intensity_factor_ftp_score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.metrics.ride.intensity_factor_ftp_score" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute the intensity factor using the FTP</p>
+<dd><p>Compute the intensity factor using the FTP.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -199,7 +211,7 @@ the lower the better.</p>
 <dl class="function">
 <dt id="skcycling.metrics.ride.intensity_factor_pma_score">
 <code class="descclassname">skcycling.metrics.ride.</code><code class="descname">intensity_factor_pma_score</code><span class="sig-paren">(</span><em>X</em>, <em>pma</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/metrics/ride.html#intensity_factor_pma_score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.metrics.ride.intensity_factor_pma_score" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute the intensity factor using the PMAB</p>
+<dd><p>Compute the intensity factor using the MAP.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -227,7 +239,7 @@ the lower the better.</p>
 <dl class="function">
 <dt id="skcycling.metrics.ride.normalized_power_score">
 <code class="descclassname">skcycling.metrics.ride.</code><code class="descname">normalized_power_score</code><span class="sig-paren">(</span><em>X</em>, <em>pma</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/metrics/ride.html#normalized_power_score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.metrics.ride.normalized_power_score" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute the normalized power for a given ride</p>
+<dd><p>Compute the normalized power for a given ride.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -255,16 +267,25 @@ the lower the better.</p>
 <dl class="function">
 <dt id="skcycling.metrics.ride.pma2ftp">
 <code class="descclassname">skcycling.metrics.ride.</code><code class="descname">pma2ftp</code><span class="sig-paren">(</span><em>pma</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/metrics/ride.html#pma2ftp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.metrics.ride.pma2ftp" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert the PMA to FTP</p>
+<dd><p>Convert the MAP to FTP.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>pma</strong> : float</p>
+<blockquote class="last">
+<div><p>Maximum Anaerobic Power.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="skcycling.metrics.ride.training_stress_ftp_grappe_score">
 <code class="descclassname">skcycling.metrics.ride.</code><code class="descname">training_stress_ftp_grappe_score</code><span class="sig-paren">(</span><em>X</em>, <em>ftp</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/metrics/ride.html#training_stress_ftp_grappe_score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.metrics.ride.training_stress_ftp_grappe_score" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Compute the training stress score using the FTP,</dt>
-<dd>considering Grappe et al. approach</dd>
-</dl>
+<dd><p>Compute the training stress score using the FTP.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -292,7 +313,7 @@ the lower the better.</p>
 <dl class="function">
 <dt id="skcycling.metrics.ride.training_stress_ftp_score">
 <code class="descclassname">skcycling.metrics.ride.</code><code class="descname">training_stress_ftp_score</code><span class="sig-paren">(</span><em>X</em>, <em>ftp</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/metrics/ride.html#training_stress_ftp_score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.metrics.ride.training_stress_ftp_score" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute the training stress score using the FTP</p>
+<dd><p>Compute the training stress score using the FTP.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -320,10 +341,7 @@ the lower the better.</p>
 <dl class="function">
 <dt id="skcycling.metrics.ride.training_stress_pma_grappe_score">
 <code class="descclassname">skcycling.metrics.ride.</code><code class="descname">training_stress_pma_grappe_score</code><span class="sig-paren">(</span><em>X</em>, <em>pma</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/metrics/ride.html#training_stress_pma_grappe_score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.metrics.ride.training_stress_pma_grappe_score" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Compute the training stress score using the PMA,</dt>
-<dd>considering Grappe et al. approach</dd>
-</dl>
+<dd><p>Compute the training stress score using the MAP.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -351,7 +369,7 @@ the lower the better.</p>
 <dl class="function">
 <dt id="skcycling.metrics.ride.training_stress_pma_score">
 <code class="descclassname">skcycling.metrics.ride.</code><code class="descname">training_stress_pma_score</code><span class="sig-paren">(</span><em>X</em>, <em>pma</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/metrics/ride.html#training_stress_pma_score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.metrics.ride.training_stress_pma_score" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute the training stress score</p>
+<dd><p>Compute the training stress score.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />

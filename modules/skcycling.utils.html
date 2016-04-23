@@ -96,7 +96,7 @@
 <li class="toctree-l4"><a class="reference internal" href="skcycling.metrics.html">skcycling.metrics package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="skcycling.power_profile.html">skcycling.power_profile package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="skcycling.restoration.html">skcycling.restoration package</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="">skcycling.utils package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">skcycling.utils package</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="skcycling.html#submodules">Submodules</a></li>
@@ -127,7 +127,7 @@
         <div class="rst-content">
           
 
-
+ 
 
 
 
@@ -184,8 +184,18 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>filename</strong> : str,</p>
-<blockquote class="last">
+<blockquote>
 <div><p>Path to the FIT file.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>power_rec</strong> : ndarray, shape (n_samples)</p>
+<blockquote>
+<div><p>Power records of the ride.</p>
+</div></blockquote>
+<p><strong>date_rec</strong> : date</p>
+<blockquote class="last">
+<div><p>Date associated with the ride.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -196,7 +206,7 @@
 <dl class="function">
 <dt id="skcycling.utils.res_std_dev">
 <code class="descclassname">skcycling.utils.</code><code class="descname">res_std_dev</code><span class="sig-paren">(</span><em>model</em>, <em>estimate</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/utils/fit.html#res_std_dev"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.utils.res_std_dev" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function to compute the residual standard deviation</p>
+<dd><p>Function to compute the residual standard deviation.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -206,8 +216,14 @@
 <div><p>Value used to made the fitting.</p>
 </div></blockquote>
 <p><strong>estimate</strong> : array-like, shape (n_sample, )</p>
-<blockquote class="last">
+<blockquote>
 <div><p>Value obtained by fitting.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>residual</strong> : float</p>
+<blockquote class="last">
+<div><p>Residual standard deviation.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -218,7 +234,7 @@
 <dl class="function">
 <dt id="skcycling.utils.r_squared">
 <code class="descclassname">skcycling.utils.</code><code class="descname">r_squared</code><span class="sig-paren">(</span><em>model</em>, <em>estimate</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/utils/fit.html#r_squared"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.utils.r_squared" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function to compute the coefficient of determination</p>
+<dd><p>Function to compute the coefficient of determination.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -228,8 +244,14 @@
 <div><p>Value used to made the fitting.</p>
 </div></blockquote>
 <p><strong>estimate</strong> : array-like, shape (n_sample, )</p>
-<blockquote class="last">
+<blockquote>
 <div><p>Value obtained by fitting.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>coeff_det</strong> : float</p>
+<blockquote class="last">
+<div><p>Coefficient of determination.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -254,12 +276,30 @@
 <div><p>Corresponds to the y. In our case, it should be the rpp.</p>
 </div></blockquote>
 <p><strong>method</strong> : string, optional (default=&#8217;lsq&#8217;)</p>
-<blockquote class="last">
+<blockquote>
 <div><p>The method to use to perform the regression. The choices are:</p>
 <ul class="simple">
 <li>If &#8216;lsq&#8217;, an ordinary least-square approach is used.</li>
 <li>If &#8216;lm&#8217;, the Levenberg-Marquardt is used.</li>
 </ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>slope</strong> : float</p>
+<blockquote>
+<div><p>slope of the regression line.</p>
+</div></blockquote>
+<p><strong>intercept</strong> : float</p>
+<blockquote>
+<div><p>intercept of the regression line.</p>
+</div></blockquote>
+<p><strong>std_err</strong> : float</p>
+<blockquote>
+<div><p>Standard error of the estimate.</p>
+</div></blockquote>
+<p><strong>coeff_det</strong> : float</p>
+<blockquote class="last">
+<div><p>Coefficient of determination.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -284,8 +324,14 @@
 <div><p>Slope of the linear equation.</p>
 </div></blockquote>
 <p><strong>intercept</strong> : float</p>
-<blockquote class="last">
+<blockquote>
 <div><p>Intercept of the linear equation.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>y</strong> : ndarray, shape (n_samples)</p>
+<blockquote class="last">
+<div><p>Output of the linear model.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -310,8 +356,14 @@
 <div><p>Slope of the linear equation.</p>
 </div></blockquote>
 <p><strong>intercept</strong> : float</p>
-<blockquote class="last">
+<blockquote>
 <div><p>Intercept of the linear equation.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>y</strong> : ndarray, shape (n_samples)</p>
+<blockquote class="last">
+<div><p>Output of the linear model.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -327,7 +379,17 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>X</strong> : array-like, shape = (data, )</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : ndarray, shape (data, )</p>
+<blockquote>
+<div><p>Array to check the consistency.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>X</strong> : ndarray, shape (data, )</p>
+<blockquote class="last">
+<div><p>Array which is consistent.</p>
+</div></blockquote>
+</td>
 </tr>
 </tbody>
 </table>
@@ -341,9 +403,15 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X :</strong></p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X</strong> : float</p>
+<blockquote>
+<div><p>Value to check and convert if not float.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>X</strong> : float</p>
 <blockquote class="last">
-<div><p>Value to check and convert if not float</p>
+<div><p>Value float which is consistent.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -360,8 +428,14 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>date_tuple</strong> : tuple of date, shape (start, finish)</p>
-<blockquote class="last">
+<blockquote>
 <div><p>The tuple to check.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>date_tuple</strong> : tuple of date, shape (start, finish)</p>
+<blockquote class="last">
+<div><p>The validated tuple.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -378,8 +452,14 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>filename</strong> : str</p>
-<blockquote class="last">
+<blockquote>
 <div><p>The fit file to check.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>filename</strong> : str</p>
+<blockquote class="last">
+<div><p>The checked filename.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -396,8 +476,14 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>filename</strong> : str</p>
-<blockquote class="last">
+<blockquote>
 <div><p>The pickle file to check.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>filename</strong> : str</p>
+<blockquote class="last">
+<div><p>The checked filename.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -409,6 +495,24 @@
 <dt id="skcycling.utils.check_filename_pickle_save">
 <code class="descclassname">skcycling.utils.</code><code class="descname">check_filename_pickle_save</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/skcycling/utils/checker.html#check_filename_pickle_save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skcycling.utils.check_filename_pickle_save" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to check the extension of the pickle file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>filename</strong> : str</p>
+<blockquote>
+<div><p>The filename which needs to be checked.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>filename</strong> : str</p>
+<blockquote class="last">
+<div><p>The filename which has been checked.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>
