@@ -10,7 +10,6 @@ from .fit import log_linear_fitting
 from .fit import linear_model
 from .fit import log_linear_model
 
-from .checker import check_X
 from .checker import check_tuple_date
 from .checker import check_filename_fit
 
@@ -21,6 +20,5 @@ __all__ = ['load_power_from_fit',
            'log_linear_fitting',
            'linear_model',
            'log_linear_model',
-           'check_X',
            'check_tuple_date',
            'check_filename_fit']

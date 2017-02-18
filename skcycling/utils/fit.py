@@ -28,8 +28,7 @@ def res_std_dev(model, estimate):
         raise ValueError('The model and estimate arrays should have'
                          ' the same size.')
 
-    return np.sqrt(np.sum((model - estimate) ** 2) /
-                   (float(model.size) - 2.))
+    return np.sqrt(np.sum((model - estimate)**2) / (float(model.size) - 2.))
 
 
 def r_squared(model, estimate):
@@ -58,10 +57,10 @@ def r_squared(model, estimate):
     model_mean = np.mean(model)
 
     # Compute the total sum of squares
-    ss_tot = np.sum((model - model_mean) ** 2)
+    ss_tot = np.sum((model - model_mean)**2)
 
     # Compute the sum of squares residual
-    ss_res = np.sum((model - estimate) ** 2)
+    ss_res = np.sum((model - estimate)**2)
 
     return 1. - (ss_res / ss_tot)
 
@@ -107,13 +106,9 @@ def log_linear_fitting(x, y, method='lsq'):
         # Perform the fitting using least-square
         slope, intercept, _, _, _ = linregress(np.log(x), y)
 
-        std_err = res_std_dev(y, log_linear_model(x,
-                                                  slope,
-                                                  intercept))
+        std_err = res_std_dev(y, log_linear_model(x, slope, intercept))
 
-        coeff_det = r_squared(y, log_linear_model(x,
-                                                  slope,
-                                                  intercept))
+        coeff_det = r_squared(y, log_linear_model(x, slope, intercept))
     elif method == 'lm':
         # Perform the fitting using non-linear least-square
         # Levenberg-Marquardt
@@ -122,13 +117,9 @@ def log_linear_fitting(x, y, method='lsq'):
         slope = popt[0]
         intercept = popt[1]
 
-        std_err = res_std_dev(y, log_linear_model(x,
-                                                  slope,
-                                                  intercept))
+        std_err = res_std_dev(y, log_linear_model(x, slope, intercept))
 
-        coeff_det = r_squared(y, log_linear_model(x,
-                                                  slope,
-                                                  intercept))
+        coeff_det = r_squared(y, log_linear_model(x, slope, intercept))
     else:
         raise NotImplementedError
 

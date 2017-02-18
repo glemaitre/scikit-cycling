@@ -6,8 +6,7 @@ import numpy as np
 from fitparse import FitFile
 
 from .checker import check_filename_fit
-
-from ..restoration.denoise import outliers_rejection
+from ..restoration import outliers_rejection
 
 
 def load_power_from_fit(filename):

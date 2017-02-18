@@ -12,7 +12,6 @@ from skcycling.utils import log_linear_fitting
 from skcycling.utils import linear_model
 from skcycling.utils import log_linear_model
 
-
 PRECISION_TEST = 3
 
 
@@ -30,8 +29,8 @@ def test_res_std_dec():
     model = np.arange(10)
     estimate = np.ones((10, )) * 5.
 
-    assert_almost_equal(res_std_dev(model, estimate), 3.2596012026,
-                        decimal=PRECISION_TEST)
+    assert_almost_equal(
+        res_std_dev(model, estimate), 3.2596012026, decimal=PRECISION_TEST)
 
 
 def test_r_squared_wrong_sz():
@@ -48,8 +47,10 @@ def test_r_squared():
     model = np.arange(10)
     estimate = np.ones((10, )) * 5.
 
-    assert_almost_equal(r_squared(model, estimate), -0.030303030303030276,
-                        decimal=PRECISION_TEST)
+    assert_almost_equal(
+        r_squared(model, estimate),
+        -0.030303030303030276,
+        decimal=PRECISION_TEST)
 
 
 def test_linear_model():
@@ -59,8 +60,10 @@ def test_linear_model():
 
 def test_log_linear_model():
     """ Test the linear model routine. """
-    assert_almost_equal(log_linear_model(3., 4., 2.), 6.3944491546724391,
-                        decimal=PRECISION_TEST)
+    assert_almost_equal(
+        log_linear_model(3., 4., 2.),
+        6.3944491546724391,
+        decimal=PRECISION_TEST)
 
 
 def test_log_linear_fitting_wrong_size():
@@ -79,9 +82,7 @@ def test_log_linear_fitting_lsq():
     y = linear_model(x, 2., 3.)
 
     method = 'lsq'
-    slope, intercept, std_err, coeff_det = log_linear_fitting(x,
-                                                              y,
-                                                              method)
+    slope, intercept, std_err, coeff_det = log_linear_fitting(x, y, method)
 
     assert_almost_equal(slope, 10.884469280692462, decimal=PRECISION_TEST)
     assert_almost_equal(intercept, -3.8280798214097231, decimal=PRECISION_TEST)
@@ -96,9 +97,7 @@ def test_log_linear_fitting_lm():
     y = linear_model(x, 2., 3.)
 
     method = 'lm'
-    slope, intercept, std_err, coeff_det = log_linear_fitting(x,
-                                                              y,
-                                                              method)
+    slope, intercept, std_err, coeff_det = log_linear_fitting(x, y, method)
 
     assert_almost_equal(slope, 10.884469280692462, decimal=PRECISION_TEST)
     assert_almost_equal(intercept, -3.8280798214097231, decimal=PRECISION_TEST)
