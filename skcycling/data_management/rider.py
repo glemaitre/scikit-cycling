@@ -88,8 +88,8 @@ class Rider(object):
                                      ' Fit before to compute the record rpp.')
             # Create a list of all the max duration to check that they are
             # all equal
-            max_duration = np.array([rpp.max_duration_profile
-                                     for rpp in rides_pp])
+            max_duration = np.array(
+                [rpp.max_duration_profile for rpp in rides_pp])
             if not np.all(max_duration == self.max_duration_profile):
                 raise ValueError('The maximum duration of the profile should'
                                  ' be the same for all the data.')
@@ -166,10 +166,10 @@ class Rider(object):
         else:
             # decide if it is a file or a directory
             if os.path.isdir(location):
-                filenames = [os.path.join(os.path.abspath(location),
-                                          name)
-                             for name in os.listdir(location)
-                             if name.endswith('.fit')]
+                filenames = [
+                    os.path.join(os.path.abspath(location), name)
+                    for name in os.listdir(location) if name.endswith('.fit')
+                ]
             else:
                 filenames = [os.path.abspath(location)]
 
