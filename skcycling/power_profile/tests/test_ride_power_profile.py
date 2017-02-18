@@ -27,8 +27,8 @@ def test_ridepp_fit():
     data = np.load(os.path.join(currdir, 'data', 'profile_fit_1.npy'))
     assert_array_equal(my_ride_rpp.data_, data)
     assert_equal(my_ride_rpp.data_norm_, None)
-    assert_equal(my_ride_rpp.cyclist_weight_, None)
-    assert_equal(my_ride_rpp.max_duration_profile_, 1)
+    assert_equal(my_ride_rpp.cyclist_weight, 60)
+    assert_equal(my_ride_rpp.max_duration_profile, 1)
     assert_equal(my_ride_rpp.date_profile_, date(2014, 05, 07))
     assert_equal(my_ride_rpp.filename_, filename)
 
@@ -48,8 +48,8 @@ def test_ridepp_fit_w_weight():
     assert_array_equal(my_ride_rpp.data_, data)
     data = np.load(os.path.join(currdir, 'data', 'profile_fit_weight_1.npy'))
     assert_array_equal(my_ride_rpp.data_norm_, data)
-    assert_equal(my_ride_rpp.cyclist_weight_, 60.)
-    assert_equal(my_ride_rpp.max_duration_profile_, 1)
+    assert_equal(my_ride_rpp.cyclist_weight, 60.)
+    assert_equal(my_ride_rpp.max_duration_profile, 1)
     assert_equal(my_ride_rpp.date_profile_, date(2014, 05, 07))
     assert_equal(my_ride_rpp.filename_, filename)
 

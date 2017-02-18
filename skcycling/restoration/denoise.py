@@ -50,7 +50,7 @@ def moving_average(X, win=30):
     X : array-like, shape (n_samples, )
         Array containing the ride or a selection of a ride.
 
-    win : interger
+    win : interger, optional (default=30)
         Size of the sliding window.
 
     Returns

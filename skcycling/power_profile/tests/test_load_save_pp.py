@@ -7,7 +7,6 @@ from numpy.testing import assert_array_equal
 from numpy.testing import assert_equal
 
 from skcycling.power_profile import RidePowerProfile
-from skcycling.power_profile import RecordPowerProfile
 
 
 def test_save_load_ride_pp():
@@ -34,9 +33,9 @@ def test_save_load_ride_pp():
     # Check that the object have the same values
     assert_array_equal(my_ride_rpp.data_, obj.data_)
     assert_equal(my_ride_rpp.data_norm_, obj.data_norm_)
-    assert_equal(my_ride_rpp.cyclist_weight_, obj.cyclist_weight_)
-    assert_equal(my_ride_rpp.max_duration_profile_,
-                 obj.max_duration_profile_)
+    assert_equal(my_ride_rpp.cyclist_weight, obj.cyclist_weight)
+    assert_equal(my_ride_rpp.max_duration_profile,
+                 obj.max_duration_profile)
     assert_equal(my_ride_rpp.date_profile_, obj.date_profile_)
     assert_equal(my_ride_rpp.filename_, obj.filename_)
 

@@ -7,6 +7,8 @@ Subpackages
 -----------
 data_management
     Class to manage the data for a rider.
+datasets
+    Modules with helper for datasets.
 metrics
     Metrics to quantify cyclist ride.
 power_profile

@@ -20,13 +20,14 @@ def test_amm_wrong_profile():
 
 
 def test_amm_wrong_method():
-    """ Test either if an error is raised when the method for fittin is
+    """ Test either if an error is raised when the method for fitting is
     not implemented. """
     # Create the path to read the npy file
     currdir = os.path.dirname(os.path.abspath(__file__))
     filename = os.path.join(currdir, 'data', 'ride_profile.p')
 
     my_ride_rpp = RidePowerProfile.load_from_pickles(filename)
+    print(type(my_ride_rpp))
     # Apply an unknwon method
     assert_raises(NotImplementedError, aerobic_meta_model,
                   my_ride_rpp, method='None')
@@ -43,7 +44,7 @@ def test_amm_no_normalized():
 
     # Override the data such that no normalized data exist
     my_ride_rpp.data_norm_ = None
-    my_ride_rpp.cyclist_weight_ = None
+    my_ride_rpp.cyclist_weight = None
 
     # Compute for non normalized data
     assert_raises(ValueError, aerobic_meta_model, my_ride_rpp, normalized=True)
@@ -64,9 +65,11 @@ def test_amm_default_params():
 
     # Replace the value in the profile
     my_ride_rpp.data_ = data[:len(my_ride_rpp.data_)]
-    my_ride_rpp.data_norm_ = my_ride_rpp.data_ / my_ride_rpp.cyclist_weight_
+    my_ride_rpp.data_norm_ = my_ride_rpp.data_ / my_ride_rpp.cyclist_weight
 
-    pma, t_pma, aei, fit_info_pma_fitting, fit_info_aei_fitting = aerobic_meta_model(my_ride_rpp)
+    (pma, t_pma, aei,
+     fit_info_pma_fitting,
+     fit_info_aei_fitting) = aerobic_meta_model(my_ride_rpp)
 
     # Check the different value
     assert_almost_equal(pma, 453.37229888268155,
@@ -92,7 +95,7 @@ def test_aerobic_meta_model_ts():
 
     # Replace the value in the profile
     my_ride_rpp.data_ = data[:len(my_ride_rpp.data_)]
-    my_ride_rpp.data_norm_ = my_ride_rpp.data_ / my_ride_rpp.cyclist_weight_
+    my_ride_rpp.data_norm_ = my_ride_rpp.data_ / my_ride_rpp.cyclist_weight
 
     ts_reg = np.array([3., 4., 5., 6., 7., 10, 20, 30, 45, 60, 120, 180, 240])
     pma, t_pma, aei, fit_info_pma_fitting, fit_info_aei_fitting = aerobic_meta_model(my_ride_rpp, ts=ts_reg)
@@ -122,7 +125,7 @@ def test_aerobic_meta_model_weight():
 
     # Replace the value in the profile
     my_ride_rpp.data_ = data[:len(my_ride_rpp.data_)]
-    my_ride_rpp.data_norm_ = my_ride_rpp.data_ / my_ride_rpp.cyclist_weight_
+    my_ride_rpp.data_norm_ = my_ride_rpp.data_ / my_ride_rpp.cyclist_weight
 
     pma, t_pma, aei, fit_info_pma_fitting, fit_info_aei_fitting = aerobic_meta_model(my_ride_rpp, normalized=True)
 
@@ -151,7 +154,7 @@ def test_aerobic_meta_model_lm():
 
     # Replace the value in the profile
     my_ride_rpp.data_ = data[:len(my_ride_rpp.data_)]
-    my_ride_rpp.data_norm_ = my_ride_rpp.data_ / my_ride_rpp.cyclist_weight_
+    my_ride_rpp.data_norm_ = my_ride_rpp.data_ / my_ride_rpp.cyclist_weight
 
     pma, t_pma, aei, fit_info_pma_fitting, fit_info_aei_fitting = aerobic_meta_model(my_ride_rpp, method='lm')
 
@@ -190,7 +193,7 @@ def test_amm_cropping_ts():
 
     # Replace the value in the profile
     my_ride_rpp.data_ = data[:len(my_ride_rpp.data_)]
-    my_ride_rpp.data_norm_ = my_ride_rpp.data_ / my_ride_rpp.cyclist_weight_
+    my_ride_rpp.data_norm_ = my_ride_rpp.data_ / my_ride_rpp.cyclist_weight
 
     ts_reg = np.array([3., 4., 5., 6., 7., 10, 20,
                        30, 45, 60, 120, 180, 240, 300])

@@ -8,9 +8,6 @@ from scipy.interpolate import interp1d
 
 from abc import ABCMeta, abstractmethod
 
-from ..utils.checker import check_filename_pickle_load
-from ..utils.checker import check_filename_pickle_save
-
 
 class BasePowerProfile(object):
     """Basic class for power profile.
@@ -23,8 +20,8 @@ class BasePowerProfile(object):
     @abstractmethod
     def __init__(self, max_duration_profile=None, cyclist_weight=None):
         """Constructor."""
-        self.max_duration_profile_ = max_duration_profile
-        self.cyclist_weight_ = cyclist_weight
+        self.max_duration_profile = max_duration_profile
+        self.cyclist_weight = cyclist_weight
 
     @staticmethod
     def load_from_pickles(filename):
@@ -41,8 +38,6 @@ class BasePowerProfile(object):
             Returns BasePowerProfile.
 
         """
-        # Check the consistency of the filename
-        filename = check_filename_pickle_load(filename)
         # Load the pickle
         bpp = pickle.load(open(filename, 'rb'))
 
@@ -65,8 +60,6 @@ class BasePowerProfile(object):
         dir_pickle = os.path.dirname(filename)
         if not os.path.exists(dir_pickle):
             os.makedirs(dir_pickle)
-        # Check the consistency of the filename
-        filename = check_filename_pickle_save(filename)
         # Create the pickle file
         pickle.dump(self, open(filename, 'wb'))
 
@@ -106,7 +99,7 @@ class BasePowerProfile(object):
         # Shall used the rpp or weight-normalized rpp
         if normalized is True:
             # Check that the cyclist weight was provided
-            if self.cyclist_weight_ is not None:
+            if self.cyclist_weight is not None:
                 data = self.data_norm_
             else:
                 raise ValueError('You cannot get a normalized rpp if the'
@@ -114,7 +107,7 @@ class BasePowerProfile(object):
         else:
             data = self.data_
 
-        t = np.linspace(0, self.max_duration_profile_, data.size)
+        t = np.linspace(0, self.max_duration_profile, data.size)
         f = interp1d(t, data, kind=method_interp)
 
         return f(ts)

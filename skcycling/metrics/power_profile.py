@@ -1,4 +1,5 @@
 """ Metrics to asses the power profile. """
+from __future__ import division
 
 import warnings
 import numpy as np
@@ -83,10 +84,10 @@ def aerobic_meta_model(profile, ts=None, normalized=False, method='lsq'):
         # By default ts will be taken as in WKO+
         ts = SAMPLING_WKO.copy()
 
-    if np.count_nonzero(ts > profile.max_duration_profile_) > 0:
+    if np.count_nonzero(ts > profile.max_duration_profile) > 0:
         # The values which are outside of the maximum duration need to
         # be removed
-        ts = ts[np.nonzero(ts <= profile.max_duration_profile_)]
+        ts = ts[np.nonzero(ts <= profile.max_duration_profile)]
         warnings.warn('Samples in `ts` have been removed since that they'
                       ' are not information inside the rpp.')
 
@@ -100,24 +101,24 @@ def aerobic_meta_model(profile, ts=None, normalized=False, method='lsq'):
 
     # Find the MAP and the corresponding time
     # Only the time between 10 and 240 minutes is used for the regression
-    ts_pma_reg = ts[np.nonzero(np.bitwise_and(ts >= 10., ts <= 240.))]
-    rpp_pma_reg = rpp[np.nonzero(np.bitwise_and(ts >= 10., ts <= 240.))]
+    ts_pma_reg = ts[np.nonzero(np.bitwise_and(ts >= 10, ts <= 240))]
+    rpp_pma_reg = rpp[np.nonzero(np.bitwise_and(ts >= 10, ts <= 240))]
 
     # Apply the first log-linear fitting
     slope, intercept, std_err, coeff_det = log_linear_fitting(ts_pma_reg,
-                                                      rpp_pma_reg,
-                                                      method)
+                                                              rpp_pma_reg,
+                                                              method)
 
     # Store the value inside a dictionary
-    fit_info_pma_fitting = {'slope' : slope, 'intercept' : intercept,
-                            'std_err': std_err, 'coeff_det' : coeff_det}
+    fit_info_pma_fitting = {'slope': slope, 'intercept': intercept,
+                            'std_err': std_err, 'coeff_det': coeff_det}
 
     # Find t_pma and pma
     # First record between 3 and 7 min in the confidence area
-    ts_pma = ts[np.nonzero(np.bitwise_and(ts >= 3.,
-                                          ts <= 7.))]
-    rpp_pma = rpp[np.nonzero(np.bitwise_and(ts >= 3.,
-                                            ts <= 7.))]
+    ts_pma = ts[np.nonzero(np.bitwise_and(ts >= 3,
+                                          ts <= 7))]
+    rpp_pma = rpp[np.nonzero(np.bitwise_and(ts >= 3,
+                                            ts <= 7))]
 
     # Compute the aerobic model found from the regression for
     # the range of interest
@@ -125,14 +126,14 @@ def aerobic_meta_model(profile, ts=None, normalized=False, method='lsq'):
 
     # Check the first value which entered in the confidence of 2 std
     if np.count_nonzero(np.abs(rpp_pma -
-                               aerobic_model) < 2. * std_err) > 0:
+                               aerobic_model) < 2 * std_err) > 0:
         # Get the first value
         t_pma = ts_pma[np.flatnonzero(np.abs(rpp_pma -
-                                             aerobic_model) < 2. *
+                                             aerobic_model) < 2 *
                                       std_err)[0]]
         # Obtain the corresponding mpa
         pma = rpp_pma[np.flatnonzero(np.abs(rpp_pma -
-                                            aerobic_model) < 2. *
+                                            aerobic_model) < 2 *
                                      std_err)[0]]
     else:
         raise ValueError('There is no value entering in the confidence'
@@ -140,12 +141,12 @@ def aerobic_meta_model(profile, ts=None, normalized=False, method='lsq'):
 
     # Find aei
     # Get the rpp and ts between t_pma and 240 minutes
-    ts_aei_reg = ts[np.nonzero(np.bitwise_and(ts >= float(t_pma),
-                                              ts <= 240.))]
-    rpp_aei_reg = rpp[np.nonzero(np.bitwise_and(ts >= float(t_pma),
-                                                ts <= 240.))]
+    ts_aei_reg = ts[np.nonzero(np.bitwise_and(ts >= t_pma,
+                                              ts <= 240))]
+    rpp_aei_reg = rpp[np.nonzero(np.bitwise_and(ts >= t_pma,
+                                                ts <= 240))]
     # Express the rpp in term of percentage of PMA
-    rpp_aei_reg = rpp_aei_reg / float(pma) * 100.
+    rpp_aei_reg = rpp_aei_reg / pma * 100
 
     # Apply a new regression with the aei value
     aei, intercept, std_err, coeff_det = log_linear_fitting(ts_aei_reg,
@@ -153,8 +154,7 @@ def aerobic_meta_model(profile, ts=None, normalized=False, method='lsq'):
                                                             method)
 
     # Store the value inside a dictionary
-    fit_info_aei_fitting = {'slope' : aei, 'intercept' : intercept,
-                            'std_err': std_err, 'coeff_det' : coeff_det}
+    fit_info_aei_fitting = {'slope': aei, 'intercept': intercept,
+                            'std_err': std_err, 'coeff_det': coeff_det}
 
     return pma, t_pma, aei, fit_info_pma_fitting, fit_info_aei_fitting
-

@@ -7,15 +7,13 @@ import os
 import warnings
 import numpy as np
 import cPickle as pickle
+import logging
+from copy import deepcopy
 
 from datetime import date
 
 from ..power_profile import RidePowerProfile
 from ..power_profile import RecordPowerProfile
-
-from ..utils.checker import check_filename_pickle_load
-from ..utils.checker import check_filename_pickle_save
-from ..utils.checker import check_filename_fit
 from ..utils.checker import check_tuple_date
 
 
@@ -29,16 +27,16 @@ class Rider(object):
 
     Parameters
     ----------
-    max_duration_profile : int
-        Integer representing the maximum duration in minutes to build the
-        record power-profile model. It can be infered if the data are loaded
-        from a pickle file.
-
-    cyclist_weight : float
+    cyclist_weight : float,
         Float in order to normalise the record power-profile depending
         of its weight.
 
-    rides_pp : list of RidePowerProfile or None
+    max_duration_profile : int, optional (default=300)
+        Integer representing the maximum duration in minutes to build the
+        record power-profile model. It can be inferred if the data are loaded
+        from a pickle file.
+
+    rides_pp : list of RidePowerProfile or None, optional (default=None)
         Initialize the list of RidePowerProfile
 
     Attributes
@@ -48,33 +46,18 @@ class Rider(object):
 
     record_pp_ : RecordPowerProfile
         The record power-profile of the rider.
-
-    max_duration_profile_ : int
-        Integer representing the maximum duration in minutes to build the
-        record power-profile model.
-
-    cyclist_weight_ : float
-        Float in order to normalise the record power-profile depending
-        of its weight.
     """
 
-    def __init__(self, cyclist_weight, max_duration_profile, rides_pp=None):
+    def __init__(self, cyclist_weight, max_duration_profile=300,
+                 rides_pp=None):
         """ Constructor. """
-        self.cyclist_weight_ = cyclist_weight
-        self.max_duration_profile_ = max_duration_profile
-        # Check the list of ride
-        if rides_pp is None:
-            # Initialize the list to an empty list
-            self.rides_pp_ = []
-        else:
-            # Check if all the elements are from the class RidePowerProfile
-            self.rides_pp_ = self._validate_rides_pp(rides_pp)
-
-        # Initialize the record_pp by default
-        self.record_pp_ = RecordPowerProfile(max_duration_profile=\
-                                             self.max_duration_profile_,
-                                             cyclist_weight=\
-                                             self.cyclist_weight_)
+        self.cyclist_weight = cyclist_weight
+        self.max_duration_profile = max_duration_profile
+        self.rides_pp_ = self._validate_rides_pp(rides_pp)
+        self.record_pp_ = RecordPowerProfile(
+            max_duration_profile=self.max_duration_profile,
+            cyclist_weight=self.cyclist_weight)
+        self.logger = logging.getLogger(__name__)
 
     def _validate_rides_pp(self, rides_pp):
         """ Method to check the consistency of the ride power-profile list.
@@ -90,6 +73,8 @@ class Rider(object):
             Return the validated list of RidePowerProfile.
         """
         # Check that this is a list
+        if rides_pp is None:
+            return []
         if isinstance(rides_pp, list):
             # Check that each element are from the class RidePowerProfile
             for rpp in rides_pp:
@@ -98,17 +83,17 @@ class Rider(object):
                                      ' the type RidePowerProfile')
                 # We need to check that each ride has been fitted
                 if (getattr(rpp, 'data_', None) is None or
-                    rpp.max_duration_profile_ is None):
+                        rpp.max_duration_profile is None):
                     raise ValueError('One of the ride never has been fitted.'
                                      ' Fit before to compute the record rpp.')
             # Create a list of all the max duration to check that they are
             # all equal
-            max_duration = np.array([rpp.max_duration_profile_
+            max_duration = np.array([rpp.max_duration_profile
                                      for rpp in rides_pp])
-            if not np.all(max_duration == self.max_duration_profile_):
+            if not np.all(max_duration == self.max_duration_profile):
                 raise ValueError('The maximum duration of the profile should'
                                  ' be the same for all the data.')
-            return rides_pp
+            return deepcopy(rides_pp)
         else:
             raise ValueError('The ride power-profile should be given as'
                              ' a list.')
@@ -127,8 +112,6 @@ class Rider(object):
         bpp : object
             Returns Rider.
         """
-        # Check the consistency of the filename
-        filename = check_filename_pickle_load(filename)
         # Load the pickle
         bpp = pickle.load(open(filename, 'rb'))
 
@@ -150,80 +133,62 @@ class Rider(object):
         dir_pickle = os.path.dirname(filename)
         if not os.path.exists(dir_pickle):
             os.makedirs(dir_pickle)
-        # Check the consistency of the filename
-        filename = check_filename_pickle_save(filename)
         # Create the pickle file
         pickle.dump(self, open(filename, 'wb'))
 
         return None
 
-    def add_rides_from_path(self, path, overwrite=False, verbose=True):
-        """ Read a `fit` file, fit it, and add it to the rider profile.
+    def add_rides(self, location, overwrite=False, n_jobs=1):
+        """Read files from a path, fit it, and add it to the rider profile.
+
+        A list of files or file can be read from the location given by
+        the user.
 
         Parameters
-        ----------
-        path : str
-            Path from where to get the fit file.
+        ---------
+        location : str or list of str,
+            Correspond to the file name or to the path where several files
+            have to be processed.
 
-        overwrite : bool
+        overwrite : bool, optional (default=False)
             Overwrite the current ride power-profile list.
-
-        verbose : bool
-            Show information of the process.
 
         Returns
         -------
         self : object
             Returns self.
         """
-        # Check that the path exist
-        if not os.path.exists(path):
+        if isinstance(location, list):
+            # only select fit file
+            filenames = [name for name in location if name.endswith('.fit')]
+        elif not os.path.exists(location):
             raise ValueError('The path is not existing.')
+        else:
+            # decide if it is a file or a directory
+            if os.path.isdir(location):
+                filenames = [os.path.join(os.path.abspath(location),
+                                          name)
+                             for name in os.listdir(location)
+                             if name.endswith('.fit')]
+            else:
+                filenames = [os.path.abspath(location)]
 
-        # Find all the fit file
+        # extract the file names
         rides_rpp = []
-        for filename in os.listdir(path):
-            # Take only the fit file
-            if filename.endswith('.fit'):
-                if verbose:
-                    print 'Process the file: {}'.format(filename)
-                rpp = RidePowerProfile(max_duration_profile=\
-                                       self.max_duration_profile_,
-                                       cyclist_weight=self.cyclist_weight_)
-                rpp.fit(os.path.join(path, filename))
-                rides_rpp.append(rpp)
+        for filename in filenames:
+            # self.logger.info('Process the file {}'.format(filename))
+            rpp = RidePowerProfile(
+                max_duration_profile=self.max_duration_profile,
+                cyclist_weight=self.cyclist_weight,
+                n_jobs=n_jobs)
+            rpp.fit(filename)
+            rides_rpp.append(rpp)
 
         # Check if we have to overwrite the list
         if overwrite:
             self.rides_pp_ = rides_rpp
         else:
             self.rides_pp_ += rides_rpp
-
-        return self
-
-    def add_ride_from_fit(self, filename):
-        """ Function to add one ride to the list using fit file.
-
-        Parameters
-        ----------
-        filename : str
-            Filename of the fit file to add.
-
-        Returns
-        -------
-        self : obj
-            Returns self.
-        """
-        # Check that the filename is a fit file and is consitant
-        filename = check_filename_fit(filename)
-
-        # Create an object to handle the ride
-        rpp = RidePowerProfile(max_duration_profile=self.max_duration_profile_,
-                                       cyclist_weight=self.cyclist_weight_)
-        rpp.fit(filename)
-
-        # Add to the current file
-        self.rides_pp_.append(rpp)
 
         return self
 
@@ -245,15 +210,15 @@ class Rider(object):
             raise ValueError('The date should be a date object.')
 
         # From the list of ride, get the date of the ride
-        date_rides = np.array([rpp.date_profile_ for rpp in self.rides_pp_])
+        rpp_date_rides = [rpp.date_profile_ for rpp in self.rides_pp_]
 
         # Find if there is any date corresponding to the one specified by
         # the user
-        if np.count_nonzero(date_rides == date_ride) == 0:
-            warnings.warn('No rides have been removed. No matching dates.')
+        for rpp_idx, rpp_date in enumerate(rpp_date_rides):
+            if rpp_date == date_ride:
+                del self.rides_pp_[rpp_idx]
         else:
-            idx_rides_keep = np.flatnonzero(date_rides != date_ride)
-            self.rides_pp_ = [self.rides_pp_[i] for i in idx_rides_keep]
+            warnings.warn('No rides have been removed. No matching dates.')
 
         return self
 
@@ -278,3 +243,15 @@ class Rider(object):
         self.record_pp_.fit(self.rides_pp_, date_profile=date_start_finish)
 
         return self
+
+    def __getstate__(self):
+        # remove logger before pickling
+        state = self.__dict__.copy()
+        # remove the logger
+        state.pop('logger', None)
+        return state
+
+    def __setstate__(self, state):
+        # add logger to object while unpickling
+        state['logger'] = logging.getLogger(__name__)
+        self.__dict__.update(state)

@@ -1,4 +1,5 @@
 """Record Power-Profile class."""
+from __future__ import division
 
 import numpy as np
 
@@ -6,6 +7,7 @@ from .base_power_profile import BasePowerProfile
 from .ride_power_profile import RidePowerProfile
 
 from ..utils.checker import check_tuple_date
+
 
 def maximal_mean_power(ride_pp):
     """Function to compute the maximal mean power for different time.
@@ -36,6 +38,7 @@ def maximal_mean_power(ride_pp):
     profile = np.array([pp.data_ for pp in ride_pp])
 
     return np.max(profile, axis=0)
+
 
 class RecordPowerProfile(BasePowerProfile):
     """Record power-profile.
@@ -73,11 +76,27 @@ class RecordPowerProfile(BasePowerProfile):
 
     """
 
-    def __init__(self, max_duration_profile=None,
-                 cyclist_weight=None):
+    def __init__(self, max_duration_profile=300,
+                 cyclist_weight=60.):
         # Call the constructor of the parent class
-        super(RecordPowerProfile, self).__init__(max_duration_profile,
-                                                 cyclist_weight)
+        super(RecordPowerProfile, self).__init__(
+            max_duration_profile=max_duration_profile,
+            cyclist_weight=cyclist_weight)
+
+    def __str__(self):
+        if hasattr(self, 'data_'):
+            info = ("\n date: {}\n weight: {}\n duration profile: "
+                    "{}\n data: {}".format(self.date_profile_,
+                                           self.cyclist_weight,
+                                           self.max_duration_profile,
+                                           self.data_))
+        else:
+            info = ("\n weight: {}\n duration profile: {}".format(
+                self.cyclist_weight,
+                self.max_duration_profile))
+
+        return info
+
 
     def _validate_ride_pp(self, ride_pp):
         """Method to check the consistency of the ride power-profile list.
@@ -102,18 +121,18 @@ class RecordPowerProfile(BasePowerProfile):
                                      ' the type RidePowerProfile')
                 # We need to check that each ride has been fitted
                 if (getattr(rpp, 'data_', None) is None or
-                    rpp.max_duration_profile_ is None):
+                        rpp.max_duration_profile is None):
                     raise ValueError('One of the ride never has been fitted.'
                                      ' Fit before to compute the record rpp.')
             # Create a list of all the max duration to check that they are
             # all equal
-            max_duration = np.array([rpp.max_duration_profile_
+            max_duration = np.array([rpp.max_duration_profile
                                      for rpp in ride_pp])
-            if self.max_duration_profile_ is None:
+            if self.max_duration_profile is None:
                 raise ValueError('You need to specify the maximum duration for'
                                  ' the profile equal to the maximum duration'
                                  ' of each ride.')
-            if not np.all(max_duration == self.max_duration_profile_):
+            if not np.all(max_duration == self.max_duration_profile):
                 raise ValueError('The maximum duration of the profile should'
                                  ' be the same for all the data.')
             return ride_pp
@@ -173,8 +192,8 @@ class RecordPowerProfile(BasePowerProfile):
                                   np.ndarray.max(date_list))
 
         # Compute the normalized rpp if we should
-        if self.cyclist_weight_ is not None:
-            self.data_norm_ = self.data_ / self.cyclist_weight_
+        if self.cyclist_weight is not None:
+            self.data_norm_ = self.data_ / self.cyclist_weight
         else:
             self.data_norm_ = None
 
