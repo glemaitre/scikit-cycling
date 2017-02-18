@@ -2,8 +2,6 @@
 
 import numpy as np
 
-from ..utils.checker import check_X
-
 
 def outliers_rejection(X, method='threshold', thres=2500.):
     """Remove the outliers from the given ride.
@@ -26,16 +24,16 @@ def outliers_rejection(X, method='threshold', thres=2500.):
         Array containing the power intensities, outliers free.
 
     """
-
-    # Check if the variable X is valid
-    X = check_X(X)
+    if len(X.shape) != 1:
+        raise ValueError('X should have 1 dimension. Got {}, instead'.format(
+            len(X.shape)))
 
     # Detect the outliers
     if method == 'threshold':
         # Compute the mean value that we will use to make the replacement
         mean_ride = np.mean(X)
-        X[np.nonzero(X > thres)] = mean_ride
-        X[np.nonzero(X < 0)] = mean_ride
+        X[X > thres] = mean_ride
+        X[X < 0] = mean_ride
     else:
         raise ValueError('The outliers detection method is unknown.')
 
