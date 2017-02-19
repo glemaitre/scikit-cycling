@@ -1,6 +1,4 @@
 """Test the Record Power Profile class. """
-
-import os
 from itertools import product
 from datetime import date
 
@@ -172,11 +170,10 @@ def test_record_pp_fit_forget_fitting():
         for i in range(len(filename_list))
     ]
     record_pp = RecordPowerProfile(max_duration_profile=1)
-    # Find the record_rpp by fitting the list of ride power-profile
     assert_raises(ValueError, record_pp.fit, ride_pp_list)
 
 
-def test_record_pp_fit_forget_fitting():
+def test_record_pp_fit_no_max_profile():
     filename_list = load_toy()
     ride_pp_list = [
         RidePowerProfile(max_duration_profile=1)

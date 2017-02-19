@@ -1,13 +1,10 @@
 """Test the Ride Power Profile class. """
-
-import os
 import numpy as np
 
 from datetime import date
 
 from numpy.testing import assert_allclose
 from numpy.testing import assert_equal
-from numpy.testing import assert_raises
 
 from skcycling.datasets import load_toy
 from skcycling.power_profile import RidePowerProfile

@@ -54,6 +54,7 @@ def _raise_build_error(e):
     It seems that scikit-image has not been built correctly.
     %s""" % (e, msg))
 
+
 try:
     # This variable is injected in the __builtins__ by the build
     # process. It used to enable importing subpackages of skimage when
@@ -68,6 +69,7 @@ if __SKCYCLING_SETUP__:
     # process, as it may not be compiled yet
 else:
     __all__ = ['data_management',
+               'datasets',
                'metrics',
                'power_profile',
                'restoration',
