@@ -30,4 +30,4 @@ def test_save_load_ride_pp():
         assert_equal(my_ride_rpp.date_profile_, obj.date_profile_)
         assert_equal(my_ride_rpp.filename_, obj.filename_)
     finally:
-        shutil.rmtree(store_filename)
+        shutil.rmtree(tmp_dir)
