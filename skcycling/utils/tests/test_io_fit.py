@@ -1,6 +1,6 @@
 """ Testing the input/output methods for FIT files """
 
-import os
+import unittest
 import numpy as np
 
 from datetime import date
@@ -10,7 +10,15 @@ from numpy.testing import assert_equal
 from numpy.testing import assert_raises
 from numpy.testing import assert_warns
 
+from skcycling.datasets import load_toy
 from skcycling.utils import load_power_from_fit
+
+_dummy = _dummy = unittest.TestCase('__init__')
+try:
+    assert_raises_regex = _dummy.assertRaisesRegex
+except AttributeError:
+    # Python 2.7
+    assert_raises_regex = _dummy.assertRaisesRegexp
 
 ride = np.array(
     [
@@ -48,20 +56,30 @@ def test_load_power_check_file_exist():
 
 
 def test_load_power_if_no_power():
-    currdir = os.path.dirname(os.path.abspath(__file__))
-    filename = os.path.join(currdir, 'data', '2014-05-17-10-44-53.fit')
+    filenames = load_toy(set_data='corrupted')
+    pattern = '2014-05-17-10-44-53.fit'
+    for f in filenames:
+        if pattern in f:
+            filename = f
     assert_warns(UserWarning, load_power_from_fit, filename)
 
 
 def test_load_power_if_no_record():
-    currdir = os.path.dirname(os.path.abspath(__file__))
-    filename = os.path.join(currdir, 'data', '2015-11-27-18-54-57.fit')
-    assert_raises(ValueError, load_power_from_fit, filename)
+    filenames = load_toy(set_data='corrupted')
+    pattern = '2015-11-27-18-54-57.fit'
+    for f in filenames:
+        if pattern in f:
+            filename = f
+    assert_raises_regex(ValueError, "There is no data to treat in that file.",
+                        load_power_from_fit, filename)
 
 
 def test_load_power_normal_file():
-    currdir = os.path.dirname(os.path.abspath(__file__))
-    filename = os.path.join(currdir, 'data', '2013-04-24-22-22-25.fit')
+    filenames = load_toy(set_data='corrupted')
+    pattern = '2013-04-24-22-22-25.fit'
+    for f in filenames:
+        if pattern in f:
+            filename = f
     power, date_loaded = load_power_from_fit(filename)
     assert_allclose(power, ride)
     assert_equal(date_loaded, date(2013, 4, 24))

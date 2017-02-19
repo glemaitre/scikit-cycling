@@ -88,8 +88,8 @@ def aerobic_meta_model(profile, ts=None, normalized=False, method='lsq'):
         # The values which are outside of the maximum duration need to
         # be removed
         ts = ts[np.nonzero(ts <= profile.max_duration_profile)]
-        warnings.warn('Samples in `ts` have been removed since that they'
-                      ' are not information inside the rpp.')
+        warnings.warn('Samples in `ts` have been removed since that there'
+                      ' is no information about these samples inside the rpp.')
 
     # Compute the rpp
     rpp = profile.resampling_rpp(ts, normalized=normalized)

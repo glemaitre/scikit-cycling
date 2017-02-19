@@ -9,18 +9,14 @@ from numpy.testing import assert_array_equal
 from numpy.testing import assert_equal
 from numpy.testing import assert_raises
 
+from skcycling.datasets import load_toy
 from skcycling.power_profile import RidePowerProfile
 from skcycling.power_profile.ride_power_profile import _rpp_parallel
 from skcycling.utils import load_power_from_fit
 
 
 def test_ridepp_fit():
-    """ Test the routine to compute the ride power-profile from a fit file. """
-    # Create the path to read the npy file
-    currdir = os.path.dirname(os.path.abspath(__file__))
-    filename = os.path.join(currdir, 'data', 'fit_files',
-                            '2014-05-07-14-26-22.fit')
-
+    filename = load_toy()[0]
     my_ride_rpp = RidePowerProfile(max_duration_profile=1)
     my_ride_rpp.fit(filename)
 

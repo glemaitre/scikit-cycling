@@ -76,8 +76,7 @@ class RecordPowerProfile(BasePowerProfile):
 
     """
 
-    def __init__(self, max_duration_profile=300,
-                 cyclist_weight=60.):
+    def __init__(self, max_duration_profile=300, cyclist_weight=60.):
         # Call the constructor of the parent class
         super(RecordPowerProfile, self).__init__(
             max_duration_profile=max_duration_profile,
@@ -85,18 +84,15 @@ class RecordPowerProfile(BasePowerProfile):
 
     def __str__(self):
         if hasattr(self, 'data_'):
-            info = ("\n date: {}\n weight: {}\n duration profile: "
-                    "{}\n data: {}".format(self.date_profile_,
-                                           self.cyclist_weight,
-                                           self.max_duration_profile,
-                                           self.data_))
+            info = (
+                "\n date: {}\n weight: {}\n duration profile: "
+                "{}\n data: {}".format(self.date_profile_, self.cyclist_weight,
+                                       self.max_duration_profile, self.data_))
         else:
             info = ("\n weight: {}\n duration profile: {}".format(
-                self.cyclist_weight,
-                self.max_duration_profile))
+                self.cyclist_weight, self.max_duration_profile))
 
         return info
-
 
     def _validate_ride_pp(self, ride_pp):
         """Method to check the consistency of the ride power-profile list.
@@ -126,8 +122,8 @@ class RecordPowerProfile(BasePowerProfile):
                                      ' Fit before to compute the record rpp.')
             # Create a list of all the max duration to check that they are
             # all equal
-            max_duration = np.array([rpp.max_duration_profile
-                                     for rpp in ride_pp])
+            max_duration = np.array(
+                [rpp.max_duration_profile for rpp in ride_pp])
             if self.max_duration_profile is None:
                 raise ValueError('You need to specify the maximum duration for'
                                  ' the profile equal to the maximum duration'
@@ -172,13 +168,12 @@ class RecordPowerProfile(BasePowerProfile):
             date_list = np.array([rpp.date_profile_ for rpp in ride_pp])
 
             # Find the index which are inside the range of date
-            idx_ride = np.flatnonzero(np.bitwise_and(
-                date_list >= date_profile[0],
-                date_list <= date_profile[1]))
+            idx_ride = np.flatnonzero(
+                np.bitwise_and(date_list >= date_profile[0], date_list <=
+                               date_profile[1]))
 
             # Compute the record for these files only
-            self.data_ = maximal_mean_power([ride_pp[i]
-                                             for i in idx_ride])
+            self.data_ = maximal_mean_power([ride_pp[i] for i in idx_ride])
 
             # Store the date range
             self.date_profile_ = date_profile
