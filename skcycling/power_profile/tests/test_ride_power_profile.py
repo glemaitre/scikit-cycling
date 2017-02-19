@@ -33,7 +33,7 @@ def test_ridepp_fit():
     assert_equal(ride_rpp.data_norm_, None)
     assert_equal(ride_rpp.cyclist_weight, None)
     assert_equal(ride_rpp.max_duration_profile, 1)
-    assert_equal(ride_rpp.date_profile_, date(2014, 5, 11))
+    assert_equal(ride_rpp.date_profile_, date(2014, 5, 7))
     assert_equal(ride_rpp.filename_, filename)
 
 
@@ -58,7 +58,7 @@ def test_ridepp_fit_w_weight():
     assert_allclose(ride_rpp.data_norm_, data / 60.)
     assert_allclose(ride_rpp.cyclist_weight, 60.)
     assert_equal(ride_rpp.max_duration_profile, 1)
-    assert_equal(ride_rpp.date_profile_, date(2014, 5, 11))
+    assert_equal(ride_rpp.date_profile_, date(2014, 5, 7))
     assert_equal(ride_rpp.filename_, filename)
 
 

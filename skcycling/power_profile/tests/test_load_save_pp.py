@@ -2,7 +2,7 @@
 
 import os
 import shutil
-from temp import mkdtemp
+from tempfile import mkdtemp
 
 from numpy.testing import assert_array_equal
 from numpy.testing import assert_equal
