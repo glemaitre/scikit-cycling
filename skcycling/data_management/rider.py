@@ -166,10 +166,10 @@ class Rider(object):
         else:
             # decide if it is a file or a directory
             if os.path.isdir(location):
-                filenames = [
+                filenames = sorted([
                     os.path.join(os.path.abspath(location), name)
                     for name in os.listdir(location) if name.endswith('.fit')
-                ]
+                ])
             else:
                 filenames = [os.path.abspath(location)]
 
