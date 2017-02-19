@@ -10,7 +10,7 @@ from numpy.testing import assert_warns
 
 from skcycling.datasets import load_toy
 from skcycling.data_management import Rider
-from skcycling.power_profile import RidePowerProfile
+
 from skcycling.metrics import aerobic_meta_model
 
 _dummy = _dummy = unittest.TestCase('__init__')
@@ -3752,4 +3752,4 @@ def test_amm_cropping_ts():
     # Check the different value
     assert_allclose(pma, 453.37229888268155)
     assert_allclose(t_pma, 3.)
-    assert_allclose(aei, -11.497339815062894)
+    assert_allclose(aei, -11.497209681240594)

@@ -147,36 +147,18 @@ def test_rider_add_rides_path():
 
 
 def test_rider_add_rides_path_overwrite():
-    """ Test to check the routine which load file from path with overwrite. """
-    # Create the path to read the npy file
-    currdir = os.path.dirname(os.path.abspath(__file__))
-    # Create a list of file that we will read
-    filename_list = [
-        os.path.join(currdir, 'data', 'fit_files', '2014-05-11-11-39-38.fit'),
-        os.path.join(currdir, 'data', 'fit_files', '2014-07-26-18-50-56.fit')
-    ]
-
-    # Create a list of ride power-profile
+    filename_list = load_toy()[:2]
     ride_pp_list = [
         RidePowerProfile(max_duration_profile=1)
         for i in range(len(filename_list))
     ]
-
-    # Fit each file of the list
     for ride, filename in zip(ride_pp_list, filename_list):
         ride.fit(filename)
-
-    # Initialize the rider
     rider = Rider(
         cyclist_weight=60., max_duration_profile=1, rides_pp=ride_pp_list)
-
-    # Check the number of ride in the list
     assert_equal(len(rider.rides_pp_), 2)
 
-    # Create the path to read the npy file
-    currdir = os.path.dirname(os.path.abspath(__file__))
-    path_fit = os.path.join(currdir, 'data', 'fit_files')
-
+    path_fit = load_toy(returned_type='path')
     rider.add_rides(path_fit, overwrite=True)
     assert_equal(len(rider.rides_pp_), 3)
 
