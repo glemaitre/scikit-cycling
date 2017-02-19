@@ -46,8 +46,10 @@ if [[ "$DISTRIB" == "conda" ]]; then
     popd
 
     conda create -n testenv --yes python=$PYTHON_VERSION pip nose six \
-          numpy=$NUMPY_VERSION scipy=$SCIPY_VERSION libgfortran
+          numpy=$NUMPY_VERSION scipy=$SCIPY_VERSION
     source activate testenv
+
+    conda install --yes nose six libgfortran nomkl
 
     # Install nose-timer via pip
     pip install nose-timer
