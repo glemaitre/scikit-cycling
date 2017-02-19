@@ -19,7 +19,7 @@ def test_save_load_ride_pp():
     tmp_dir = mkdtemp()
     try:
         store_filename = os.path.join(tmp_dir, 'ride_rpp.pkl')
-        my_ride_rpp.save_to_pickles()
+        my_ride_rpp.save_to_pickles(store_filename)
         obj = RidePowerProfile.load_from_pickles(store_filename)
 
         assert_array_equal(my_ride_rpp.data_, obj.data_)
