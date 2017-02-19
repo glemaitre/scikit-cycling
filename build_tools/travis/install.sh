@@ -37,11 +37,8 @@ if [[ "$DISTRIB" == "conda" ]]; then
     echo "Cached in $HOME/download :"
     ls -l
     echo
-    if [[ ! -f miniconda.sh ]]
-        then
-        wget http://repo.continuum.io/miniconda/Miniconda-3.6.0-Linux-x86_64.sh \
-            -O miniconda.sh
-        fi
+    wget http://repo.continuum.io/miniconda/Miniconda-3.6.0-Linux-x86_64.sh \
+         -O miniconda.sh
     chmod +x miniconda.sh && ./miniconda.sh -b
     cd ..
     export PATH=/home/travis/miniconda/bin:$PATH
