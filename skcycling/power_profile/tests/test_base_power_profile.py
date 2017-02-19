@@ -10,7 +10,7 @@ def test_save_load_ride_pp():
     my_ride_rpp = RidePowerProfile(max_duration_profile=1)
     my_ride_rpp.fit(filename)
     val = my_ride_rpp.resampling_rpp(.5)
-    assert_allclose(val, 420.6005747126437)
+    assert_allclose(val, 376.9)
 
 
 def test_save_load_ride_pp_weight():
@@ -19,7 +19,7 @@ def test_save_load_ride_pp_weight():
                                    cyclist_weight=60.)
     my_ride_rpp.fit(filename)
     val = my_ride_rpp.resampling_rpp(.5, normalized=True)
-    assert_allclose(val, 7.010009578544062)
+    assert_allclose(val, 6.281666666666666)
 
 
 def test_save_load_ride_pp_wrong_norm():
