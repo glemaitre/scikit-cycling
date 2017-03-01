@@ -11,6 +11,8 @@ def configuration(parent_package='', top_path=None):
     config.add_subpackage('metrics/tests')
     config.add_subpackage('power_profile')
     config.add_subpackage('power_profile/tests')
+    config.add_subpackage('probabilistic_power_profile')
+    config.add_subpackage('probabilistic_power_profile/tests')
     config.add_subpackage('restoration')
     config.add_subpackage('restoration/tests')
     config.add_subpackage('utils')

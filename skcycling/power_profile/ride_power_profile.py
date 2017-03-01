@@ -3,7 +3,6 @@ from __future__ import division
 
 import numpy as np
 
-
 from .base_power_profile import BasePowerProfile
 from ..externals.joblib import Parallel, delayed
 from ..utils import check_filename_fit
@@ -32,7 +31,7 @@ def _rpp_parallel(X, idx_t_rpp):
     # Check that there is some value cropped. In the case that
     # the duration is longer than the file, the table crop is
     # empty
-    if t_crop.size is not 0:
+    if not t_crop.size:
         # Compute the mean for each of these samples
         t_crop_mean = np.mean(t_crop, axis=0)
         # Keep the best to store as rpp
@@ -46,15 +45,14 @@ class RidePowerProfile(BasePowerProfile):
 
     Parameters
     ----------
-    max_duration_profile : int or None
-        Integer representing the maximum duration in minutes to build the
-        record power-profile model. It can be infered if the data are loaded
-        from a npy file.
+    max_duration_profile : int, optional (default=300)
+        The maximum duration of the profile in minutes.
 
-    cyclist_weight : float, default None
-        Float in order to normalise the record power-profile depending
-        of its weight. By default this is None in order to avoid
-        using the data from normalized rpp without this data.
+    cyclist_weight : float, optional (default=60.)
+        The weight of the cyclist in kg.
+
+    n_jobs : int, optional (default=1)
+        Number of workers to use during parallel processing if possible.
 
     Attributes
     ----------

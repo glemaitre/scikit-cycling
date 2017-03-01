@@ -45,15 +45,11 @@ class RecordPowerProfile(BasePowerProfile):
 
     Parameters
     ----------
-    max_duration_profile : int or None
-        Integer representing the maximum duration in minutes to build the
-        record power-profile model. It can be infered if the data are loaded
-        from a npy file.
+    max_duration_profile : int, optional (default=300)
+        The maximum duration of the profile in minutes.
 
-    cyclist_weight : float, default None
-        Float in order to normalise the record power-profile depending
-        of its weight. By default this is None in order to avoid
-        using the data from normalized rpp without this data.
+    cyclist_weight : float, optional (default=60.)
+        The weight of the cyclist in kg.
 
     Attributes
     ----------
@@ -65,15 +61,14 @@ class RecordPowerProfile(BasePowerProfile):
         Array in which the weight-normalized record power-profile
         is stored. The units used is the seconds.
 
-    max_duration_data_ : int
-        The maximum duration of the record power-profile.
-
-    cyclist_weight_ : float
-        Cyclist weight.
-
     date_profile_ : tuple of date, shape (start, finish)
         Starting and finishing time to compute the record power-profile.
 
+    max_duration_data : int
+        The maximum duration of the record power-profile.
+
+    cyclist_weight : float
+        Cyclist weight.
     """
 
     def __init__(self, max_duration_profile=300, cyclist_weight=60.):

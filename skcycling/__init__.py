@@ -73,6 +73,7 @@ else:
                'externals',
                'metrics',
                'power_profile',
+               'probabilistic_power_profile',
                'restoration',
                'utils']
 
