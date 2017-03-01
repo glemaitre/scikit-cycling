@@ -31,7 +31,7 @@ def _rpp_parallel(X, idx_t_rpp):
     # Check that there is some value cropped. In the case that
     # the duration is longer than the file, the table crop is
     # empty
-    if not t_crop.size:
+    if t_crop.size > 0:
         # Compute the mean for each of these samples
         t_crop_mean = np.mean(t_crop, axis=0)
         # Keep the best to store as rpp
