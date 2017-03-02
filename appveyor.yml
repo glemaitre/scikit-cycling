@@ -25,6 +25,7 @@ install:
 
   # Installed prebuilt dependencies from conda
   - "conda install pip numpy=1.11.2 scipy=0.18.1 nose wheel -y -q"
+  - "conda install six matplotlib seaborn joblib -y -q"
 
   # Install other nilearn dependencies
   - "pip install coverage nose-timer"

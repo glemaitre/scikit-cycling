@@ -3,8 +3,9 @@ from __future__ import division
 
 import numpy as np
 
+from joblib import Parallel, delayed
+
 from .base_power_profile import BasePowerProfile
-from ..externals.joblib import Parallel, delayed
 from ..utils import check_filename_fit
 from ..utils import load_power_from_fit
 

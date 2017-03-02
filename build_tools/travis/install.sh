@@ -49,7 +49,8 @@ if [[ "$DISTRIB" == "conda" ]]; then
           numpy=$NUMPY_VERSION scipy=$SCIPY_VERSION
     source activate testenv
 
-    conda install --yes nose libgfortran nomkl
+    conda install --yes nose libgfortran nomkl seaborn six matplotlib \
+          joblib
 
     # Install nose-timer via pip
     pip install nose-timer

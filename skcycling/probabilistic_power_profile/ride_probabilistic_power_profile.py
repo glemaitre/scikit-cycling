@@ -4,8 +4,8 @@ from __future__ import division, print_function
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+from joblib import Parallel, delayed
 
-from ..externals.joblib import Parallel, delayed
 from ..utils import check_filename_fit
 from ..utils import load_power_from_fit
 
