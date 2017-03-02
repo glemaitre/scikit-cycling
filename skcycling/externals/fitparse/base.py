@@ -4,7 +4,7 @@ from numbers import Number
 from io import open
 from io import BytesIO as StringIO
 
-from ..six import string_types
+from six import string_types
 
 from .processors import FitFileDataProcessor
 from .profile import FIELD_TYPE_TIMESTAMP, MESSAGE_TYPES
