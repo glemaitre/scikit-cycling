@@ -4,6 +4,8 @@ from __future__ import division, print_function
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+
+from scipy import sparse
 from joblib import Parallel, delayed
 
 from ..utils import check_filename_fit
@@ -37,7 +39,7 @@ def _rppp_parallel(X, idx_t_rpp, max_power, bins):
     if t_crop.size > 0:
         t_crop_mean = np.mean(t_crop, axis=0)
         pdf, _ = np.histogram(t_crop_mean, bins=bins,
-                              range=(0., max_power), density=True)
+                              range=(0., max_power), density=False)
         return pdf
     else:
         return np.zeros(bins)
@@ -69,12 +71,8 @@ class RideProbabilisticPowerProfile(object):
     date_profile_ : date
         Date of the current power-profile.
 
-    data_ : ndarray, shape (max_power, 60 * max_duration_profile)
+    data_ : csc_matrix, shape (max_power, 60 * max_duration_profile)
         Array containing the probabilistic power-profile.
-
-    data_norm_ : ndarray, shape (max_power, 60 * max_duration_profile)
-        Array containing the probabilistic power-profile normalized by the
-        weight.
     """
 
     def __init__(self, max_duration_profile=300, cyclist_weight=60., n_jobs=1):
@@ -113,12 +111,7 @@ class RideProbabilisticPowerProfile(object):
                                     self.max_power_ + 1)
             for idx_t_rpp in range(60 * self.max_duration_profile))
         # replace the nan by zeros
-        self.data_ = np.nan_to_num(np.transpose(pp))
-
-        if self.cyclist_weight is not None:
-            self.data_norm_ = self.data_ / self.cyclist_weight
-        else:
-            self.data_norm_ = None
+        self.data_ = sparse.csc_matrix(np.nan_to_num(np.transpose(pp)))
 
         return self
 
@@ -130,18 +123,17 @@ class RideProbabilisticPowerProfile(object):
         normalized : bool, optional (default=False)
             If True, plot the power-profile normalized by the weight.
         """
-        if not normalized:
-            if not hasattr(self, 'data_'):
-                raise ValueError('Fit the data before to plot them.')
-
-            ax = sns.heatmap(self.data_, cmap='viridis', xticklabels=60,
-                             yticklabels=100)
-        else:
-            if getattr(self, 'data_norm_', None) is None:
-                raise ValueError('Fit the data by giving the cyclist weight.')
-
-            ax = sns.heatmap(self.data_norm_, cmap='viridis', xticklabels=60,
-                             yticklabels=100)
+        if not hasattr(self, 'data_'):
+            raise ValueError('Fit the data before to plot them.')
+        ax = sns.heatmap(self.data_.A, cmap='viridis', xticklabels=60,
+                         yticklabels=100)
+        if normalized:
+            if self.cyclist_weight is None:
+                raise ValueError('You need to provide a weight to get a'
+                                 ' normalized plot.')
+            else:
+                ax.set_yticklabels(np.arange(0, self.data_.shape[0], 100,
+                                             dtype=int) // self.cyclist_weight)
         ax.invert_yaxis()
         ax.set_xticklabels(np.arange(0, self.data_.shape[1],
                                      60, dtype=int) // 60)
