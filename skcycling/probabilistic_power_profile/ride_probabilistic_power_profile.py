@@ -2,6 +2,8 @@
 from __future__ import division, print_function
 
 import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 from ..externals.joblib import Parallel, delayed
 from ..utils import check_filename_fit
@@ -119,3 +121,30 @@ class RideProbabilisticPowerProfile(object):
             self.data_norm_ = None
 
         return self
+
+    def plot_heatmap(self, normalized=False):
+        """Plot the heatmap corresponding to the current ride.
+
+        Parameters
+        ----------
+        normalized : bool, optional (default=False)
+            If True, plot the power-profile normalized by the weight.
+        """
+        if not normalized:
+            if not hasattr(self, 'data_'):
+                raise ValueError('Fit the data before to plot them.')
+
+            ax = sns.heatmap(self.data_, cmap='viridis', xticklabels=60,
+                             yticklabels=100)
+        else:
+            if getattr(self, 'data_norm_', None) is None:
+                raise ValueError('Fit the data by giving the cyclist weight.')
+
+            ax = sns.heatmap(self.data_norm_, cmap='viridis', xticklabels=60,
+                             yticklabels=100)
+        ax.invert_yaxis()
+        ax.set_xticklabels(np.arange(0, self.data_.shape[1],
+                                     60, dtype=int) // 60)
+        ax.set_xlabel('Time in minutes')
+        ax.set_ylabel('Power in watts')
+        plt.tight_layout()
