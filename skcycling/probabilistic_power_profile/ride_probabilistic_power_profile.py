@@ -1,13 +1,12 @@
 """Ride probabilistic power-profile class."""
-from __future__ import division, print_function
+from __future__ import division
 
 import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
 
 from scipy import sparse
 from joblib import Parallel, delayed
 
+from .base import BaseProbabilisticPowerProfile
 from ..utils import check_filename_fit
 from ..utils import load_power_from_fit
 
@@ -45,7 +44,7 @@ def _rppp_parallel(X, idx_t_rpp, max_power, bins):
         return np.zeros(bins)
 
 
-class RideProbabilisticPowerProfile(object):
+class RideProbabilisticPowerProfile(BaseProbabilisticPowerProfile):
     """Probabilistic Power Profile for a ride
 
     Contrary to the classic power-profile, the probabilistic power-profile
@@ -73,6 +72,9 @@ class RideProbabilisticPowerProfile(object):
 
     data_ : csc_matrix, shape (max_power, 60 * max_duration_profile)
         Array containing the probabilistic power-profile.
+
+    max_power_ : float,
+        Correspond of the maximum power in the data.
     """
 
     def __init__(self, max_duration_profile=300, cyclist_weight=60., n_jobs=1):
@@ -114,29 +116,3 @@ class RideProbabilisticPowerProfile(object):
         self.data_ = sparse.csc_matrix(np.nan_to_num(np.transpose(pp)))
 
         return self
-
-    def plot_heatmap(self, normalized=False):
-        """Plot the heatmap corresponding to the current ride.
-
-        Parameters
-        ----------
-        normalized : bool, optional (default=False)
-            If True, plot the power-profile normalized by the weight.
-        """
-        if not hasattr(self, 'data_'):
-            raise ValueError('Fit the data before to plot them.')
-        ax = sns.heatmap(self.data_.A, cmap='viridis', xticklabels=60,
-                         yticklabels=100)
-        if normalized:
-            if self.cyclist_weight is None:
-                raise ValueError('You need to provide a weight to get a'
-                                 ' normalized plot.')
-            else:
-                ax.set_yticklabels(np.arange(0, self.data_.shape[0], 100,
-                                             dtype=int) // self.cyclist_weight)
-        ax.invert_yaxis()
-        ax.set_xticklabels(np.arange(0, self.data_.shape[1],
-                                     60, dtype=int) // 60)
-        ax.set_xlabel('Time in minutes')
-        ax.set_ylabel('Power in watts')
-        plt.tight_layout()
