@@ -49,7 +49,7 @@ from github_link import make_linkcode_resolve
 extensions = [
     'sphinx.ext.autodoc', 'sphinx.ext.doctest', 'sphinx.ext.intersphinx',
     'sphinx.ext.todo', 'sphinx.ext.pngmath', 'sphinx.ext.ifconfig',
-    'sphinx.ext.viewcode', #'sphinx_gallery.gen_gallery',
+    'sphinx.ext.viewcode', 'sphinx_gallery.gen_gallery',
     'sphinx.ext.autosummary', 'numpydoc',
     'sphinx_issues', 'sphinx.ext.linkcode'
 ]
@@ -58,21 +58,21 @@ autosummary_generate = True
 
 autodoc_default_flags = ['members', 'inherited-members']
 
-# sphinx_gallery_conf = {
-#     # path to your examples scripts
-#     'examples_dirs': '../examples',
-#     # path where to save gallery generated examples
-#     'gallery_dirs': 'auto_examples',
-#     # to make references clickable
-#     'doc_module': 'skcycling',
-#     'reference_url': {
-#         'skcycling': None,
-#         'sklearn': 'http://scikit-learn.org/stable',
-#         'matplotlib': 'http://matplotlib.org',
-#         'numpy': 'http://docs.scipy.org/doc/numpy-1.11.0',
-#         'scipy': 'http://docs.scipy.org/doc/scipy-0.18.0/reference'
-#     }
-# }
+sphinx_gallery_conf = {
+    # path to your examples scripts
+    'examples_dirs': '../examples',
+    # path where to save gallery generated examples
+    'gallery_dirs': 'auto_examples',
+    # to make references clickable
+    'doc_module': 'skcycling',
+    'reference_url': {
+        'skcycling': None,
+        'sklearn': 'http://scikit-learn.org/stable',
+        'matplotlib': 'http://matplotlib.org',
+        'numpy': 'http://docs.scipy.org/doc/numpy-1.11.0',
+        'scipy': 'http://docs.scipy.org/doc/scipy-0.18.0/reference'
+    }
+}
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

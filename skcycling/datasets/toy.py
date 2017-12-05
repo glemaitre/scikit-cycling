@@ -7,7 +7,7 @@ from os.path import join
 
 
 def load_toy(returned_type='list_file', set_data='normal'):
-    """Load some toy examples
+    """Load some toy examples.
 
     Parameters
     ----------
@@ -45,3 +45,21 @@ def load_toy(returned_type='list_file', set_data='normal'):
             ])
         elif returned_type == 'path':
             return join(module_path, 'corrupted_data')
+
+
+def load_toy_rider():
+    """Load a rider pickle.
+
+    Parameters
+    ----------
+    None
+
+    Returns
+    -------
+    path_data : str
+        Path to the rider pickle.
+    """
+
+    module_path = dirname(__file__)
+
+    return join(module_path, 'data', 'rider.p')

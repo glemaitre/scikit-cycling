@@ -1,12 +1,13 @@
 """Basic class for power profile."""
 
 import os
+import json
+from abc import ABCMeta, abstractmethod
+
 import numpy as np
-import pickle
+import joblib
 
 from scipy.interpolate import interp1d
-
-from abc import ABCMeta, abstractmethod
 
 
 class BasePowerProfile(object):
@@ -39,7 +40,7 @@ class BasePowerProfile(object):
 
         """
         # Load the pickle
-        bpp = pickle.load(open(filename, 'rb'))
+        bpp = joblib.load(filename)
 
         return bpp
 
@@ -61,9 +62,23 @@ class BasePowerProfile(object):
         if not os.path.exists(dir_pickle):
             os.makedirs(dir_pickle)
         # Create the pickle file
-        pickle.dump(self, open(filename, 'wb'))
+        joblib.dump(self, filename)
 
         return None
+
+    def _convert_to_json(self):
+        """Private function which convert the object to store it in JSON."""
+        object_dict = {}
+        for key, value in self.__dict__.items():
+            if key == 'logger':
+                pass
+            elif isinstance(value, np.ndarray):
+                # convert the array to list for the moment
+                object_dict[key] = value.tolist()
+            else:
+                object_dict[key] = value
+
+        return object_dict
 
     @abstractmethod
     def fit(self):

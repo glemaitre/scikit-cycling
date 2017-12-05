@@ -126,6 +126,7 @@ if __name__ == "__main__":
         requires=REQUIRES,
         packages=setuptools.find_packages(exclude=['doc']),
         package_data={'skcycling': ['datasets/data/*.fit',
+                                    'datasets/data/*.p',
                                     'datasets/corrupted_data/*.fit']},
         include_package_data=True,
         zip_safe=False,  # the package can run out of an .egg file

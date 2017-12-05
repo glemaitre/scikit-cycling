@@ -5,16 +5,27 @@ This module contains the class to manage the data linked to a single rider.
 
 import os
 import warnings
-import numpy as np
-import pickle
+import json
 import logging
-from copy import deepcopy
 
+from copy import deepcopy
 from datetime import date
 
+import numpy as np
+import joblib
+
+from ..power_profile import BasePowerProfile
 from ..power_profile import RidePowerProfile
 from ..power_profile import RecordPowerProfile
 from ..utils.checker import check_tuple_date
+
+
+def _date_handler(obj):
+        """Handle the datetime.date when dropping in a JSON file."""
+        if hasattr(obj, 'isoformat'):
+            return obj.isoformat()
+        else:
+            raise TypeError
 
 
 class Rider(object):
@@ -100,7 +111,7 @@ class Rider(object):
 
     @staticmethod
     def load_from_pickles(filename):
-        """ Function to load an object through pickles.
+        """Function to load an object through pickles.
 
         Parameters
         ----------
@@ -113,12 +124,12 @@ class Rider(object):
             Returns Rider.
         """
         # Load the pickle
-        bpp = pickle.load(open(filename, 'rb'))
+        bpp = joblib.load(filename)
 
         return bpp
 
     def save_to_pickles(self, filename):
-        """ Function to save an object RecordPowerProfile through pickles.
+        """Function to save an object RecordPowerProfile through pickles.
 
         Parameters
         ----------
@@ -134,7 +145,46 @@ class Rider(object):
         if not os.path.exists(dir_pickle):
             os.makedirs(dir_pickle)
         # Create the pickle file
-        pickle.dump(self, open(filename, 'wb'))
+        joblib.dump(self, filename)
+
+        return None
+
+    def save_to_json(self, filename):
+        """Function to save the object into a JSON format.
+
+        Parameters
+        ----------
+        filename : str
+            Filename to store the JSON file.
+
+        Returns
+        -------
+        None
+        """
+        storage_dir = os.path.dirname(filename)
+        if not os.path.exists(storage_dir):
+            os.makedirs(storage_dir)
+
+        object_dict = {}
+        for key, value in self.__dict__.items():
+            if key == 'logger':
+                pass
+            elif isinstance(value, list):
+                # check that the first element is not a base record
+                if isinstance(value[0], BasePowerProfile):
+                    record = []
+                    for elt in value:
+                        record.append(elt._convert_to_json())
+                    object_dict[key] = record
+                else:
+                    object_dict[key] = value
+            elif isinstance(value, BasePowerProfile):
+                object_dict[key] = value._convert_to_json()
+            else:
+                object_dict[key] = value
+
+        with open(filename, "w") as f:
+            json.dump(object_dict, f, default=_date_handler)
 
         return None
 

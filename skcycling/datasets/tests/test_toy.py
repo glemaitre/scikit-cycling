@@ -1,4 +1,5 @@
 from skcycling.datasets import load_toy
+from skcycling.datasets import load_toy_rider
 
 import unittest
 _dummy = unittest.TestCase('__init__')
@@ -33,6 +34,9 @@ def test_load_toy_list_file_corrupted():
 
 def test_load_toy_path_corrupted():
     path = load_toy(returned_type='path', set_data='corrupted')
-    print(path)
     gt_path = 'corrupted_data'
     assert_true(gt_path in path)
+
+
+def test_load_rider():
+    assert_true('rider' in load_toy_rider())
