@@ -1977,7 +1977,7 @@ static PyObject *__pyx_codeobj__36;
 
 /* Python wrapper */
 static PyObject *__pyx_pw_9skcycling_10extraction_14_power_profile_1max_mean_power_interval(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_9skcycling_10extraction_14_power_profile_max_mean_power_interval[] = "Compute the maximum power delivered for a specific amount of time.\n\n    Parameters\n    ----------\n    activity_power : ndarray, shape (n_data_point,)\n        The power data of the activity.\n\n    time_interval : int\n        The time interval for which we compute the mean power.\n\n    ";
+static char __pyx_doc_9skcycling_10extraction_14_power_profile_max_mean_power_interval[] = "Compute the maximum power delivered for a specific amount of time.\n\n    Parameters\n    ----------\n    activity_power : ndarray, shape (n_data_point,)\n        The power data of the activity.\n\n    time_interval : int\n        The time interval for which we compute the mean power.\n\n    Returns\n    -------\n    max_mean : double\n        The maximum power delivered for a specific amount of time.\n\n    ";
 static PyMethodDef __pyx_mdef_9skcycling_10extraction_14_power_profile_1max_mean_power_interval = {"max_mean_power_interval", (PyCFunction)__pyx_pw_9skcycling_10extraction_14_power_profile_1max_mean_power_interval, METH_VARARGS|METH_KEYWORDS, __pyx_doc_9skcycling_10extraction_14_power_profile_max_mean_power_interval};
 static PyObject *__pyx_pw_9skcycling_10extraction_14_power_profile_1max_mean_power_interval(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_signatures = 0;
@@ -2709,7 +2709,7 @@ static double __pyx_fuse_0__pyx_f_9skcycling_10extraction_14_power_profile_max_m
   int __pyx_t_6;
   __Pyx_RefNannySetupContext("__pyx_fuse_0max_mean_power_interval", 0);
 
-  /* "skcycling/extraction/_power_profile.pyx":21
+  /* "skcycling/extraction/_power_profile.pyx":26
  * 
  *     cdef:
  *         Py_ssize_t n_element = activity_power.shape[0]             # <<<<<<<<<<<<<<
@@ -2718,7 +2718,7 @@ static double __pyx_fuse_0__pyx_f_9skcycling_10extraction_14_power_profile_max_m
  */
   __pyx_v_n_element = (__pyx_v_activity_power.shape[0]);
 
-  /* "skcycling/extraction/_power_profile.pyx":23
+  /* "skcycling/extraction/_power_profile.pyx":28
  *         Py_ssize_t n_element = activity_power.shape[0]
  *         Py_ssize_t idx_element, idx_interval
  *         double acc = 0.0             # <<<<<<<<<<<<<<
@@ -2727,7 +2727,7 @@ static double __pyx_fuse_0__pyx_f_9skcycling_10extraction_14_power_profile_max_m
  */
   __pyx_v_acc = 0.0;
 
-  /* "skcycling/extraction/_power_profile.pyx":24
+  /* "skcycling/extraction/_power_profile.pyx":29
  *         Py_ssize_t idx_element, idx_interval
  *         double acc = 0.0
  *         double max_mean = 0.0             # <<<<<<<<<<<<<<
@@ -2736,7 +2736,7 @@ static double __pyx_fuse_0__pyx_f_9skcycling_10extraction_14_power_profile_max_m
  */
   __pyx_v_max_mean = 0.0;
 
-  /* "skcycling/extraction/_power_profile.pyx":26
+  /* "skcycling/extraction/_power_profile.pyx":31
  *         double max_mean = 0.0
  * 
  *     with nogil:             # <<<<<<<<<<<<<<
@@ -2751,7 +2751,7 @@ static double __pyx_fuse_0__pyx_f_9skcycling_10extraction_14_power_profile_max_m
       #endif
       /*try:*/ {
 
-        /* "skcycling/extraction/_power_profile.pyx":27
+        /* "skcycling/extraction/_power_profile.pyx":32
  * 
  *     with nogil:
  *         for idx_element in range(n_element - time_interval):             # <<<<<<<<<<<<<<
@@ -2762,7 +2762,7 @@ static double __pyx_fuse_0__pyx_f_9skcycling_10extraction_14_power_profile_max_m
         for (__pyx_t_2 = 0; __pyx_t_2 < __pyx_t_1; __pyx_t_2+=1) {
           __pyx_v_idx_element = __pyx_t_2;
 
-          /* "skcycling/extraction/_power_profile.pyx":28
+          /* "skcycling/extraction/_power_profile.pyx":33
  *     with nogil:
  *         for idx_element in range(n_element - time_interval):
  *             acc = 0.0             # <<<<<<<<<<<<<<
@@ -2771,7 +2771,7 @@ static double __pyx_fuse_0__pyx_f_9skcycling_10extraction_14_power_profile_max_m
  */
           __pyx_v_acc = 0.0;
 
-          /* "skcycling/extraction/_power_profile.pyx":29
+          /* "skcycling/extraction/_power_profile.pyx":34
  *         for idx_element in range(n_element - time_interval):
  *             acc = 0.0
  *             for idx_interval in range(time_interval):             # <<<<<<<<<<<<<<
@@ -2782,7 +2782,7 @@ static double __pyx_fuse_0__pyx_f_9skcycling_10extraction_14_power_profile_max_m
           for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
             __pyx_v_idx_interval = __pyx_t_4;
 
-            /* "skcycling/extraction/_power_profile.pyx":30
+            /* "skcycling/extraction/_power_profile.pyx":35
  *             acc = 0.0
  *             for idx_interval in range(time_interval):
  *                 acc += activity_power[idx_element + idx_interval]             # <<<<<<<<<<<<<<
@@ -2793,7 +2793,7 @@ static double __pyx_fuse_0__pyx_f_9skcycling_10extraction_14_power_profile_max_m
             __pyx_v_acc = (__pyx_v_acc + (*((float *) ( /* dim=0 */ (__pyx_v_activity_power.data + __pyx_t_5 * __pyx_v_activity_power.strides[0]) ))));
           }
 
-          /* "skcycling/extraction/_power_profile.pyx":31
+          /* "skcycling/extraction/_power_profile.pyx":36
  *             for idx_interval in range(time_interval):
  *                 acc += activity_power[idx_element + idx_interval]
  *             if acc > max_mean:             # <<<<<<<<<<<<<<
@@ -2803,7 +2803,7 @@ static double __pyx_fuse_0__pyx_f_9skcycling_10extraction_14_power_profile_max_m
           __pyx_t_6 = ((__pyx_v_acc > __pyx_v_max_mean) != 0);
           if (__pyx_t_6) {
 
-            /* "skcycling/extraction/_power_profile.pyx":32
+            /* "skcycling/extraction/_power_profile.pyx":37
  *                 acc += activity_power[idx_element + idx_interval]
  *             if acc > max_mean:
  *                 max_mean = acc             # <<<<<<<<<<<<<<
@@ -2812,7 +2812,7 @@ static double __pyx_fuse_0__pyx_f_9skcycling_10extraction_14_power_profile_max_m
  */
             __pyx_v_max_mean = __pyx_v_acc;
 
-            /* "skcycling/extraction/_power_profile.pyx":31
+            /* "skcycling/extraction/_power_profile.pyx":36
  *             for idx_interval in range(time_interval):
  *                 acc += activity_power[idx_element + idx_interval]
  *             if acc > max_mean:             # <<<<<<<<<<<<<<
@@ -2822,7 +2822,7 @@ static double __pyx_fuse_0__pyx_f_9skcycling_10extraction_14_power_profile_max_m
           }
         }
 
-        /* "skcycling/extraction/_power_profile.pyx":34
+        /* "skcycling/extraction/_power_profile.pyx":39
  *                 max_mean = acc
  * 
  *         return max_mean / time_interval             # <<<<<<<<<<<<<<
@@ -2831,7 +2831,7 @@ static double __pyx_fuse_0__pyx_f_9skcycling_10extraction_14_power_profile_max_m
         goto __pyx_L3_return;
       }
 
-      /* "skcycling/extraction/_power_profile.pyx":26
+      /* "skcycling/extraction/_power_profile.pyx":31
  *         double max_mean = 0.0
  * 
  *     with nogil:             # <<<<<<<<<<<<<<
@@ -2968,7 +2968,7 @@ static double __pyx_fuse_1__pyx_f_9skcycling_10extraction_14_power_profile_max_m
   int __pyx_t_6;
   __Pyx_RefNannySetupContext("__pyx_fuse_1max_mean_power_interval", 0);
 
-  /* "skcycling/extraction/_power_profile.pyx":21
+  /* "skcycling/extraction/_power_profile.pyx":26
  * 
  *     cdef:
  *         Py_ssize_t n_element = activity_power.shape[0]             # <<<<<<<<<<<<<<
@@ -2977,7 +2977,7 @@ static double __pyx_fuse_1__pyx_f_9skcycling_10extraction_14_power_profile_max_m
  */
   __pyx_v_n_element = (__pyx_v_activity_power.shape[0]);
 
-  /* "skcycling/extraction/_power_profile.pyx":23
+  /* "skcycling/extraction/_power_profile.pyx":28
  *         Py_ssize_t n_element = activity_power.shape[0]
  *         Py_ssize_t idx_element, idx_interval
  *         double acc = 0.0             # <<<<<<<<<<<<<<
@@ -2986,7 +2986,7 @@ static double __pyx_fuse_1__pyx_f_9skcycling_10extraction_14_power_profile_max_m
  */
   __pyx_v_acc = 0.0;
 
-  /* "skcycling/extraction/_power_profile.pyx":24
+  /* "skcycling/extraction/_power_profile.pyx":29
  *         Py_ssize_t idx_element, idx_interval
  *         double acc = 0.0
  *         double max_mean = 0.0             # <<<<<<<<<<<<<<
@@ -2995,7 +2995,7 @@ static double __pyx_fuse_1__pyx_f_9skcycling_10extraction_14_power_profile_max_m
  */
   __pyx_v_max_mean = 0.0;
 
-  /* "skcycling/extraction/_power_profile.pyx":26
+  /* "skcycling/extraction/_power_profile.pyx":31
  *         double max_mean = 0.0
  * 
  *     with nogil:             # <<<<<<<<<<<<<<
@@ -3010,7 +3010,7 @@ static double __pyx_fuse_1__pyx_f_9skcycling_10extraction_14_power_profile_max_m
       #endif
       /*try:*/ {
 
-        /* "skcycling/extraction/_power_profile.pyx":27
+        /* "skcycling/extraction/_power_profile.pyx":32
  * 
  *     with nogil:
  *         for idx_element in range(n_element - time_interval):             # <<<<<<<<<<<<<<
@@ -3021,7 +3021,7 @@ static double __pyx_fuse_1__pyx_f_9skcycling_10extraction_14_power_profile_max_m
         for (__pyx_t_2 = 0; __pyx_t_2 < __pyx_t_1; __pyx_t_2+=1) {
           __pyx_v_idx_element = __pyx_t_2;
 
-          /* "skcycling/extraction/_power_profile.pyx":28
+          /* "skcycling/extraction/_power_profile.pyx":33
  *     with nogil:
  *         for idx_element in range(n_element - time_interval):
  *             acc = 0.0             # <<<<<<<<<<<<<<
@@ -3030,7 +3030,7 @@ static double __pyx_fuse_1__pyx_f_9skcycling_10extraction_14_power_profile_max_m
  */
           __pyx_v_acc = 0.0;
 
-          /* "skcycling/extraction/_power_profile.pyx":29
+          /* "skcycling/extraction/_power_profile.pyx":34
  *         for idx_element in range(n_element - time_interval):
  *             acc = 0.0
  *             for idx_interval in range(time_interval):             # <<<<<<<<<<<<<<
@@ -3041,7 +3041,7 @@ static double __pyx_fuse_1__pyx_f_9skcycling_10extraction_14_power_profile_max_m
           for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
             __pyx_v_idx_interval = __pyx_t_4;
 
-            /* "skcycling/extraction/_power_profile.pyx":30
+            /* "skcycling/extraction/_power_profile.pyx":35
  *             acc = 0.0
  *             for idx_interval in range(time_interval):
  *                 acc += activity_power[idx_element + idx_interval]             # <<<<<<<<<<<<<<
@@ -3052,7 +3052,7 @@ static double __pyx_fuse_1__pyx_f_9skcycling_10extraction_14_power_profile_max_m
             __pyx_v_acc = (__pyx_v_acc + (*((double *) ( /* dim=0 */ (__pyx_v_activity_power.data + __pyx_t_5 * __pyx_v_activity_power.strides[0]) ))));
           }
 
-          /* "skcycling/extraction/_power_profile.pyx":31
+          /* "skcycling/extraction/_power_profile.pyx":36
  *             for idx_interval in range(time_interval):
  *                 acc += activity_power[idx_element + idx_interval]
  *             if acc > max_mean:             # <<<<<<<<<<<<<<
@@ -3062,7 +3062,7 @@ static double __pyx_fuse_1__pyx_f_9skcycling_10extraction_14_power_profile_max_m
           __pyx_t_6 = ((__pyx_v_acc > __pyx_v_max_mean) != 0);
           if (__pyx_t_6) {
 
-            /* "skcycling/extraction/_power_profile.pyx":32
+            /* "skcycling/extraction/_power_profile.pyx":37
  *                 acc += activity_power[idx_element + idx_interval]
  *             if acc > max_mean:
  *                 max_mean = acc             # <<<<<<<<<<<<<<
@@ -3071,7 +3071,7 @@ static double __pyx_fuse_1__pyx_f_9skcycling_10extraction_14_power_profile_max_m
  */
             __pyx_v_max_mean = __pyx_v_acc;
 
-            /* "skcycling/extraction/_power_profile.pyx":31
+            /* "skcycling/extraction/_power_profile.pyx":36
  *             for idx_interval in range(time_interval):
  *                 acc += activity_power[idx_element + idx_interval]
  *             if acc > max_mean:             # <<<<<<<<<<<<<<
@@ -3081,7 +3081,7 @@ static double __pyx_fuse_1__pyx_f_9skcycling_10extraction_14_power_profile_max_m
           }
         }
 
-        /* "skcycling/extraction/_power_profile.pyx":34
+        /* "skcycling/extraction/_power_profile.pyx":39
  *                 max_mean = acc
  * 
  *         return max_mean / time_interval             # <<<<<<<<<<<<<<
@@ -3090,7 +3090,7 @@ static double __pyx_fuse_1__pyx_f_9skcycling_10extraction_14_power_profile_max_m
         goto __pyx_L3_return;
       }
 
-      /* "skcycling/extraction/_power_profile.pyx":26
+      /* "skcycling/extraction/_power_profile.pyx":31
  *         double max_mean = 0.0
  * 
  *     with nogil:             # <<<<<<<<<<<<<<

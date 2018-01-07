@@ -47,12 +47,11 @@ if [[ "$DISTRIB" == "conda" ]]; then
     # provided versions
     conda create -n testenv --yes python=$PYTHON_VERSION pip
     source activate testenv
-    conda install --yes numpy scipy six joblib scikit-learn cython
+    conda install --yes numpy scipy pandas six joblib scikit-learn cython
     pip install fitparse
 
     conda install --yes nose pytest pytest-cov
-    # Install nose-timer via pip
-    pip install nose-timer codecov
+    pip install codecov
 
 elif [[ "$DISTRIB" == "ubuntu" ]]; then
     # At the time of writing numpy 1.9.1 is included in the travis
@@ -62,7 +61,7 @@ elif [[ "$DISTRIB" == "ubuntu" ]]; then
     # Create a new virtualenv using system site packages for python, numpy
     virtualenv --system-site-packages testvenv
     source testvenv/bin/activate
-    pip install --upgrade joblib scikit-learn six fitparse nose nose-timer \
+    pip install --upgrade pandas joblib scikit-learn six fitparse \
         pytest pytest-cov codecov cython
 
 fi

@@ -20,8 +20,8 @@ MAINTAINER_EMAIL = 'g.lemaitre58@gmail.com'
 URL = 'https://github.com/scikit-cycling/scikit-cycling'
 LICENSE = 'MIT'
 DOWNLOAD_URL = 'https://github.com/scikit-cycling/scikit-cycling'
-INSTALL_REQUIRES = ['numpy', 'scipy', 'scikit-learn', 'six', 'joblib',
-                    'fitparse', 'cython']
+INSTALL_REQUIRES = ['numpy', 'scipy', 'pandas', 'scikit-learn', 'six',
+                    'joblib', 'fitparse', 'cython']
 CLASSIFIERS = ['Intended Audience :: Science/Research',
                'Intended Audience :: Developers',
                'License :: OSI Approved',
