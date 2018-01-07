@@ -13,7 +13,6 @@ Data-management
 
 .. autosummary::
    :toctree: generated/
-   :template: class.rst
 
    Rider
 

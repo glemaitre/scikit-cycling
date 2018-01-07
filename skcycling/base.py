@@ -148,7 +148,26 @@ class Rider(object):
         >>> from skcycling.datasets import load_rider
         >>> rider = Rider.from_csv(load_rider())
         >>> record_power_profile = rider.record_power_profile()
+        >>> record_power_profile.head() # doctest : +NORMALIZE_WHITESPACE
+        00:00:01    750.000000
+        00:00:02    741.000000
+        00:00:03    731.666667
+        00:00:04    719.500000
+        00:00:05    712.200000
+        Name: record power-profile, dtype: float64
+
+        This is also possible to give a range of dates to compute the record
+        power-profile.
+
+        >>> record_power_profile = rider.record_power_profile(('07 May 2014',
+        ...                                                    '11 May 2014'))
         >>> record_power_profile.head()
+        00:00:01    717.00
+        00:00:02    717.00
+        00:00:03    590.00
+        00:00:04    552.25
+        00:00:05    552.60
+        Name: record power-profile, dtype: float64
 
         """
         if range_dates is None:
