@@ -1,5 +1,9 @@
 """ Testing the input/output methods for FIT files """
 
+# Authors: Guillaume Lemaitre <g.lemaitre58@gmail.com>
+#          Cedric Lemaitre
+# License: BSD 3 clause
+
 import pytest
 
 import numpy as np

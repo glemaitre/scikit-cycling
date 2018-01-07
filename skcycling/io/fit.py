@@ -1,5 +1,9 @@
 """Methods to handle input/output files."""
 
+# Authors: Guillaume Lemaitre <g.lemaitre58@gmail.com>
+#          Cedric Lemaitre
+# License: BSD 3 clause
+
 import os
 import pandas as pd
 import six

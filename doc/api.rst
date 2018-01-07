@@ -34,7 +34,8 @@ Datasets
 .. autosummary::
    :toctree: generated/
 
-   datasets.load_toy
+   datasets.load_fit
+   datasets.load_rider
 
 .. _power_profile_ref:
 

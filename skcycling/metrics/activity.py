@@ -6,6 +6,11 @@ the better.
 Function named as ``*_error`` or ``*_loss`` return a scalar value to minimize:
 the lower the better.
 """
+
+# Authors: Guillaume Lemaitre <g.lemaitre58@gmail.com>
+#          Cedric Lemaitre
+# License: BSD 3 clause
+
 from __future__ import division
 
 import numpy as np

@@ -1,5 +1,9 @@
 """Extraction of information based on the power-profile."""
 
+# Authors: Guillaume Lemaitre <g.lemaitre58@gmail.com>
+#          Cedric Lemaitre
+# License: BSD 3 clause
+
 from datetime import time, timedelta
 from numbers import Integral
 

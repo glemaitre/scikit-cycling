@@ -1,4 +1,8 @@
-""" Testing the metrics developed to asses performance of a ride """
+"""Testing the metrics developed to asses performance of a ride."""
+
+# Authors: Guillaume Lemaitre <g.lemaitre58@gmail.com>
+#          Cedric Lemaitre
+# License: BSD 3 clause
 
 import pytest
 

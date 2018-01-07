@@ -4,13 +4,12 @@ Getting Started
 Install
 -------
 
-The install of ``scikit-cycling`` is almost straightforward. You need to clone it from GitHub_::
+The install of ``scikit-cycling`` is almost straightforward. You need to clone
+it from GitHub_::
 
-  $ git clone --recursive https://github.com/glemaitre/scikit-cycling.git
-  $ cd third-party/python-fitparse
-  $ python setup.py install
-  $ cd ../../
-  $ python setup.py install
+  $ git clone https://github.com/glemaitre/scikit-cycling.git
+  $ cd scikit-cycling
+  $ pip install .
 
 Test and coverage
 -----------------
@@ -26,6 +25,8 @@ You wish to test the coverage of your version::
 Contribute
 ----------
 
-You can contribute to this code through Pull Request on GitHub_. Please, make sure that your code is coming with unit tests to ensure full coverage and continuous integration in the API.
+You can contribute to this code through Pull Request on GitHub_. Please, make
+sure that your code is coming with unit tests to ensure full coverage and
+continuous integration in the API.
 
 .. _GitHub: https://github.com/glemaitre/scikit-cycling

@@ -245,3 +245,5 @@ install_manifest.txt
 .ipynb_checkpoints
 
 coverage/
+
+cythonize.dat

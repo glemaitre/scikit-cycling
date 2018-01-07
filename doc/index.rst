@@ -47,15 +47,7 @@ all functions, and all parameters available for the algorithms.
 
 Log of the scikit-cycling history.
 
-`About imbalanced-learn <about.html>`_
+`About sciki-cycling <about.html>`_
 --------------------------------------
 
 Just to know about history of scikit-cycling.
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

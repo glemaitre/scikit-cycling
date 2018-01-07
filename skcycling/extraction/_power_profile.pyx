@@ -3,6 +3,10 @@
 #cython: nonecheck=False
 #cython: wraparound=False
 
+# Authors: Guillaume Lemaitre <g.lemaitre58@gmail.com>
+#          Cedric Lemaitre
+# License: BSD 3 clause
+
 cpdef double max_mean_power_interval(floating[:] activity_power,
                                      Py_ssize_t time_interval):
     """Compute the maximum power delivered for a specific amount of time.

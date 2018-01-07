@@ -1,7 +1,11 @@
 """
 The :mod:`skcycling.datasets` module includes utilities to load datasets.
-Mainly this is used for performing the tests of this package.
 """
+
+# Authors: Guillaume Lemaitre <g.lemaitre58@gmail.com>
+#          Cedric Lemaitre
+# License: BSD 3 clause
+
 from os import listdir
 from os.path import dirname, join
 

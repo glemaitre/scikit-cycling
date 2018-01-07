@@ -1,4 +1,9 @@
 """ Metrics to asses the power profile. """
+
+# Authors: Guillaume Lemaitre <g.lemaitre58@gmail.com>
+#          Cedric Lemaitre
+# License: BSD 3 clause
+
 from __future__ import division
 
 import pandas as pd
@@ -87,9 +92,6 @@ def aerobic_meta_model(record_power_profile, time_samples=None):
     .. [1] Pinot et al., "Determination of Maximal Aerobic Power
        on the Field in Cycling", Jounal of Science and Cycling, vol. 3(1),
        pp. 26-31, 2014.
-
-    Examples
-    --------
 
     """
     if time_samples is None:

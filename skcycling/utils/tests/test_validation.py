@@ -1,3 +1,7 @@
+# Authors: Guillaume Lemaitre <g.lemaitre58@gmail.com>
+#          Cedric Lemaitre
+# License: BSD 3 clause
+
 from os.path import dirname, join
 
 import pytest
