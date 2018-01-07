@@ -21,7 +21,7 @@ URL = 'https://github.com/scikit-cycling/scikit-cycling'
 LICENSE = 'MIT'
 DOWNLOAD_URL = 'https://github.com/scikit-cycling/scikit-cycling'
 INSTALL_REQUIRES = ['numpy', 'scipy', 'scikit-learn', 'six', 'joblib',
-                    'fitparse']
+                    'fitparse', 'cython']
 CLASSIFIERS = ['Intended Audience :: Science/Research',
                'Intended Audience :: Developers',
                'License :: OSI Approved',

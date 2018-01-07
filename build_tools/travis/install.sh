@@ -47,7 +47,7 @@ if [[ "$DISTRIB" == "conda" ]]; then
     # provided versions
     conda create -n testenv --yes python=$PYTHON_VERSION pip
     source activate testenv
-    conda install --yes numpy scipy six joblib scikit-learn
+    conda install --yes numpy scipy six joblib scikit-learn cython
     pip install fitparse
 
     conda install --yes nose pytest pytest-cov
@@ -63,7 +63,7 @@ elif [[ "$DISTRIB" == "ubuntu" ]]; then
     virtualenv --system-site-packages testvenv
     source testvenv/bin/activate
     pip install --upgrade joblib scikit-learn six fitparse nose nose-timer \
-        pytest pytest-cov codecov
+        pytest pytest-cov codecov cython
 
 fi
 

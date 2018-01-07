@@ -4,3 +4,4 @@ joblib
 scikit-learn
 fitparse
 six
+cython
