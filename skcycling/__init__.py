@@ -5,16 +5,12 @@ analyse file extracted from powermeters.
 
 Subpackages
 -----------
-data_management
-    Class to manage the data for a rider.
 datasets
     Modules with helper for datasets.
 metrics
     Metrics to quantify cyclist ride.
 power_profile
     Record power-profile of cyclist.
-restoration
-    Utility for denoising cyclist ride.
 utils
     Utility to read and save cycling ride.
 """

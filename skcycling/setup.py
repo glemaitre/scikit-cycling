@@ -15,8 +15,6 @@ def configuration(parent_package='', top_path=None):
     config.add_subpackage('io/tests')
     config.add_subpackage('metrics')
     config.add_subpackage('metrics/tests')
-    config.add_subpackage('restoration')
-    config.add_subpackage('restoration/tests')
     config.add_subpackage('utils')
     config.add_subpackage('utils/tests')
 
