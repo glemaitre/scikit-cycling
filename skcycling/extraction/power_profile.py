@@ -8,6 +8,7 @@ from datetime import time, timedelta
 from numbers import Integral
 
 import pandas as pd
+import six
 from joblib import Parallel, delayed
 
 from ._power_profile import max_mean_power_interval
@@ -59,7 +60,7 @@ def activity_power_profile(activity, max_duration=None, n_jobs=1):
         information about time. The activity can be read with
         :func:`skcycling.io.bikeread`.
 
-    max_duration : int or time instance, optional
+    max_duration : datetime-like, int, or str, optional
         The maximum duration for which the power-profile should be computed. By
         default, it will be computed for the duration of the activity. An
         integer represents seconds.
@@ -77,6 +78,8 @@ def activity_power_profile(activity, max_duration=None, n_jobs=1):
         max_duration = _int2time(activity.shape[0])
     elif isinstance(max_duration, Integral):
         max_duration = _int2time(max_duration)
+    elif isinstance(max_duration, six.string_types):
+        max_duration = pd.Timestamp(max_duration)
 
     power_profile = Parallel(n_jobs=n_jobs)(
         delayed(max_mean_power_interval)(activity['power'].values, duration)
