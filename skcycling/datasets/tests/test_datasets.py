@@ -1,3 +1,5 @@
+from os.path import join
+
 import pytest
 
 from skcycling.datasets import load_fit
@@ -25,4 +27,4 @@ def test_load_fit(returned_type, set_data, expected_filenames):
 
 def test_load_rider():
     filename = load_rider()
-    assert 'data/rider.csv' in filename
+    assert join('data', 'rider.csv') in filename
