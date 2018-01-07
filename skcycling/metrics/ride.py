@@ -22,7 +22,7 @@ ESIE_SCALE_GRAPPE = dict([('I1', (.3, .5)), ('I2', (.5, .6)),
                           ('I7', (1.8, 3.))])
 
 
-def normalized_power_score(X, pma):
+def normalized_power_score(X, mpa):
     """Compute the normalized power for a given ride.
 
     Parameters
@@ -30,7 +30,7 @@ def normalized_power_score(X, pma):
     X : array-like, shape (n_samples, )
         Array containing the power intensities for a ride.
 
-    pma : float
+    mpa : float
         Maxixum Anaerobic Power.
 
     Returns
@@ -40,7 +40,7 @@ def normalized_power_score(X, pma):
 
     """
 
-    # Check the conformity of X and pma
+    # Check the conformity of X and mpa
     if len(X.shape) != 1:
         raise ValueError('X should have 1 dimension. Got {}, instead'.format(
             len(X.shape)))
@@ -50,7 +50,7 @@ def normalized_power_score(X, pma):
 
     # Removing value < I1-ESIE, i.e. 30 % MAP
     x_avg = np.delete(x_avg, np.nonzero(x_avg <
-                                        (ESIE_SCALE_GRAPPE['I1'][0] * pma)))
+                                        (ESIE_SCALE_GRAPPE['I1'][0] * mpa)))
 
     # Compute the mean of the denoised ride elevated
     # at the power of 4
@@ -80,12 +80,12 @@ def intensity_factor_ftp_score(X, ftp):
             len(X.shape)))
 
     # Compute the normalized power
-    np_score = normalized_power_score(X, ftp2pma(ftp))
+    np_score = normalized_power_score(X, ftp2mpa(ftp))
 
     return np_score / ftp
 
 
-def intensity_factor_pma_score(X, pma):
+def intensity_factor_mpa_score(X, mpa):
     """Compute the intensity factor using the MAP.
 
     Parameters
@@ -93,7 +93,7 @@ def intensity_factor_pma_score(X, pma):
     X : array-like, shape (n_samples, )
         Array containing the power intensities for a ride.
 
-    pma : float
+    mpa : float
         Maximum Anaerobic Power.
 
     Returns
@@ -103,13 +103,13 @@ def intensity_factor_pma_score(X, pma):
 
     """
 
-    # Check the conformity of X and pma
+    # Check the conformity of X and mpa
     if len(X.shape) != 1:
         raise ValueError('X should have 1 dimension. Got {}, instead'.format(
             len(X.shape)))
 
     # Compute the resulting IF
-    return intensity_factor_ftp_score(X, pma2ftp(pma))
+    return intensity_factor_ftp_score(X, mpa2ftp(mpa))
 
 
 def training_stress_ftp_score(X, ftp):
@@ -141,7 +141,7 @@ def training_stress_ftp_score(X, ftp):
     return (X.size * if_score ** 2) / 3600 * 100
 
 
-def training_stress_pma_score(X, pma):
+def training_stress_mpa_score(X, mpa):
     """Compute the training stress score.
 
     Parameters
@@ -149,7 +149,7 @@ def training_stress_pma_score(X, pma):
     X : array-like, shape (n_samples, )
         Array containing the power intensities for a ride.
 
-    pma : float
+    mpa : float
         Maximum Anaerobic Power.
 
     Returns
@@ -158,21 +158,21 @@ def training_stress_pma_score(X, pma):
         Return the training stress score.
 
     """
-    # Check the conformity of X and pma
+    # Check the conformity of X and mpa
     if len(X.shape) != 1:
         raise ValueError('X should have 1 dimension. Got {}, instead'.format(
             len(X.shape)))
 
     # Compute the training stress score
-    return training_stress_ftp_score(X, pma2ftp(pma))
+    return training_stress_ftp_score(X, mpa2ftp(mpa))
 
 
-def pma2ftp(pma):
+def mpa2ftp(mpa):
     """Convert the MAP to FTP.
 
     Parameters
     ----------
-    pma : float
+    mpa : float
         Maximum Anaerobic Power.
 
     Return:
@@ -181,10 +181,10 @@ def pma2ftp(pma):
         Functioning Threhold Power.
 
     """
-    return 0.76 * pma
+    return 0.76 * mpa
 
 
-def ftp2pma(ftp):
+def ftp2mpa(ftp):
     """Convert the MAP to FTP.
 
     Parameters
@@ -194,14 +194,14 @@ def ftp2pma(ftp):
 
     Return:
     -------
-    pma : float
+    mpa : float
         Maximum Anaerobic Power.
 
     """
     return ftp / 0.76
 
 
-def training_stress_pma_grappe_score(X, pma):
+def training_stress_mpa_grappe_score(X, mpa):
     """Compute the training stress score using the MAP.
 
     Parameters
@@ -209,7 +209,7 @@ def training_stress_pma_grappe_score(X, pma):
     X : array-like, shape (n_samples, )
         Array containing the power intensities for a ride.
 
-    pma : float
+    mpa : float
         Maximum Anaerobic Power.
 
     Returns
@@ -218,7 +218,7 @@ def training_stress_pma_grappe_score(X, pma):
         Return the training stress score.
 
     """
-    # Check the consistency of X and pma
+    # Check the consistency of X and mpa
     if len(X.shape) != 1:
         raise ValueError('X should have 1 dimension. Got {}, instead'.format(
             len(X.shape)))
@@ -230,8 +230,8 @@ def training_stress_pma_grappe_score(X, pma):
         # Count the number of elements which corresponds to as sec
         # We need to convert it to minutes
         curr_stress = np.count_nonzero(
-            np.bitwise_and(X >= ESIE_SCALE_GRAPPE[key_sc][0] * pma,
-                           X < ESIE_SCALE_GRAPPE[key_sc][1] * pma)) / 60
+            np.bitwise_and(X >= ESIE_SCALE_GRAPPE[key_sc][0] * mpa,
+                           X < ESIE_SCALE_GRAPPE[key_sc][1] * mpa)) / 60
 
         # Compute the cumulative stress
         tss_grappe += curr_stress * TS_SCALE_GRAPPE[key_sc]
@@ -256,4 +256,4 @@ def training_stress_ftp_grappe_score(X, ftp):
         Return the training stress score.
 
     """
-    return training_stress_pma_grappe_score(X, ftp2pma(ftp))
+    return training_stress_mpa_grappe_score(X, ftp2mpa(ftp))

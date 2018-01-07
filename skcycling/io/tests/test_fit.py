@@ -1,24 +1,17 @@
 """ Testing the input/output methods for FIT files """
 
-import unittest
+import pytest
+
 import numpy as np
 
 from datetime import date
 
 from numpy.testing import assert_allclose
-from numpy.testing import assert_equal
-from numpy.testing import assert_raises
-from numpy.testing import assert_warns
 
-from skcycling.datasets import load_toy
-from skcycling.utils import load_power_from_fit
+from skcycling.datasets import load_fit
+from skcycling.io.fit import load_power_from_fit
+from skcycling.io.fit import check_filename_fit
 
-_dummy = _dummy = unittest.TestCase('__init__')
-try:
-    assert_raises_regex = _dummy.assertRaisesRegex
-except AttributeError:
-    # Python 2.7
-    assert_raises_regex = _dummy.assertRaisesRegexp
 
 ride = np.array(
     [
@@ -45,41 +38,48 @@ ride = np.array(
     dtype=float)
 
 
-def test_load_power_not_fit():
-    filename = 'example.txt'
-    assert_raises(ValueError, load_power_from_fit, filename)
-
-
-def test_load_power_check_file_exist():
-    filename = 'example.fit'
-    assert_raises(ValueError, load_power_from_fit, filename)
-
-
-def test_load_power_if_no_power():
-    filenames = load_toy(set_data='corrupted')
-    pattern = '2014-05-17-10-44-53.fit'
-    for f in filenames:
-        if pattern in f:
-            filename = f
-    assert_warns(UserWarning, load_power_from_fit, filename)
+@pytest.mark.parametrize(
+    "filename",
+    [('example.txt'),
+     ('example.fit')])
+def test_load_power_error(filename):
+    with pytest.raises(ValueError):
+        load_power_from_fit(filename)
 
 
 def test_load_power_if_no_record():
-    filenames = load_toy(set_data='corrupted')
+    filenames = load_fit(set_data='corrupted')
     pattern = '2015-11-27-18-54-57.fit'
     for f in filenames:
         if pattern in f:
             filename = f
-    assert_raises_regex(ValueError, "There is no data to treat in that file.",
-                        load_power_from_fit, filename)
+    msg = "There is no data to treat in that file."
+    with pytest.raises(ValueError, message=msg):
+        load_power_from_fit(filename)
 
 
 def test_load_power_normal_file():
-    filenames = load_toy(set_data='corrupted')
+    filenames = load_fit(set_data='corrupted')
     pattern = '2013-04-24-22-22-25.fit'
     for f in filenames:
         if pattern in f:
             filename = f
-    power, date_loaded = load_power_from_fit(filename)
-    assert_allclose(power, ride)
-    assert_equal(date_loaded, date(2013, 4, 24))
+    df = load_power_from_fit(filename)
+    assert_allclose(df['power'], ride)
+    assert df.index[0].date() == date(2013, 4, 24)
+
+
+@pytest.mark.parametrize(
+    "filename,msg",
+    [(1, 'filename needs to be a string'),
+     ('file.rnd', 'The file is not a fit ride.'),
+     ('file.fit', 'The file does not exist.')])
+def test_check_check_filename_error(filename, msg):
+    with pytest.raises(ValueError, message=msg):
+        check_filename_fit(filename)
+
+
+def test_check_filename_fit():
+    filename = load_fit()[0]
+    my_filename = check_filename_fit(filename)
+    assert my_filename == filename

@@ -1,5 +1,6 @@
 scipy
 numpy
 joblib
+scikit-learn
 fitparse
 six

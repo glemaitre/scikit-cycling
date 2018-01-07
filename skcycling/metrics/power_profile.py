@@ -1,51 +1,66 @@
 """ Metrics to asses the power profile. """
 from __future__ import division
 
-import warnings
+import pandas as pd
 import numpy as np
 
-from ..power_profile import BasePowerProfile
-
-from ..utils.fit import log_linear_fitting
-from ..utils.fit import log_linear_model
+from sklearn.linear_model import LinearRegression
 
 
-SAMPLING_WKO = np.array([0.016, 0.083, 0.5, 1, 3, 3.5, 4, 4.5, 5, 5.5,
-                         6, 6.5, 7, 10, 20, 30, 45, 60, 120, 180, 240])
+SAMPLING_WKO = pd.TimedeltaIndex(
+    ['00:00:01', '00:00:05', '00:00:30', '00:01:00', '00:03:00',
+     '00:03:30', '00:04:00', '00:04:30', '00:05:00', '00:05:30',
+     '00:06:00', '00:06:30', '00:07:00', '00:10:00', '00:20:00',
+     '00:30:00', '00:45:00', '01:00:00', '02:00:00', '03:00:00',
+     '04:00:00'])
 
 
-def aerobic_meta_model(profile, ts=None, normalized=False, method='lsq'):
+def std_dev_squared_error(y_true, y_pred):
+    """Compute the standard deviation of the squared error.
+
+    Parameters
+    ----------
+    y_true : ndarray, shape (n_samples,)
+        Ground truth (correct) target values.
+
+    y_pred : ndarray, shape (n_samples,)
+        Estimated target values.
+
+    Returns
+    -------
+    std_dev : float
+        Standard deviation of the squared error.
+
+    """
+
+    return np.sqrt(np.sum((y_true - y_pred) ** 2 / (y_true.size - 2)))
+
+
+def aerobic_meta_model(record_power_profile, time_samples=None):
     """Compute the aerobic metabolism model from the record power-profile.
 
     Parameters
     ----------
-    profile : RidePowerProfile or RecordPowerProfile
-        The profile that we want to use for computing the different
-        statistics.
+    record_power_profile : Series
+        The record power profile from which to extract the aerobic model.
 
-    ts : ndarray, shape (n_samples, ) or None
-        Array containing the sample to take into account.
-        If None, the sampling of the method of Pinot is applied, which is
-        equivalent to the sampling from WKO+
-
-    normalized : bool, default False
-        Return a weight-normalized rpp if True.
-
-    method : string, default 'lsq'
-        Which type of tehcnic to use to make the fitting ('lsq', 'lm').
+    time_samples : TimedeltaIndex or None, optional
+        The time samples of the record power-profile to take into account. If
+        None, the sampling of the method of Pinot et al. is applied, which is
+        equivalent to the sampling from WKO+.
 
     Returns
     -------
-    pma : float
+    mpa : float
         Maximum Aerobic Power.
 
-    t_pma : int
-        Time of the Maximum Aerobic Power in seconds.
+    t_mpa : Timedelta
+        Time of the Maximum Aerobic Power.
 
     aei : float
         Aerobic Endurance Index.
 
-    fit_info_pma_fitting : dict
+    fit_info_mpa_fitting : dict
         This is a dictionary with the information collected about the fitting
         related to the MAP. The attributes will be the following:
 
@@ -73,88 +88,78 @@ def aerobic_meta_model(profile, ts=None, normalized=False, method='lsq'):
        on the Field in Cycling", Jounal of Science and Cycling, vol. 3(1),
        pp. 26-31, 2014.
 
+    Examples
+    --------
+
     """
-    # Check that the profile is inherating from the class BasePowerProfile
-    if not issubclass(type(profile), BasePowerProfile):
-        raise ValueError('The variable profile need to be of type'
-                         ' RecordPowerProfile or RidePowerProfile.')
+    if time_samples is None:
+        time_samples = SAMPLING_WKO.copy()
 
-    # If ts is not provided we have to create a timeline
-    if ts is None:
-        # By default ts will be taken as in WKO+
-        ts = SAMPLING_WKO.copy()
+    # keep only the time samples available in the record power-profile
+    mask_time_samples = time_samples < record_power_profile.index.max()
+    time_samples = time_samples[mask_time_samples]
 
-    if np.count_nonzero(ts > profile.max_duration_profile) > 0:
-        # The values which are outside of the maximum duration need to
-        # be removed
-        ts = ts[np.nonzero(ts <= profile.max_duration_profile)]
-        warnings.warn('Samples in `ts` have been removed since that there'
-                      ' is no information about these samples inside the rpp.')
+    # to avoid losing data, we will first interpolate the time samples
+    # using all the data available in the record power-profile before
+    # to select only the samples required.
+    ts_union = record_power_profile.index.union(time_samples)
+    record_power_profile = (record_power_profile.reindex(ts_union)
+                                                .interpolate('linear')
+                                                .reindex(time_samples))
 
-    # Compute the rpp
-    rpp = profile.resampling_rpp(ts, normalized=normalized)
+    # only samples between 10 minutes and 4 hours are considered for the
+    # regression
+    mask_samples_map = np.bitwise_and(time_samples >= '00:10:00',
+                                      time_samples <= '04:00:00')
+    extracted_profile = record_power_profile.loc[mask_samples_map].values
+    extracted_time = record_power_profile.loc[mask_samples_map].index.values
+    extracted_time = np.log(extracted_time.astype(int) / 1e9).reshape(-1, 1)
 
-    # The zero values need to be avoided for the fitting
-    # Keep the signal which is not zero
-    ts = ts[np.nonzero(rpp)]
-    rpp = rpp[np.nonzero(rpp)]
+    ols = LinearRegression()
+    ols.fit(extracted_time, extracted_profile)
+    std_fit = std_dev_squared_error(extracted_profile,
+                                    ols.predict(extracted_time))
 
-    # Find the MAP and the corresponding time
-    # Only the time between 10 and 240 minutes is used for the regression
-    ts_pma_reg = ts[np.nonzero(np.bitwise_and(ts >= 10, ts <= 240))]
-    rpp_pma_reg = rpp[np.nonzero(np.bitwise_and(ts >= 10, ts <= 240))]
+    fit_info_mpa_fitting = {
+        'slope': ols.coef_[0],
+        'intercept': ols.intercept_,
+        'std_err': std_fit,
+        'coeff_det': ols.score(extracted_time, extracted_profile)}
 
-    # Apply the first log-linear fitting
-    slope, intercept, std_err, coeff_det = log_linear_fitting(ts_pma_reg,
-                                                              rpp_pma_reg,
-                                                              method)
+    # mpa will be find between 3 minutes and 7 minutes
+    mask_samples_map = np.bitwise_and(time_samples >= '00:03:00',
+                                      time_samples <= '00:10:00')
+    extracted_profile = record_power_profile.loc[mask_samples_map].values
+    extracted_time = record_power_profile.loc[mask_samples_map].index.values
+    extracted_time = np.log(extracted_time.astype(int) / 1e9).reshape(-1, 1)
 
-    # Store the value inside a dictionary
-    fit_info_pma_fitting = {'slope': slope, 'intercept': intercept,
-                            'std_err': std_err, 'coeff_det': coeff_det}
+    aerobic_model = ols.predict(extracted_time)
 
-    # Find t_pma and pma
-    # First record between 3 and 7 min in the confidence area
-    ts_pma = ts[np.nonzero(np.bitwise_and(ts >= 3,
-                                          ts <= 7))]
-    rpp_pma = rpp[np.nonzero(np.bitwise_and(ts >= 3,
-                                            ts <= 7))]
+    # find the first value in the 2 * std confidence interval
+    samples_within = np.abs(extracted_profile - aerobic_model) < 2 * std_fit
 
-    # Compute the aerobic model found from the regression for
-    # the range of interest
-    aerobic_model = log_linear_model(ts_pma, slope, intercept)
-
-    # Check the first value which entered in the confidence of 2 std
-    if np.count_nonzero(np.abs(rpp_pma -
-                               aerobic_model) < 2 * std_err) > 0:
-        # Get the first value
-        t_pma = ts_pma[np.flatnonzero(np.abs(rpp_pma -
-                                             aerobic_model) < 2 *
-                                      std_err)[0]]
-        # Obtain the corresponding mpa
-        pma = rpp_pma[np.flatnonzero(np.abs(rpp_pma -
-                                            aerobic_model) < 2 *
-                                     std_err)[0]]
+    if np.count_nonzero(samples_within):
+        index_mpa = np.flatnonzero(samples_within)[0]
+        time_mpa = record_power_profile.loc[mask_samples_map].index[index_mpa]
+        mpa = record_power_profile.loc[mask_samples_map].iloc[index_mpa]
     else:
         raise ValueError('There is no value entering in the confidence'
                          ' level between 3 and 7 minutes.')
 
-    # Find aei
-    # Get the rpp and ts between t_pma and 240 minutes
-    ts_aei_reg = ts[np.nonzero(np.bitwise_and(ts >= t_pma,
-                                              ts <= 240))]
-    rpp_aei_reg = rpp[np.nonzero(np.bitwise_and(ts >= t_pma,
-                                                ts <= 240))]
-    # Express the rpp in term of percentage of PMA
-    rpp_aei_reg = rpp_aei_reg / pma * 100
+    # find aerobic endurance index
+    mask_samples_aei = np.bitwise_and(time_samples >= time_mpa,
+                                      time_samples <= '04:00:00')
+    extracted_profile = record_power_profile.loc[mask_samples_aei].values
+    extracted_profile = extracted_profile / mpa * 100
+    extracted_time = record_power_profile.loc[mask_samples_aei].index.values
+    extracted_time = np.log(extracted_time.astype(int) / 1e9).reshape(-1, 1)
 
-    # Apply a new regression with the aei value
-    aei, intercept, std_err, coeff_det = log_linear_fitting(ts_aei_reg,
-                                                            rpp_aei_reg,
-                                                            method)
+    ols.fit(extracted_time, extracted_profile)
+    fit_info_aei_fitting = {
+        'slope': ols.coef_[0],
+        'intercept': ols.intercept_,
+        'std_err': std_fit,
+        'coeff_det': ols.score(extracted_time, extracted_profile)}
 
-    # Store the value inside a dictionary
-    fit_info_aei_fitting = {'slope': aei, 'intercept': intercept,
-                            'std_err': std_err, 'coeff_det': coeff_det}
-
-    return pma, t_pma, aei, fit_info_pma_fitting, fit_info_aei_fitting
+    return (mpa, time_mpa, ols.coef_[0],
+            fit_info_mpa_fitting, fit_info_aei_fitting)

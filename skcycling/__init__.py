@@ -21,10 +21,5 @@ utils
 
 from ._version import __version__
 
-__all__ = ['data_management',
-           'datasets',
-           'metrics',
-           'power_profile',
-           'restoration',
-           'utils',
-           '__version__']
+from . import __check_build
+from .base import Rider
