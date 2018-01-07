@@ -2,7 +2,7 @@
 
 # Authors: Guillaume Lemaitre <g.lemaitre58@gmail.com>
 #          Cedric Lemaitre
-# License: BSD 3 clause
+# License: BSD 3 clauses
 
 import glob
 import os
@@ -26,6 +26,14 @@ def validate_filenames(filenames):
     -------
     filenames : list of str
         Returns a list of all file names.
+
+    Examples
+    --------
+    >>> from skcycling.utils import validate_filenames
+    >>> from skcycling.datasets import load_fit
+    >>> filenames = validate_filenames(load_fit())
+    >>> list(filenames) # doctest : +ELLIPSIS
+    [...]
 
     """
     if isinstance(filenames, list):

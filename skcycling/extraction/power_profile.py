@@ -73,6 +73,20 @@ def activity_power_profile(activity, max_duration=None, n_jobs=1):
     power_profile : Series
         A pandas Series containing the power-profile.
 
+    Examples
+    --------
+    >>> from skcycling.datasets import load_fit
+    >>> from skcycling.io import bikeread
+    >>> from skcycling.extraction import activity_power_profile
+    >>> power_profile = activity_power_profile(bikeread(load_fit()[0]))
+    >>> power_profile.head() # doctest : +NORMALIZE_WHITESPACE
+    00:00:01    500.000000
+    00:00:02    475.500000
+    00:00:03    469.333333
+    00:00:04    464.000000
+    00:00:05    463.000000
+    Freq: S, Name: 2014-05-07 00:00:00, dtype: float64
+
     """
     if max_duration is None:
         max_duration = _int2time(activity.shape[0])

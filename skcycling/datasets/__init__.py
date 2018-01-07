@@ -31,6 +31,12 @@ def load_fit(returned_type='list_file', set_data='normal'):
     filenames : str or list of str,
         List of string or string depending of input parameters.
 
+    Examples
+    --------
+    >>> from skcycling.datasets import load_fit
+    >>> load_fit() # doctest : +ELLIPSIS
+    [...]
+
     """
     module_path = dirname(__file__)
 
@@ -66,6 +72,12 @@ def load_rider():
     -------
     filename : str
         The path to the CSV file.
+
+    Examples
+    --------
+    >>> from skcycling.datasets import load_rider
+    >>> load_rider() # doctest : +ELLIPSIS
+    '...rider.csv'
 
     """
     module_path = dirname(__file__)
