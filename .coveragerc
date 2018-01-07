@@ -6,6 +6,9 @@ source = skcycling
 include = */skcycling/*
 omit =
 omit =
+     */skcycling/__check_build/*
+     */skcycling/extraction/setup.py
+     */skcycling/setup.py
      */setup.py
 
 [report]
