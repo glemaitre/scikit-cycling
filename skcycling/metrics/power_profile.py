@@ -113,7 +113,8 @@ def aerobic_meta_model(record_power_profile, time_samples=None):
                                       time_samples <= '04:00:00')
     extracted_profile = record_power_profile.loc[mask_samples_map].values
     extracted_time = record_power_profile.loc[mask_samples_map].index.values
-    extracted_time = np.log(extracted_time.astype(int) / 1e9).reshape(-1, 1)
+    extracted_time = np.log(extracted_time /
+                            np.timedelta64(1, 's')).reshape(-1, 1)
 
     ols = LinearRegression()
     ols.fit(extracted_time, extracted_profile)
@@ -131,8 +132,8 @@ def aerobic_meta_model(record_power_profile, time_samples=None):
                                       time_samples <= '00:10:00')
     extracted_profile = record_power_profile.loc[mask_samples_map].values
     extracted_time = record_power_profile.loc[mask_samples_map].index.values
-    extracted_time = np.log(extracted_time.astype(int) / 1e9).reshape(-1, 1)
-
+    extracted_time = np.log(extracted_time /
+                            np.timedelta64(1, 's')).reshape(-1, 1)
     aerobic_model = ols.predict(extracted_time)
 
     # find the first value in the 2 * std confidence interval
@@ -152,7 +153,8 @@ def aerobic_meta_model(record_power_profile, time_samples=None):
     extracted_profile = record_power_profile.loc[mask_samples_aei].values
     extracted_profile = extracted_profile / mpa * 100
     extracted_time = record_power_profile.loc[mask_samples_aei].index.values
-    extracted_time = np.log(extracted_time.astype(int) / 1e9).reshape(-1, 1)
+    extracted_time = np.log(extracted_time /
+                            np.timedelta64(1, 's')).reshape(-1, 1)
 
     ols.fit(extracted_time, extracted_profile)
     fit_info_aei_fitting = {
