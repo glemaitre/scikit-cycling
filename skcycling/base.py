@@ -128,6 +128,38 @@ class Rider(object):
         mask_date = np.bitwise_not(mask_date)
         self.power_profile_ = self.power_profile_.loc[:, mask_date]
 
+    def record_power_profile(self, range_dates=None):
+        """Compute the record power-profile.
+
+        Parameters
+        ----------
+        range_dates : tuple of datetime-like or str, optional
+            The start and end date to consider when computing the record
+            power-profile. By default, all data will be used.
+
+        Returns
+        -------
+        record_power_profile : Series
+            Record power-profile taken between the range of dates.
+
+        Examples
+        --------
+        >>> from skcycling import Rider
+        >>> from skcycling.datasets import load_rider
+        >>> rider = Rider.from_csv(load_rider())
+        >>> record_power_profile = rider.record_power_profile()
+        >>> record_power_profile.head()
+
+        """
+        if range_dates is None:
+            rpp = self.power_profile_.max(axis=1).dropna()
+        else:
+            mask_date = np.bitwise_and(
+                self.power_profile_.columns >= range_dates[0],
+                self.power_profile_.columns <= range_dates[1])
+            rpp = self.power_profile_.loc[:, mask_date].max(axis=1).dropna()
+        return rpp.rename('record power-profile')
+
     @classmethod
     def from_csv(cls, filename, n_jobs=1):
         """Load rider information from a CSV file.

@@ -50,6 +50,16 @@ def test_rider_delete_activities_error(dates):
         rider.delete_activities(dates)
 
 
+@pytest.mark.parametrize(
+    "range_dates, expected_shape",
+    [(None, (6703,)),
+     (('07 May 2014', '11 May 2014'), (3812,))])
+def test_rider_record_power_profile(range_dates, expected_shape):
+    rider = Rider.from_csv(load_rider())
+    rpp = rider.record_power_profile(range_dates=range_dates)
+    assert rpp.shape == expected_shape
+
+
 def test_dump_load_rider():
     filenames = load_fit()[:1]
     rider = Rider(n_jobs=-1)
