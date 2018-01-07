@@ -1,6 +1,6 @@
-##################################
-`scikit-cycling` API documentation
-##################################
+####################
+`scikit-cycling` API
+####################
 
 This is the full API documentation of `scikit-cycling`
 
