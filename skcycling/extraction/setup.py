@@ -9,9 +9,9 @@ def configuration(parent_package='', top_path=None):
                          sources=['_power_profile.c'],
                          include_dirs=[numpy.get_include()],
                          libraries=libraries,
-                         extra_compile_args=["-O3"])
-
-    # config.add_subpackage("tests")
+                         extra_compile_args=["-O3", "-fopenmp"],
+                         extra_link_args=["-fopenmp"])
+    config.add_subpackage("tests")
 
     return config
 
