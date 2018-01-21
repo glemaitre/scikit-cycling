@@ -8,11 +8,13 @@
 # License: BSD 3 clause
 
 from cython.parallel import parallel, prange
+from libc.stdlib cimport malloc, free
 cimport openmp
 import numpy as np
 
-cpdef (double, Py_ssize_t) max_mean_power_interval(floating[:] activity_power,
-                                                   Py_ssize_t time_interval):
+
+cpdef (double, Py_ssize_t) max_mean_power_interval(
+    floating[:] activity_power, Py_ssize_t time_interval) nogil:
     """Compute the maximum power delivered for a specific amount of time.
 
     Parameters
@@ -34,13 +36,14 @@ cpdef (double, Py_ssize_t) max_mean_power_interval(floating[:] activity_power,
         Py_ssize_t n_element = activity_power.shape[0]
         Py_ssize_t idx_element, idx_interval, idx_max_mean,
         double acc
-        double[:] acc_arr = np.empty((n_element - time_interval,))
+        double* acc_arr = <double*>malloc((n_element - time_interval) *
+                                           sizeof(double))
+        # double[:] acc_arr = np.empty((n_element - time_interval,))
         Py_ssize_t idx_acc_arr
         double max_mean = 0.0
 
-    with nogil, parallel(num_threads=openmp.omp_get_thread_num()):
-        for idx_element in prange(n_element - time_interval,
-                                  schedule='dynamic'):
+    with parallel():
+        for idx_element in prange(n_element - time_interval):
             acc = 0.0
             for idx_interval in range(time_interval):
                 acc = acc + activity_power[idx_element + idx_interval]
@@ -49,6 +52,7 @@ cpdef (double, Py_ssize_t) max_mean_power_interval(floating[:] activity_power,
         if acc_arr[idx_acc_arr] > max_mean:
             max_mean = acc_arr[idx_acc_arr]
             idx_max_mean = idx_acc_arr
+    free(acc_arr)
 
     return max_mean / time_interval, idx_max_mean
 
@@ -82,8 +86,8 @@ cpdef _associated_data_power_profile(floating[:] data,
         double[:] output = np.empty((pp_index.shape[0],))
         double acc
 
-    with nogil, parallel(num_threads=openmp.omp_get_thread_num()):
-        for i in prange(pp_index.shape[0], schedule='dynamic'):
+    with nogil, parallel():
+        for i in prange(pp_index.shape[0]):
             time_interval = duration[i]
             data_idx = pp_index[i]
             acc = 0.0

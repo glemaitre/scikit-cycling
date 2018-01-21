@@ -53,7 +53,7 @@ def _time2int(dt):
     return dt.hour * 3600 + dt.minute * 60 + dt.second
 
 
-def activity_power_profile(activity, max_duration=None, n_jobs=1):
+def activity_power_profile(activity, max_duration=None):
     """Compute the power profile for an activity.
 
     Parameters
@@ -67,9 +67,6 @@ def activity_power_profile(activity, max_duration=None, n_jobs=1):
         The maximum duration for which the power-profile should be computed. By
         default, it will be computed for the duration of the activity. An
         integer represents seconds.
-
-    n_jobs : int, (default=1)
-        The number of workers to use.
 
     Returns
     -------
@@ -102,11 +99,9 @@ def activity_power_profile(activity, max_duration=None, n_jobs=1):
     activity_complement = activity.drop(['power'], axis=1)
 
     # use the threading backend since we release the GIL.
-    data = Parallel(n_jobs=n_jobs, backend='threading')(
-        delayed(max_mean_power_interval)(activity_power.values, duration)
-        for duration in range(1, _time2int(max_duration)))
-
-    power_profile, power_profile_idx = zip(*[d for d in data])
+    power_profile, power_profile_idx = zip(
+        *[max_mean_power_interval(activity_power.values, duration)
+          for duration in range(1, _time2int(max_duration))])
     power_profile = np.array(power_profile)
     power_profile_idx = np.array(power_profile_idx)
 

@@ -64,8 +64,7 @@ class Rider(object):
 
         """
         filenames = validate_filenames(filenames)
-        activities_pp = [activity_power_profile(bikeread(f),
-                                                n_jobs=self.n_jobs)
+        activities_pp = [activity_power_profile(bikeread(f))
                          for f in filenames]
         activities_pp = pd.concat(activities_pp, axis=1)
 
@@ -128,7 +127,7 @@ class Rider(object):
         mask_date = np.bitwise_not(mask_date)
         self.power_profile_ = self.power_profile_.loc[:, mask_date]
 
-    def record_power_profile(self, range_dates=None):
+    def record_power_profile(self, range_dates=None, columns=None):
         """Compute the record power-profile.
 
         Parameters
@@ -137,10 +136,16 @@ class Rider(object):
             The start and end date to consider when computing the record
             power-profile. By default, all data will be used.
 
+        columns : list of
+
         Returns
         -------
         record_power_profile : Series
             Record power-profile taken between the range of dates.
+
+        columns : array-like or None, optional
+            Name of data field to return. By default, all available data will
+            be returned.
 
         Examples
         --------
@@ -171,13 +176,34 @@ class Rider(object):
 
         """
         if range_dates is None:
-            rpp = self.power_profile_.max(axis=1).dropna()
+            mask_date = np.ones_like(self.power_profile_.columns,
+                                     dtype=bool)
         else:
             mask_date = np.bitwise_and(
                 self.power_profile_.columns >= range_dates[0],
                 self.power_profile_.columns <= range_dates[1])
-            rpp = self.power_profile_.loc[:, mask_date].max(axis=1).dropna()
-        return rpp.rename('record power-profile')
+
+        if isinstance(self.power_profile_.index, pd.MultiIndex):
+            if isinstance(self.power_profile_.index, pd.MultiIndex):
+                if columns is None:
+                    columns = self.power_profile_.index.levels[0]
+
+                pp_idxmax = (self.power_profile_.loc['power']
+                                                .loc[:, mask_date]
+                                                .idxmax(axis=1))
+                rpp = {}
+                for dt in columns:
+                    data = self.power_profile_.loc[dt].loc[:, mask_date]
+                    rpp[dt] = pd.Series(
+                        [data.loc[date_idx]
+                         for date_idx in pp_idxmax.iteritems()],
+                        index=data.index)
+                rpp = pd.DataFrame(rpp)
+        else:
+            rpp = (self.power_profile_.loc[:, mask_date].max(axis=1)
+                                      .dropna().rename('record power-profile'))
+
+        return rpp
 
     @classmethod
     def from_csv(cls, filename, n_jobs=1):

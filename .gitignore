@@ -281,3 +281,4 @@ TAGS
 MANIFEST
 
 .tox
+*.c
