@@ -107,7 +107,7 @@ def activity_power_profile(activity, max_duration=None):
 
     series_index = pd.timedelta_range(
         "00:00:01", timedelta(seconds=_time2int(max_duration) - 1), freq='s')
-    series_name = pd.Timestamp(activity.index[0].date())
+    series_name = pd.Timestamp(activity.index[0])
 
     # if some additional data are available, we will add them as them on the
     # side of the power-profile.
