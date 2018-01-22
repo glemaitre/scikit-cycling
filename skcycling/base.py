@@ -165,7 +165,7 @@ class Rider(object):
 
         Returns
         -------
-        record_power_profile : Series
+        record_power_profile : DataFrame
             Record power-profile taken between the range of dates.
 
         Examples
@@ -213,29 +213,22 @@ class Rider(object):
                 self.power_profile_.columns <= pd.Timestamp(range_dates[1]) +
                 pd.DateOffset(1))
 
-        if isinstance(self.power_profile_.index, pd.MultiIndex):
-            if isinstance(self.power_profile_.index, pd.MultiIndex):
-                if columns is None:
-                    columns = self.power_profile_.index.levels[0]
+        if columns is None:
+            columns = self.power_profile_.index.levels[0]
 
-                pp_idxmax = (self.power_profile_.loc['power']
-                                                .loc[:, mask_date]
-                                                .idxmax(axis=1)
-                                                .dropna())
+        pp_idxmax = (self.power_profile_.loc['power']
+                                        .loc[:, mask_date]
+                                        .idxmax(axis=1)
+                                        .dropna())
+        rpp = {}
+        for dt in columns:
+            data = self.power_profile_.loc[dt].loc[:, mask_date]
+            rpp[dt] = pd.Series(
+                [data.loc[date_idx]
+                 for date_idx in pp_idxmax.iteritems()],
+                index=data.index[:pp_idxmax.size])
 
-                rpp = {}
-                for dt in columns:
-                    data = self.power_profile_.loc[dt].loc[:, mask_date]
-                    rpp[dt] = pd.Series(
-                        [data.loc[date_idx]
-                         for date_idx in pp_idxmax.iteritems()],
-                        index=data.index[:pp_idxmax.size])
-                rpp = pd.DataFrame(rpp)
-        else:
-            rpp = (self.power_profile_.loc[:, mask_date].max(axis=1)
-                                      .dropna().rename('record power-profile'))
-
-        return rpp
+        return pd.DataFrame(rpp)
 
     @classmethod
     def from_csv(cls, filename, n_jobs=1):
