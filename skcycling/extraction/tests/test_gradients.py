@@ -11,6 +11,7 @@ import pytest
 
 from skcycling.extraction import acceleration
 from skcycling.extraction import gradient_elevation
+from skcycling.extraction import gradient_heart_rate
 from skcycling.exceptions import MissingDataError
 
 
@@ -50,5 +51,24 @@ def test_gradient_elevation_error():
       True, pd.DataFrame, (100, 3))])
 def test_gradient_elevation(activity, append, type_output, shape):
     output = gradient_elevation(activity, append=append)
+    assert isinstance(output, type_output)
+    assert output.shape == shape
+
+
+def test_gradient_heart_rate_error():
+    activity = pd.DataFrame({'A': np.random.random(1000)})
+    msg = "heart-rate data are required"
+    with pytest.raises(MissingDataError, message=msg):
+        gradient_heart_rate(activity)
+
+
+@pytest.mark.parametrize(
+    "activity, append, type_output, shape",
+    [(pd.DataFrame({'heart-rate': np.random.random(100)}),
+      False, pd.Series, (100,)),
+     (pd.DataFrame({'heart-rate': np.random.random(100)}),
+      True, pd.DataFrame, (100, 2))])
+def test_gradient_heart_rate(activity, append, type_output, shape):
+    output = gradient_heart_rate(activity, append=append)
     assert isinstance(output, type_output)
     assert output.shape == shape

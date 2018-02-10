@@ -18,7 +18,7 @@ def acceleration(activity, periods=5, append=True):
         The activity containing speed information.
 
     periods : int, default=5
-        Periods to shift to compute the elevation gradient.
+        Periods to shift to compute the acceleration.
 
     append : bool, optional
         Whether to append the acceleration to the original activity (default)
@@ -82,3 +82,40 @@ def gradient_elevation(activity, periods=5, append=True):
         return activity
     else:
         return gradient_elevation
+
+
+def gradient_heart_rate(activity, periods=5, append=True):
+    """Compute the heart-rate gradient.
+
+    Parameters
+    ----------
+    activity : DataFrame
+        The activity containing heart-rate information.
+
+    periods : int, default=5
+        Periods to shift to compute the heart-rate gradient.
+
+    append : bool, optional
+        Whether to append the heart-rate gradient to the original activity
+        (default) or to only return the heart-rate gradient as a Series.
+
+    Returns
+    -------
+    data : DataFrame or Series
+        The original activity with an additional column containing the
+        heart-rate gradient or a single Series containing the heart-rate
+        gradient.
+
+    """
+    if 'heart-rate' not in activity.columns:
+        raise MissingDataError('To compute the heart-rate gradient, heart-rate'
+                               ' data are required. Got {} fields.'
+                               .format(activity.columns))
+
+    gradient_heart_rate = activity['heart-rate'].diff(periods=periods)
+
+    if append:
+        activity['gradient-heart-rate'] = gradient_heart_rate
+        return activity
+    else:
+        return gradient_heart_rate
