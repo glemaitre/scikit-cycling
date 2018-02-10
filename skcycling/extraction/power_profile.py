@@ -80,12 +80,12 @@ def activity_power_profile(activity, max_duration=None):
     >>> from skcycling.extraction import activity_power_profile
     >>> power_profile = activity_power_profile(bikeread(load_fit()[0]))
     >>> power_profile.head() # doctest : +NORMALIZE_WHITESPACE
-    00:00:01    500.000000
-    00:00:02    475.500000
-    00:00:03    469.333333
-    00:00:04    464.000000
-    00:00:05    463.000000
-    Freq: S, Name: 2014-05-07 00:00:00, dtype: float64
+    cadence  00:00:01    78.000000
+             00:00:02    64.000000
+             00:00:03    62.666667
+             00:00:04    62.500000
+             00:00:05    64.400000
+    Name: 2014-05-07 12:26:22, dtype: float64
 
     """
     if max_duration is None:
