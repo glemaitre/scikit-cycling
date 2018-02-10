@@ -9,8 +9,28 @@ import pandas as pd
 
 import pytest
 
+from skcycling.extraction import acceleration
 from skcycling.extraction import gradient_elevation
 from skcycling.exceptions import MissingDataError
+
+
+def test_acceleration_error():
+    activity = pd.DataFrame({'A': np.random.random(1000)})
+    msg = "speed data are required"
+    with pytest.raises(MissingDataError, message=msg):
+        acceleration(activity)
+
+
+@pytest.mark.parametrize(
+    "activity, append, type_output, shape",
+    [(pd.DataFrame({'speed': np.random.random(100)}),
+      False, pd.Series, (100,)),
+     (pd.DataFrame({'speed': np.random.random(100)}),
+      True, pd.DataFrame, (100, 2))])
+def test_acceleration(activity, append, type_output, shape):
+    output = acceleration(activity, append=append)
+    assert isinstance(output, type_output)
+    assert output.shape == shape
 
 
 def test_gradient_elevation_error():
