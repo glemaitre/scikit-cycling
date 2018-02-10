@@ -4,14 +4,12 @@
 #          Cedric Lemaitre
 # License: BSD 3 clause
 
-from collections import defaultdict
 from datetime import time, timedelta
 from numbers import Integral
 
 import numpy as np
 import pandas as pd
 import six
-from joblib import Parallel, delayed
 
 from ._power_profile import max_mean_power_interval
 from ._power_profile import _associated_data_power_profile

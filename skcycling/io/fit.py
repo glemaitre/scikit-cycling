@@ -14,8 +14,8 @@ import six
 from fitparse import FitFile
 
 # 'timestamp' will be consider as the index of the DataFrame later on
-FIELDS_DATA = ('timestamp', 'power', 'heart-rate', 'cadence', 'distance',
-               'elevation')
+FIELDS_DATA = ('timestamp', 'power', 'heart_rate', 'cadence', 'distance',
+               'altitude', 'speed')
 
 
 def check_filename_fit(filename):
@@ -78,6 +78,11 @@ def load_power_from_fit(filename):
     if data.empty:
         raise IOError('The file {} does not contain any data.'.format(
             filename))
+
+    # rename the columns for consistency
+    data.rename(columns={'heart_rate': 'heart-rate', 'altitude': 'elevation'},
+                inplace=True)
+
     data.set_index(FIELDS_DATA[0], inplace=True)
     del data.index.name
 
