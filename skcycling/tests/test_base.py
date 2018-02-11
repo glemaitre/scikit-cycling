@@ -18,7 +18,7 @@ def test_rider_add_activities_update():
     rider = Rider.from_csv(load_rider())
     rider.delete_activities('07 May 2014')
     rider.add_activities(load_fit()[0])
-    assert rider.power_profile_.shape == (33515, 3)
+    assert rider.power_profile_.shape == (35771, 3)
 
     with pytest.raises(ValueError, message='activity was already added'):
         rider.add_activities(load_fit()[0])
@@ -26,8 +26,8 @@ def test_rider_add_activities_update():
 
 @pytest.mark.parametrize(
     "rider, filename, expected_shape",
-    [(Rider(), load_fit(), (33515, 3)),
-     (Rider(), load_fit()[0], (11280, 1))])
+    [(Rider(), load_fit(), (40218, 3)),
+     (Rider(), load_fit()[0], (13536, 1))])
 def test_rider_add_activities(rider, filename, expected_shape):
     rider.add_activities(filename)
     assert rider.power_profile_.shape == expected_shape

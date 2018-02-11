@@ -13,10 +13,10 @@ from skcycling.extraction import activity_power_profile
 
 @pytest.mark.parametrize(
     "max_duration, power_profile_shape, first_element",
-    [(None, (11280,), 174.404255),
-     (10, (45,), 450.5555),
-     ('00:00:10', (45,), 450.5555),
-     (time(0, 0, 10), (45,), 450.5555)]
+    [(None, (13536,), 8.2117765957446736),
+     (10, (54,), 5.8385555555555557),
+     ('00:00:10', (54,), 5.8385555555555557),
+     (time(0, 0, 10), (54,), 5.8385555555555557)]
 )
 def test_activity_power_profile(max_duration, power_profile_shape,
                                 first_element):

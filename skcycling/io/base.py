@@ -34,12 +34,13 @@ def bikeread(filename, drop_nan=None):
     >>> from skcycling.io import bikeread
     >>> activity = bikeread(load_fit()[0], drop_nan='columns')
     >>> activity.head() # doctest : +NORMALIZE_WHITESPACE
-                         cadence  distance  power
-    2014-05-07 12:26:22     45.0      3.05  256.0
-    2014-05-07 12:26:23     42.0      6.09  185.0
-    2014-05-07 12:26:24     44.0      9.09  343.0
-    2014-05-07 12:26:25     45.0     11.94  344.0
-    2014-05-07 12:26:26     48.0     15.03  389.0
+                         elevation  cadence  distance  power  speed
+    2014-05-07 12:26:22       64.8     45.0      3.05  256.0  3.036
+    2014-05-07 12:26:23       64.8     42.0      6.09  185.0  3.053
+    2014-05-07 12:26:24       64.8     44.0      9.09  343.0  3.004
+    2014-05-07 12:26:25       64.8     45.0     11.94  344.0  2.846
+    2014-05-07 12:26:26       65.8     48.0     15.03  389.0  3.088
+
     """
     if drop_nan is not None and drop_nan not in DROP_OPTIONS:
         raise ValueError('"drop_nan" should be one of {}.'
