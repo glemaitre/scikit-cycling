@@ -33,6 +33,7 @@ Extraction
 
    extraction.activity_power_profile
    extraction.acceleration
+   extraction.gradient_activity
    extraction.gradient_elevation
    extraction.gradient_heart_rate
 
