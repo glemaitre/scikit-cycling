@@ -10,6 +10,7 @@ import pandas as pd
 import pytest
 
 from skcycling.extraction import acceleration
+from skcycling.extraction import gradient_activity
 from skcycling.extraction import gradient_elevation
 from skcycling.extraction import gradient_heart_rate
 from skcycling.exceptions import MissingDataError
@@ -71,4 +72,30 @@ def test_gradient_heart_rate_error():
 def test_gradient_heart_rate(activity, append, type_output, shape):
     output = gradient_heart_rate(activity, append=append)
     assert isinstance(output, type_output)
+    assert output.shape == shape
+
+
+@pytest.mark.parametrize(
+    "activity, periods, append, columns, shape",
+    [(pd.DataFrame({'elevation': np.random.random(100),
+                    'distance': np.random.random(100)}),
+      1, True, None, (100, 4)),
+     (pd.DataFrame({'elevation': np.random.random(100),
+                    'distance': np.random.random(100)}),
+      1, False, None, (100, 2)),
+     (pd.DataFrame({'elevation': np.random.random(100),
+                    'distance': np.random.random(100)}),
+      1, False, ['elevation'], (100, 1)),
+     (pd.DataFrame({'elevation': np.random.random(100),
+                    'distance': np.random.random(100)}),
+      [1, 2], True, None, (100, 6)),
+     (pd.DataFrame({'elevation': np.random.random(100),
+                    'distance': np.random.random(100)}),
+      [1, 2], False, None, (100, 4)),
+     (pd.DataFrame({'elevation': np.random.random(100),
+                    'distance': np.random.random(100)}),
+      [1, 2], True, ['elevation'], (100, 4))])
+def test_gradient_activity(activity, periods, append, columns, shape):
+    output = gradient_activity(activity, periods=periods, append=append,
+                               columns=columns)
     assert output.shape == shape

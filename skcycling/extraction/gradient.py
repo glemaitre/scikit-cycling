@@ -6,6 +6,10 @@
 
 from __future__ import division
 
+from collections import Iterable
+
+import pandas as pd
+
 from ..exceptions import MissingDataError
 
 
@@ -119,3 +123,48 @@ def gradient_heart_rate(activity, periods=5, append=True):
         return activity
     else:
         return gradient_heart_rate
+
+
+def gradient_activity(activity, periods=1, append=True, columns=None):
+    """Compute the gradient for all given columns.
+
+    Parameters
+    ----------
+    activity : DataFrame
+        The activity to use to compute the gradient.
+
+    periods : int or array-like, default=1
+        Periods to shift to compute the gradient. If an array-like is given,
+        several gradient will be computed.
+
+    append : bool, optional
+        Whether to append the gradients to the original activity.
+
+    columns : list, optional
+        The name of the columns to use to compute the gradient. By default, all
+        the columns are used.
+
+    Returns
+    -------
+    gradient : DataFrame
+        The computed gradient from the activity.
+
+    """
+    if columns is not None:
+        data = activity[columns]
+    else:
+        data = activity
+
+    if isinstance(periods, Iterable):
+        gradient = [data.diff(periods=p) for p in periods]
+        gradient_name = ['gradient_{}'.format(p) for p in periods]
+    else:
+        gradient = [data.diff(periods=periods)]
+        gradient_name = ['gradient_{}'.format(periods)]
+
+    if append:
+        # prepend the original information
+        gradient = [activity] + gradient
+        gradient_name = ['original'] + gradient_name
+
+    return pd.concat(gradient, axis=1, keys=gradient_name)
