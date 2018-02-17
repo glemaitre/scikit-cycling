@@ -72,6 +72,26 @@ Power-profile
 
    metrics.aerobic_meta_model
 
+.. _models_ref:
+
+Models
+======
+
+.. automodule:: skcycling.model
+    :no-members:
+    :no-inherited-members:
+
+.. currentmodule:: skcycling
+       
+Power
+-----
+
+.. autosummary::
+   :toctree: generated/
+   :template: function.rst
+
+   model.strava_power_model
+
 .. _utils_ref:
 
 Utilities

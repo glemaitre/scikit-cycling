@@ -40,7 +40,7 @@ def acceleration(activity, periods=5, append=True):
                                'required. Got {} fields.'
                                .format(activity.columns))
 
-    acceleration = activity['speed'].diff(periods=periods)
+    acceleration = activity['speed'].diff(periods=periods) / periods
 
     if append:
         activity['acceleration'] = acceleration

@@ -6,13 +6,16 @@
 
 from __future__ import division
 
-import scipy as sp
 import numpy as np
+from scipy import constants
+
+from ..extraction import gradient_elevation
+from ..extraction import acceleration
 
 
-def strava_model(activity, cyclist_weight, bike_weight=6.8,
-                 coef_roll_res=0.005, pressure=101325.0,
-                 temperature=15.0, drag_coef=1, surface_rider=1):
+def strava_power_model(activity, cyclist_weight, bike_weight=6.8,
+                       coef_roll_res=0.0045, pressure=101325.0,
+                       temperature=15.0, drag_coef=1, surface_rider=0.32):
     """Strava model used to estimate power.
 
     Parameters
@@ -26,7 +29,7 @@ def strava_model(activity, cyclist_weight, bike_weight=6.8,
     bike_weight : float, default=6.8
         The bike weight in kg.
 
-    coef_roll_res : float, default=0.005
+    coef_roll_res : float, default=0.0045
         Rolling resistance coefficient.
 
     pressure : float, default=101325.0
@@ -38,7 +41,7 @@ def strava_model(activity, cyclist_weight, bike_weight=6.8,
     drag_coeff : float, default=1
         The drag coefficient also known as Cx.
 
-    surface_rider : float, default=1
+    surface_rider : float, default=0.32
         Surface area of the rider facing wind also known as S. The unit is m^2.
 
     Returns
@@ -47,31 +50,37 @@ def strava_model(activity, cyclist_weight, bike_weight=6.8,
         The power estimated.
 
     """
-    speed = activity['speed']
-    power_roll_res = (coef_roll_res *
-                      sp.constants.g * (cyclist_weight + bike_weight) *
-                      speed)
+    if 'gradient-elevation' not in activity.columns:
+        activity = gradient_elevation(activity)
+    if 'acceleration' not in activity.columns:
+        activity = acceleration(activity)
 
-    temperature_kelvin = sp.constants.convert_temperature(
+    temperature_kelvin = constants.convert_temperature(
         temperature, 'Celsius', 'Kelvin')
+    total_weight = cyclist_weight + bike_weight  # kg
+
+    speed = activity['speed']  # m.s^-1
+    power_roll_res = coef_roll_res * constants.g * total_weight * speed
+
     # air density at 0 degree Celsius and a standard atmosphere
     molar_mass_dry_air = 28.97 / 1000  # kg.mol^-1
-    standard_atmosphere = sp.constants.physical_constants[
+    standard_atmosphere = constants.physical_constants[
         'standard atmosphere'][0]  # Pa
-    zero_celsius_kelvin = sp.constants.convert_temperature(
+    zero_celsius_kelvin = constants.convert_temperature(
         0, 'Celsius', 'Kelvin')  # 273.15 K
-    air_density_ref = ((standard_atmosphere * molar_mass_dry_air) /
-                       (sp.constants.gas_constant * zero_celsius_kelvin))
+    air_density_ref = (
+        (standard_atmosphere * molar_mass_dry_air) /
+        (constants.gas_constant * zero_celsius_kelvin))  # kg.m^-3
     air_density = air_density_ref * (
         (pressure * zero_celsius_kelvin) /
-        (standard_atmosphere * temperature_kelvin))
-    power_wind = 0.5 * air_density * surface_rider * drag_coef * speed**2
+        (standard_atmosphere * temperature_kelvin))  # kg.m^-3
+    power_wind = 0.5 * air_density * surface_rider * drag_coef * speed**3
 
-    slope = activity['gradient-elevation']
-    power_gravity = ((cyclist_weight + bike_weight) * sp.constants.g *
-                     np.sin(np.arctan(slope)) * speed)
+    slope = activity['gradient-elevation']  # grade
+    power_gravity = (total_weight * constants.g *
+                     np.sin(np.arctan(slope)) * speed).clip(0)
 
-    acceleration = activity['acceleration']
-    power_acceleration = (cyclist_weight + bike_weight) * acceleration * speed
+    acc = activity['acceleration']  # m.s^-1
+    power_acceleration = (total_weight * acc * speed).clip(0)
 
     return power_roll_res + power_wind + power_gravity + power_acceleration
