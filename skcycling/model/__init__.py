@@ -6,6 +6,6 @@ The :mod:`skcycling.model` module includes algorithms to model cycling data.
 #          Cedric Lemaitre
 # License: BSD 3 clause
 
-from .power import strava_model
+from .power import strava_power_model
 
-__all__ = ['strava_model']
+__all__ = ['strava_power_model']
