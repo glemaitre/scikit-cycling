@@ -15,7 +15,8 @@ from ..extraction import acceleration
 
 def strava_power_model(activity, cyclist_weight, bike_weight=6.8,
                        coef_roll_res=0.0045, pressure=101325.0,
-                       temperature=15.0, drag_coef=1, surface_rider=0.32):
+                       temperature=15.0, drag_coef=1, surface_rider=0.32,
+                       use_acceleration=False):
     """Strava model used to estimate power.
 
     Parameters
@@ -44,15 +45,25 @@ def strava_power_model(activity, cyclist_weight, bike_weight=6.8,
     surface_rider : float, default=0.32
         Surface area of the rider facing wind also known as S. The unit is m^2.
 
+    use_acceleration : bool, default=False
+        Either to add the power required to accelerate. This estimation can
+        become unstable if the acceleration varies for reason which are not
+        linked to power changes (i.e., braking, bends, etc.)
+
     Returns
     -------
     power : Series
         The power estimated.
 
+    References
+    ----------
+    .. [1] How Strava Calculates Power
+    https://support.strava.com/hc/en-us/articles/216917107-How-Strava-Calculates-Power
+
     """
     if 'gradient-elevation' not in activity.columns:
         activity = gradient_elevation(activity)
-    if 'acceleration' not in activity.columns:
+    if use_acceleration and 'acceleration' not in activity.columns:
         activity = acceleration(activity)
 
     temperature_kelvin = constants.convert_temperature(
@@ -78,9 +89,13 @@ def strava_power_model(activity, cyclist_weight, bike_weight=6.8,
 
     slope = activity['gradient-elevation']  # grade
     power_gravity = (total_weight * constants.g *
-                     np.sin(np.arctan(slope)) * speed).clip(0)
+                     np.sin(np.arctan(slope)) * speed)
 
-    acc = activity['acceleration']  # m.s^-1
-    power_acceleration = (total_weight * acc * speed).clip(0)
+    power_total = power_roll_res + power_wind + power_gravity
 
-    return power_roll_res + power_wind + power_gravity + power_acceleration
+    if use_acceleration:
+        acc = activity['acceleration']  # m.s^-1
+        power_acceleration = total_weight * acc * speed
+        power_total += power_acceleration
+
+    return power_total.clip(0)
