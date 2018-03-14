@@ -15,7 +15,7 @@ from ..extraction import acceleration
 
 def strava_power_model(activity, cyclist_weight, bike_weight=6.8,
                        coef_roll_res=0.0045, pressure=101325.0,
-                       temperature=15.0, drag_coef=1, surface_rider=0.32,
+                       temperature=15.0, coef_drag=1, surface_rider=0.32,
                        use_acceleration=False):
     """Strava model used to estimate power.
 
@@ -39,7 +39,7 @@ def strava_power_model(activity, cyclist_weight, bike_weight=6.8,
     temperature : float, default=15.0
         Temperature in Celsius.
 
-    drag_coeff : float, default=1
+    coef_drag : float, default=1
         The drag coefficient also known as Cx.
 
     surface_rider : float, default=0.32
@@ -85,7 +85,7 @@ def strava_power_model(activity, cyclist_weight, bike_weight=6.8,
     air_density = air_density_ref * (
         (pressure * zero_celsius_kelvin) /
         (standard_atmosphere * temperature_kelvin))  # kg.m^-3
-    power_wind = 0.5 * air_density * surface_rider * drag_coef * speed**3
+    power_wind = 0.5 * air_density * surface_rider * coef_drag * speed**3
 
     slope = activity['gradient-elevation']  # grade
     power_gravity = (total_weight * constants.g *
