@@ -6,8 +6,8 @@
 Introduction
 ============
 
-`scikit-cycling` provides some tools to read, manipulate, and understand power
-cyclist data. `scikit-cycling` allows to:
+``scikit-cycling`` provides some tools to read, manipulate, and understand power
+cyclist data. ``scikit-cycling`` allows to:
 
 * read cycling files;
 * analyze power information from a rider;

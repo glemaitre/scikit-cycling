@@ -9,8 +9,8 @@ User Guide
 .. toctree::
    :numbered:
 
-      introduction.rst
-      reader.rst
-      modeling.rst
-      inference.rst
-      datasets.rst
+   introduction.rst
+   reader.rst
+   modeling.rst
+   inference.rst
+   datasets.rst

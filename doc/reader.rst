@@ -32,7 +32,7 @@ date and time of the activity while the columns contain the following data:
 * speed.
 
 If some of those data are not available, the corresponding column will contain
-`NaN` values by default. `drop_nan` argument allows to drop columns or rows
+``NaN`` values by default. ``drop_nan`` argument allows to drop columns or rows
 containing missing data::
 
   >>> ride = bikeread(load_fit()[0], drop_nan='columns')
