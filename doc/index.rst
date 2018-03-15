@@ -20,6 +20,7 @@ Contents:
    :hidden:
    :caption: Documentation
 
+   user_guide
    api
 
 .. toctree::
@@ -32,7 +33,7 @@ Contents:
 .. toctree::
    :maxdepth: 1
    :hidden:
-   :caption: Addtional Information
+   :caption: Additional Information
 
    whats_new
    about
@@ -41,6 +42,12 @@ Contents:
 ---------------------------------
 
 Information to install, test, and contribute to the package.
+
+`User Guide <user_guide.html>`_
+-------------------------------
+
+The main documentation. This contains an in-depth description of the methods
+used in `scikit-cycling` and their purpose.
 
 `API Documentation <api.html>`_
 -------------------------------
