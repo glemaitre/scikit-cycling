@@ -10,5 +10,5 @@ Introduction
 cyclist data. `scikit-cycling` allows to:
 
 * read cycling files;
-* model power profile of cyclist over time;
+* analyze power information from a rider;
 * infer power from heterogeneous source of data.

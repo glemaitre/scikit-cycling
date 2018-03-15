@@ -49,7 +49,7 @@ def normalized_power_score(activity_power, mpa, window_width=30):
 
     smooth_activity = (activity_power.rolling(window_width, center=True)
                                      .mean().dropna())
-    # removing value < I1-ESIE, i.e. 30 % MAP
+    # removing value < I1-ESIE, i.e. 30 % MPA
     smooth_activity = smooth_activity[
         smooth_activity > ESIE_SCALE_GRAPPE['I1'][0] * mpa]
 
@@ -78,7 +78,7 @@ def intensity_factor_ftp_score(activity_power, ftp):
 
 
 def intensity_factor_mpa_score(activity_power, mpa):
-    """Compute the intensity factor using the MAP.
+    """Compute the intensity factor using the MPA.
 
     Parameters
     ----------
@@ -141,7 +141,7 @@ def training_stress_mpa_score(activity_power, mpa):
 
 
 def mpa2ftp(mpa):
-    """Convert the MAP to FTP.
+    """Convert the MPA to FTP.
 
     Parameters
     ----------
@@ -158,7 +158,7 @@ def mpa2ftp(mpa):
 
 
 def ftp2mpa(ftp):
-    """Convert the MAP to FTP.
+    """Convert the MPA to FTP.
 
     Parameters
     ----------
@@ -175,7 +175,7 @@ def ftp2mpa(ftp):
 
 
 def training_stress_mpa_grappe_score(activity_power, mpa):
-    """Compute the training stress score using the MAP.
+    """Compute the training stress score using the MPA.
 
     Parameters
     ----------

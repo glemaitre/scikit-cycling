@@ -71,6 +71,12 @@ def activity_power_profile(activity, max_duration=None):
     power_profile : Series
         A pandas Series containing the power-profile.
 
+    References
+    ----------
+    .. [1] Pinot, J., and F. Grappe. "The record power profile to assess
+       performance in elite cyclists." International journal of sports medicine
+       32.11 (2011): 839-844.
+
     Examples
     --------
     >>> from skcycling.datasets import load_fit
