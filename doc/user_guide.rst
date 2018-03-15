@@ -10,6 +10,7 @@ User Guide
    :numbered:
 
       introduction.rst
+      reader.rst
       modeling.rst
       inference.rst
       datasets.rst
