@@ -144,6 +144,10 @@ to maximum power aerobic::
   >>> print('Normalized power {:.2f} W'.format(np_score))
   Normalized power 218.49 W
 
+.. topic:: Examples:
+
+    * :ref:`sphx_glr_auto_examples_metrics_plot_ride_metrics.py`
+
 Intensity factor®
 .................
 
@@ -169,6 +173,10 @@ consistency. If you only have the functional threshold power, use
   >>> print('Intensity factor {:.2f}'.format(if_score))
   Intensity factor 0.72
 
+.. topic:: Examples:
+
+    * :ref:`sphx_glr_auto_examples_metrics_plot_ride_metrics.py`
+
 Training stress score®
 ......................
 
@@ -193,6 +201,10 @@ maximum power aerobic using :func:`metrics.ftp2mpa`::
   >>> print('Training stress score {:.2f}'.format(ts_score))
   Training stress score 32.38
 
+.. topic:: Examples:
+
+    * :ref:`sphx_glr_auto_examples_metrics_plot_ride_metrics.py`
+
 Training load score
 ...................
 
@@ -215,6 +227,10 @@ maximum power aerobic using :func:`metrics.ftp2mpa`::
   >>> tl_score = training_load_score(ride['power'], ftp2mpa(ftp))
   >>> print('Training load score {:.2f}'.format(tl_score))
   Training load score 74.90
+
+.. topic:: Examples:
+
+    * :ref:`sphx_glr_auto_examples_metrics_plot_ride_metrics.py`
 
 Cyclist record power-profile
 ----------------------------
@@ -242,6 +258,10 @@ profile for a given max duration::
   >>> from skcycling.extraction import activity_power_profile
   >>> ride = bikeread(load_fit()[0], drop_nan='columns')
   >>> power_profile = activity_power_profile(ride, max_duration='00:08:00')
+
+.. topic:: Examples:
+
+    * :ref:`sphx_glr_auto_examples_power_profile_plot_activity_power_profile.py`
 
 .. _record_power_profile:
   
@@ -288,11 +308,19 @@ Note that ``record_power_profile`` accepts two parameters ``range_dates`` and
 ``columns`` which limit to some dates or type of data the computation of the
 record.
 
+.. topic:: Examples:
+
+    * :ref:`sphx_glr_auto_examples_power_profile_plot_record_power_profile.py`
+
 Store and load power-profile for a rider
 ........................................
 
 The methods ``to_csv`` and ``from_csv`` allows to store and load a cyclist
 power-profile.
+
+.. topic:: Examples:
+
+    * :ref:`sphx_glr_auto_examples_input_output_plot_store_load_rider.py`
 
 .. _mpa_estiamte:
 

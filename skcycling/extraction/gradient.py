@@ -36,6 +36,14 @@ def acceleration(activity, periods=5, append=True):
         The original activity with an additional column containing the
         acceleration or a single Series containing the acceleration.
 
+    Examples
+    --------
+    >>> from skcycling.datasets import load_fit
+    >>> from skcycling.io import bikeread
+    >>> from skcycling.extraction import acceleration
+    >>> ride = bikeread(load_fit()[0])
+    >>> new_ride = acceleration(ride)
+
     """
     if 'speed' not in activity.columns:
         raise MissingDataError('To compute the acceleration, speed data are '
@@ -74,6 +82,14 @@ def gradient_elevation(activity, periods=5, append=True):
         The original activity with an additional column containing the
         elevation gradient or a single Series containing the elevation
         gradient.
+
+    Examples
+    --------
+    >>> from skcycling.datasets import load_fit
+    >>> from skcycling.io import bikeread
+    >>> from skcycling.extraction import gradient_elevation
+    >>> ride = bikeread(load_fit()[0])
+    >>> new_ride = gradient_elevation(ride)
 
     """
     if not {'elevation', 'distance'}.issubset(activity.columns):
@@ -156,6 +172,14 @@ def gradient_activity(activity, periods=1, append=True, columns=None):
     -------
     gradient : DataFrame
         The computed gradient from the activity.
+
+    Examples
+    --------
+    >>> from skcycling.datasets import load_fit
+    >>> from skcycling.io import bikeread
+    >>> from skcycling.extraction import gradient_activity
+    >>> ride = bikeread(load_fit()[0], drop_nan='columns')
+    >>> new_ride = acceleration(ride)
 
     """
     if columns is not None:

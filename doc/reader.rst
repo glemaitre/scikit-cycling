@@ -43,3 +43,8 @@ containing missing data::
   2014-05-07 12:26:24       64.8     44.0      9.09  343.0  3.004
   2014-05-07 12:26:25       64.8     45.0     11.94  344.0  2.846
   2014-05-07 12:26:26       65.8     48.0     15.03  389.0  3.088
+
+
+.. topic:: Examples:
+
+    * :ref:`sphx_glr_auto_examples_input_output_plot_bikeread_usage.py`
