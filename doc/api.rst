@@ -56,13 +56,10 @@ Single cycling activity
    :template: function.rst
 
    metrics.normalized_power_score
-   metrics.intensity_factor_ftp_score
-   metrics.intensity_factor_mpa_score
-   metrics.training_stress_ftp_score
-   metrics.training_stress_mpa_score
-   metrics.training_stress_mpa_grappe_score
-   metrics.training_stress_ftp_grappe_score
-
+   metrics.intensity_factor_score
+   metrics.training_stress_score
+   metrics.training_load_score
+   
 Power-profile
 -------------
 

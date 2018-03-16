@@ -6,7 +6,213 @@
 Analysis of Cyclist Power Data
 ==============================
 
-``scikit-cycling`` provides tools to analyze power data of a cyclist over time.
+Introduction
+------------
+
+The analysis of power in cycling is based on some threshold called maximum
+aerobic power (or is equivalent functional threshold power). From this
+threshold, power intensities are grouped in different zones of power intensity
+based on some pre-defined scales such as the ESIE scale [G2009]_ (or is
+equivalent Coggan et al. scale [A2012]_). In this section, we give a brief
+description of those concepts and their relations before to introduce the
+features proposed by ``scikit-cycling``.
+
+Maximum power aerobic and functional threshold power
+....................................................
+
+The maximum power aerobic and functional threshold power are the maximum power
+that a cyclist is able to deliver for a specific amount of time. The difference
+between both metrics is in fact **this specific amount of time**.
+
+Indeed, the maximum power aerobic is the maximum power that a cyclist can
+deliver during a **5 minutes effort** [G2009]_ while the functional threshold
+power is the maximum power that a cyclist can deliver during a **1 hour
+effort** [A2012]_.
+
+Therefore, both metrics are related:
+
+.. math::
+   MPA = FTP \times \frac{1}{0.76}
+
+.. math::
+   FTP = MPA \times 0.76
+
+The functions :func:`metrics.mpa2ftp` and :func:`metrics.ftp2mpa` converts one
+metric to another.
+
+The ESIE and the Coggan et al. scales
+.....................................
+
+From these metrics, power intensities are grouped into different zones
+depending of a scale. The ESIE scale proposed by Grappe et al. [G2009]_ uses
+the maximum power aerobic to define those zones while the scale of Coggan et
+al. [A2012]_ is based on the functional threshold power. We will present both
+scales and their relations.
+
+The ESIE scale is presented is the table below and is based on a percentage of
+the maximum power aerobic:
+
+===== ==========
+Zones      % MPA
+===== ==========
+I1       30-50 %
+I2       50-60 %
+I3       60-75 %
+I4       75-85 %
+I5      85-100 %
+I6     100-180 %
+I7     100-300 %
+===== ==========
+
+The scale proposed by Coggan et al. is based on the functional threshold power
+such as:
+
+===== =========
+Zones % FTP
+===== =========
+I1       < 55 %
+I2      55-75 %
+I3      75-90 %
+I4     90-105 %
+I5    105-120 %
+I6    120-150 %
+I7           ND
+===== =========
+
+We can give a concrete example to observe the difference between the power
+intensity zones using either scales. We define a maximum power of 400 W and thus a functional threshold power of 304 W.
+
+===== ========== ===================
+Zones ESIE scale Coggan et al. scale
+===== ========== ===================
+I1     120-200 W             < 167 W
+I2     200-240 W           167-228 W
+I3     240-300 W           228-273 W
+I4     300-340 W           273-319 W
+I5     340-400 W           319-365 W
+I6     400-720 W           365-456 W
+I7    720-1200 W                  ND
+===== ========== ===================
+
+We can observed that the intervals proposed by Coggan et al. are lower than the
+one computed with the ESIE scale.
+
+The different quantification methods below will be based on some of those
+concepts.
+
+Effort quantification based on power data
+-----------------------------------------
+
+Different measures have been proposed over time to quantify the effort
+delivered by a cyclist during a ride.
+
+Normalized power® score
+.......................
+
+During a ride, it is common to have low power intensities during the ride which
+reduce the average power. The normalized power® [A2012]_ is a metric which does
+not under-estimate the average power by rejecting low power intensity
+(i.e. below the I2 zone of the ESIE scale) and smoothing the power before to
+compute the average such as
+
+.. math::
+   NPS = \left( \frac{1}{N} \sum_{n=1}^{N} ps_{n}^{4} \right)^{\frac{1}{4}}
+
+where :math:`ps` is the original power which is smoothed with a rolling window
+and N is the total number of samples.
+
+The function :func:`metrics.normalized_power_score` allows to compute this
+score::
+
+  >>> from skcycling.datasets import load_fit
+  >>> from skcycling.io import bikeread
+  >>> from skcycling.metrics import normalized_power_score
+  >>> ride = bikeread(load_fit()[0])
+  >>> mpa = 400
+  >>> np_score = normalized_power_score(ride['power'], mpa)
+  >>> print('Normalized power {:.2f} W'.format(np_score))
+  Normalized power 218.49 W
+
+If you only have the functional threshold power, you need to first convert it
+to maximum power aerobic::
+
+  >>> from skcycling.metrics import ftp2mpa
+  >>> ftp = 304
+  >>> np_score = normalized_power_score(ride['power'], ftp2mpa(ftp))
+  >>> print('Normalized power {:.2f} W'.format(np_score))
+  Normalized power 218.49 W
+
+Intensity factor®
+.................
+
+The intensity factor® [A2012]_ is defined as the normalized power® score
+normalized by the functional threshold power such as:
+
+.. math::
+   IF = \frac{NPS}{FTP}
+
+The function :func:`metrics.intensity_factor_score` allows to compute this
+metric::
+
+  >>> from skcycling.metrics import intensity_factor_score
+  >>> if_score = intensity_factor_score(ride['power'], mpa)
+  >>> print('Intensity factor {:.2f}'.format(if_score))
+  Intensity factor 0.72
+
+Note that all our computation consider the maximum power aerobic for
+consistency. If you only have the functional threshold power, use
+:func:`metrics.ftp2mpa`::
+
+  >>> if_score = intensity_factor_score(ride['power'], ftp2mpa(ftp))
+  >>> print('Intensity factor {:.2f}'.format(if_score))
+  Intensity factor 0.72
+
+Training stress score®
+......................
+
+The training stress score® corresponds to the intensity factor® normalized by
+the time of the activity:
+
+.. math::
+   TSS = \frac{100 \times N \times IF^{2}}{3600}
+
+The function :func:`metrics.training_stress_score` allows to compute this
+score::
+
+  >>> from skcycling.metrics import training_stress_score
+  >>> ts_score = training_stress_score(ride['power'], mpa)
+  >>> print('Training stress score {:.2f}'.format(ts_score))
+  Training stress score 32.38
+
+If you use the functional threshold metric, you need to convert it to the
+maximum power aerobic using :func:`metrics.ftp2mpa`::
+
+  >>> ts_score = training_stress_score(ride['power'], ftp2mpa(ftp))
+  >>> print('Training stress score {:.2f}'.format(ts_score))
+  Training stress score 32.38
+
+Training load score
+...................
+
+Grappe et al. [G2009]_ compute the load of an activity as a weighted sum of the
+time spend in the different ESIE zones.
+
+.. math::
+   \sum_{i=1}^{7} w_{i} \times |N_{z_{i}}|
+
+The function :func:`metrics.training_load_score` compute this metric::
+
+  >>> from skcycling.metrics import training_load_score
+  >>> tl_score = training_load_score(ride['power'], mpa)
+  >>> print('Training load score {:.2f}'.format(tl_score))
+  Training load score 74.90
+
+If you use the functional threshold metric, you need to convert it to the
+maximum power aerobic using :func:`metrics.ftp2mpa`::
+
+  >>> tl_score = training_load_score(ride['power'], ftp2mpa(ftp))
+  >>> print('Training load score {:.2f}'.format(tl_score))
+  Training load score 74.90
 
 Cyclist record power-profile
 ----------------------------
@@ -92,59 +298,6 @@ implements the algorithm::
   >>> from skcycling.metrics import aerobic_meta_model
   >>> mpa, t_mpa, aei, _, _ = aerobic_meta_model(rider.record_power_profile()) # doctest: +SKIP
 
-Effort quantification based on power data
------------------------------------------
-
-During a ride, different scores can be computed to quantify the intensity of an
-activity using the power data.
-
-Maximum power aerobic and functional threshold power
-....................................................
-
-All those methods need an estimation of the
-maximum power aerobic or alternatively the equivalent functional threshold
-power. Both metrics are related such that:
-
-.. math::
-   MPA = FTP \times \frac{1}{0.76}
-
-.. math::
-   FTP = MPA \times 0.76
-
-The functions :func:`metrics.mpa2ftp` and :func:`metrics.ftp2mpa` converts one
-metric to another.
-
-Normalized power score
-......................
-
-During a ride, it is common to have low power intensity during the ride which
-reduce the average power. The normalized power is a metric which does not
-under-estimate the average power by rejecting low power intensity (i.e. < 30%
-of the maximum power aerobic) and smoothing the power before to compute the
-average such as
-
-.. math::
-   NPS = \left( \frac{1}{N} \sum_{n=1}^{N} p_{n}^{4} \right)^{\frac{1}{4}}
-
-Intensity factor
-................
-
-The intensity factor is defined as the normalized power score normalized by the
-functional threshold power such as
-
-.. math::
-   IF = \frac{NPS}{FP}
-
-Training stress score
-.....................
-
-There is two definitions of the training stress score. The first one is based
-on the intensity factor and it is defined as
-
-.. math::
-   TSS = \frac{100 \times N \times IF^{2}}{3600}
-
-The second definition 
 
 .. topic:: References
 
@@ -155,3 +308,14 @@ The second definition
    .. [P2014] Pinot, J., and F. Grappe. "Determination of Maximal Aerobic Power
       from the Record Power Profile to improve cycling training." Journal of
       Science and Cycling 3.1 (2014): 26.
+
+   .. [G2009] Grappe, F. "Cyclisme et optimisation de la performance: science
+      et méthodologie de l'entraînement." De Boeck Supérieur, 2009.
+
+   .. [A2012] Allen, H., and A. Coggan. "Training and racing with a power
+      meter." VeloPress, 2012.
+
+.. topic:: Notes
+
+   Normalized Power® (NP), Intensity Factor® (IF), and Training Stress Score®
+   (TSS) are registered trademarks of Peaksware, LLC.

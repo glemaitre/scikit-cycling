@@ -19,6 +19,9 @@ def strava_power_model(activity, cyclist_weight, bike_weight=6.8,
                        use_acceleration=False):
     """Strava model used to estimate power.
 
+    It corresponds the mathematical formulation which add all forces applied to
+    a cyclist in movement.
+
     Parameters
     ----------
     activity : DataFrame
