@@ -2,7 +2,7 @@
 #          Cedric Lemaitre
 # License: BSD 3 clause
 
-from datetime import time
+from datetime import timedelta
 
 import pytest
 
@@ -16,7 +16,7 @@ from skcycling.extraction import activity_power_profile
     [(None, (13536,), 8.2117765957446736),
      (10, (54,), 5.8385555555555557),
      ('00:00:10', (54,), 5.8385555555555557),
-     (time(0, 0, 10), (54,), 5.8385555555555557)]
+     (timedelta(seconds=10), (54,), 5.8385555555555557)]
 )
 def test_activity_power_profile(max_duration, power_profile_shape,
                                 first_element):

@@ -9,46 +9,9 @@ from numbers import Integral
 
 import numpy as np
 import pandas as pd
-import six
 
 from ._power_profile import max_mean_power_interval
 from ._power_profile import _associated_data_power_profile
-
-
-def _int2time(secs):
-    """Convert secs into a time object.
-
-    Parameters
-    ----------
-    secs : int
-        Seconds.
-
-    Returns
-    -------
-    time : time instance
-        Time instance.
-
-    """
-    mins, secs = divmod(secs, 60)
-    hours, mins = divmod(mins, 60)
-    return time(hours, mins, secs)
-
-
-def _time2int(dt):
-    """Convert time object into secs.
-
-    Parameters
-    ----------
-    dt : time instance
-        Time instance.
-
-    Returns
-    -------
-    secs : int
-        Integer representing seconds.
-
-    """
-    return dt.hour * 3600 + dt.minute * 60 + dt.second
 
 
 def activity_power_profile(activity, max_duration=None):
@@ -63,7 +26,7 @@ def activity_power_profile(activity, max_duration=None):
         are the information about time. The activity can be read with
         :func:`skcycling.io.bikeread`.
 
-    max_duration : datetime-like, int, or str, optional
+    max_duration : Timedelta, timedelta, np.timedelta64, int, or str, optional
         The maximum duration for which the power-profile should be computed. By
         default, it will be computed for the duration of the activity. An
         integer represents seconds.
@@ -95,11 +58,15 @@ def activity_power_profile(activity, max_duration=None):
 
     """
     if max_duration is None:
-        max_duration = _int2time(activity.shape[0])
+        max_duration = pd.Timedelta(seconds=activity.shape[0])
     elif isinstance(max_duration, Integral):
-        max_duration = _int2time(max_duration)
-    elif isinstance(max_duration, six.string_types):
-        max_duration = pd.Timestamp(max_duration)
+        max_duration = pd.Timedelta(seconds=max_duration)
+    else:
+        max_duration = pd.Timedelta(max_duration)
+
+    max_duration = min(
+        max_duration,
+        activity.index[-1] - activity.index[0] + pd.Timedelta(seconds=1))
 
     activity_power = activity['power']
     activity_complement = activity.drop(['power'], axis=1)
@@ -107,12 +74,12 @@ def activity_power_profile(activity, max_duration=None):
     # use the threading backend since we release the GIL.
     power_profile, power_profile_idx = zip(
         *[max_mean_power_interval(activity_power.values, duration)
-          for duration in range(1, _time2int(max_duration))])
+          for duration in range(1, max_duration.seconds)])
     power_profile = np.array(power_profile)
     power_profile_idx = np.array(power_profile_idx)
 
     series_index = pd.timedelta_range(
-        "00:00:01", timedelta(seconds=_time2int(max_duration) - 1), freq='s')
+        "00:00:01", timedelta(seconds=max_duration.seconds - 1), freq='s')
     series_name = pd.Timestamp(activity.index[0])
 
     # if some additional data are available, we will add them as them on the
@@ -121,7 +88,7 @@ def activity_power_profile(activity, max_duration=None):
         complement_data = {col: pd.Series(
             _associated_data_power_profile(activity_complement[col].values,
                                            power_profile_idx,
-                                           np.arange(1, _time2int(max_duration))),
+                                           np.arange(1, max_duration.seconds)),
             index=series_index, name=series_name)
                            for col in activity_complement.columns}
         complement_data['power'] = pd.Series(power_profile, index=series_index,
