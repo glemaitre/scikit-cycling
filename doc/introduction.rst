@@ -11,4 +11,4 @@ cyclist data. ``scikit-cycling`` allows to:
 
 * read cycling files;
 * analyze power information from a rider;
-* infer power from heterogeneous source of data.
+* infer some data (e.g. power) from other sensor source.

@@ -100,6 +100,8 @@ one computed with the ESIE scale.
 The different quantification methods below will be based on some of those
 concepts.
 
+.. _metrics:
+
 Effort quantification based on power data
 -----------------------------------------
 
@@ -225,6 +227,8 @@ Before to focus on the record power-profile and the facilities provided by
 ``scikit-cycling`` to provide this analysis, we will first define how to compute
 a power-profile.
 
+.. _activity_power_profile:
+
 Power-profile for a single activity
 ...................................
 
@@ -238,6 +242,8 @@ profile for a given max duration::
   >>> from skcycling.extraction import activity_power_profile
   >>> ride = bikeread(load_fit()[0], drop_nan='columns')
   >>> power_profile = activity_power_profile(ride, max_duration='00:08:00')
+
+.. _record_power_profile:
   
 Record power-profile
 ....................
@@ -287,6 +293,8 @@ Store and load power-profile for a rider
 
 The methods ``to_csv`` and ``from_csv`` allows to store and load a cyclist
 power-profile.
+
+.. _mpa_estiamte:
 
 Determination of the Maximum Power Aerobic
 ------------------------------------------

@@ -22,6 +22,8 @@ def strava_power_model(activity, cyclist_weight, bike_weight=6.8,
     It corresponds the mathematical formulation which add all forces applied to
     a cyclist in movement.
 
+    Read more in the :ref:`User Guide <strava>`.
+
     Parameters
     ----------
     activity : DataFrame

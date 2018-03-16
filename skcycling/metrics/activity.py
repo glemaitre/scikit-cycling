@@ -79,6 +79,8 @@ def normalized_power_score(activity_power, mpa, window_width=30):
     The normalized power is an average power computing a smoothed power input
     and rejecting the low power intensities.
 
+    Read more in the :ref:`User Guide <metrics>`.
+
     Parameters
     ----------
     activity_power : Series
@@ -133,6 +135,8 @@ def intensity_factor_score(activity_power, mpa):
     maximum power aerobic for consistency. If you only have the functional
     threshold power, use :func:`metrics.ftp2mpa`.
 
+    Read more in the :ref:`User Guide <metrics>`.
+
     Parameters
     ----------
     activity_power : Series
@@ -175,6 +179,8 @@ def training_stress_score(activity_power, mpa):
     by the time of the activity. You can use the function
     :func:`metrics.ftp2mpa` if you are using the functional threshold metric.
 
+    Read more in the :ref:`User Guide <metrics>`.
+
     Parameters
     ----------
     activity_power : Series
@@ -216,6 +222,8 @@ def training_load_score(activity_power, mpa):
 
     Grappe et al. proposes to compute the load of an activity by a weighted sum
     of the time spend in the different ESIE zones.
+
+    Read more in the :ref:`User Guide <metrics>`.
 
     Parameters
     ----------

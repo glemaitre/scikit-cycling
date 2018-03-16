@@ -44,6 +44,8 @@ def std_dev_squared_error(y_true, y_pred):
 def aerobic_meta_model(record_power_profile, time_samples=None):
     """Compute the aerobic metabolism model from the record power-profile.
 
+    Read more in the :ref:`User Guide <mpa_estimate>`.
+
     Parameters
     ----------
     record_power_profile : Series

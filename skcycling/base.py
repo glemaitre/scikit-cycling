@@ -17,6 +17,8 @@ class Rider(object):
 
     User interface to easily add, remove, compute information related to power.
 
+    Read more in the :ref:`User Guide <record_power_profile>`.
+
     Parameters
     ----------
     n_jobs : int, (default=1)

@@ -14,6 +14,8 @@ simple data which are acquired through phone or GPS-based cycling computer. We
 are presenting several models which allow to estimate the power from those
 data.
 
+.. _strava:
+
 Physical model using all forces applied to a cyclist
 ....................................................
 
@@ -60,6 +62,8 @@ to::
 By default the term :math:`g \cdot a \cdot V_d` is not computed. Using this
 term, the results can be unstable when the change of power is non smooth. To
 enable it, turn ``use_acceleration=True``
+
+.. _machine_learning:
 
 Machine learning model
 ......................

@@ -16,6 +16,8 @@ __all__ = ['load_fit',
 def load_fit(returned_type='list_file', set_data='normal'):
     """Return path to some FIT toy data.
 
+    Read more in the :ref:`User Guide <datasets>`.
+
     Parameters
     ----------
     returned_type : str, optional (default='list_file')
@@ -63,6 +65,8 @@ def load_fit(returned_type='list_file', set_data='normal'):
 
 def load_rider():
     """Return the path to a CSV file containing rider information.
+
+    Read more in the :ref:`User Guide <datasets>`.
 
     Parameters
     ----------

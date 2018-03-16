@@ -16,6 +16,8 @@ from ..exceptions import MissingDataError
 def acceleration(activity, periods=5, append=True):
     """Compute the acceleration (i.e. speed gradient).
 
+    Read more in the :ref:`User Guide <acceleration>`.
+
     Parameters
     ----------
     activity : DataFrame
@@ -51,6 +53,8 @@ def acceleration(activity, periods=5, append=True):
 
 def gradient_elevation(activity, periods=5, append=True):
     """Compute the elevation gradient.
+
+    Read more in the :ref:`User Guide <machine_learning>`.
 
     Parameters
     ----------
@@ -91,6 +95,8 @@ def gradient_elevation(activity, periods=5, append=True):
 def gradient_heart_rate(activity, periods=5, append=True):
     """Compute the heart-rate gradient.
 
+    Read more in the :ref:`User Guide <machine_learning>`.
+
     Parameters
     ----------
     activity : DataFrame
@@ -127,6 +133,8 @@ def gradient_heart_rate(activity, periods=5, append=True):
 
 def gradient_activity(activity, periods=1, append=True, columns=None):
     """Compute the gradient for all given columns.
+
+    Read more in the :ref:`User Guide <machine_learning>`.
 
     Parameters
     ----------

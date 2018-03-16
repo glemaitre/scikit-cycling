@@ -54,6 +54,8 @@ def _time2int(dt):
 def activity_power_profile(activity, max_duration=None):
     """Compute the power profile for an activity.
 
+    Read more in the :ref:`User Guide <power_profile>`.
+
     Parameters
     ----------
     activity : DataFrame

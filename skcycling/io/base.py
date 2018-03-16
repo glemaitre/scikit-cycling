@@ -14,6 +14,8 @@ DROP_OPTIONS = ('columns', 'rows', 'both')
 def bikeread(filename, drop_nan=None):
     """Read power data file.
 
+    Read more in the :ref:`User Guide <reader>`.
+
     Parameters
     ----------
     filename : str
