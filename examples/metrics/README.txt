@@ -1,6 +1,6 @@
-.. _general_examples:
+.. _metrics_examples:
 
-General examples
+Metrics examples
 ----------------
 
-General-purpose and introductory examples for scikit-cycling.
+Examples showing how to use the metrics available in ``scikit-cycling``.
