@@ -63,6 +63,11 @@ By default the term :math:`g \cdot a \cdot V_d` is not computed. Using this
 term, the results can be unstable when the change of power is non smooth. To
 enable it, turn ``use_acceleration=True``
 
+.. topic:: Examples:
+
+    * :ref:`sphx_glr_auto_examples_model_plot_physic_model.py`
+
+
 .. _machine_learning:
 
 Machine learning model
