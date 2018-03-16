@@ -62,7 +62,7 @@ def acceleration(activity, periods=5, append=True):
 def gradient_elevation(activity, periods=5, append=True):
     """Compute the elevation gradient.
 
-    Read more in the :ref:`User Guide <machine_learning>`.
+    Read more in the :ref:`User Guide <gradient>`.
 
     Parameters
     ----------
@@ -111,7 +111,7 @@ def gradient_elevation(activity, periods=5, append=True):
 def gradient_heart_rate(activity, periods=5, append=True):
     """Compute the heart-rate gradient.
 
-    Read more in the :ref:`User Guide <machine_learning>`.
+    Read more in the :ref:`User Guide <gradient>`.
 
     Parameters
     ----------
@@ -132,6 +132,19 @@ def gradient_heart_rate(activity, periods=5, append=True):
         heart-rate gradient or a single Series containing the heart-rate
         gradient.
 
+    Examples
+    --------
+    >>> import numpy as np
+    >>> import pandas as pd
+    >>> from skcycling.datasets import load_fit
+    >>> from skcycling.io import bikeread
+    >>> from skcycling.extraction import gradient_heart_rate
+    >>> ride = bikeread(load_fit()[0])
+    >>> ride['heart-rate'] = pd.Series(
+    ...     np.random.randint(60, 200, size=ride.shape[0]),
+    ...     index=ride.index)  # Add fake heart-rate data for the example
+    >>> new_ride = gradient_heart_rate(ride)
+
     """
     if 'heart-rate' not in activity.columns:
         raise MissingDataError('To compute the heart-rate gradient, heart-rate'
@@ -150,7 +163,7 @@ def gradient_heart_rate(activity, periods=5, append=True):
 def gradient_activity(activity, periods=1, append=True, columns=None):
     """Compute the gradient for all given columns.
 
-    Read more in the :ref:`User Guide <machine_learning>`.
+    Read more in the :ref:`User Guide <gradient>`.
 
     Parameters
     ----------
