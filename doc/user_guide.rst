@@ -13,5 +13,4 @@ User Guide
    utils.rst
    modeling.rst
    inference.rst
-   utils.rst
    datasets.rst

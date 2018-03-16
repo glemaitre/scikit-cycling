@@ -63,7 +63,7 @@ def strava_power_model(activity, cyclist_weight, bike_weight=6.8,
     References
     ----------
     .. [1] How Strava Calculates Power
-    https://support.strava.com/hc/en-us/articles/216917107-How-Strava-Calculates-Power
+       https://support.strava.com/hc/en-us/articles/216917107-How-Strava-Calculates-Power
 
     Examples
     --------

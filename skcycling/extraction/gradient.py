@@ -16,7 +16,7 @@ from ..exceptions import MissingDataError
 def acceleration(activity, periods=5, append=True):
     """Compute the acceleration (i.e. speed gradient).
 
-    Read more in the :ref:`User Guide <acceleration>`.
+    Read more in the :ref:`User Guide <gradient>`.
 
     Parameters
     ----------

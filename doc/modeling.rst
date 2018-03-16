@@ -322,7 +322,7 @@ power-profile.
 
     * :ref:`sphx_glr_auto_examples_input_output_plot_store_load_rider.py`
 
-.. _mpa_estiamte:
+.. _mpa_estimate:
 
 Determination of the Maximum Power Aerobic
 ------------------------------------------
