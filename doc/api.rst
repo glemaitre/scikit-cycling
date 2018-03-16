@@ -1,8 +1,8 @@
-####################
-`scikit-cycling` API
-####################
+######################
+``scikit-cycling`` API
+######################
 
-This is the full API documentation of `scikit-cycling`
+This is the full API documentation of ``scikit-cycling``
 
 .. _data_management_ref:
 
