@@ -122,7 +122,9 @@ def strava_power_model(activity, cyclist_weight, bike_weight=6.8,
 
     if use_acceleration:
         acc = activity['acceleration']  # m.s^-1
-        power_acceleration = total_weight * acc * speed
+        power_acceleration = total_weight * acc
+        # multiply by the average speed between t and t-1
+        power_acceleration = power_acceleration * (speed * (1 + acc)) / 2
         power_total = power_total + power_acceleration
 
     return power_total.clip(0)
